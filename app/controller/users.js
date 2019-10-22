@@ -13,6 +13,10 @@ class UserController extends Controller {
         ctx.body = await ctx.model.User.findAll(query);
     }
 
+    async new () {
+        await this.ctx.render('user.tpl');
+    }
+
     async show () {
         const ctx = this.ctx;
         ctx.body = await ctx.model.User.findByPk(toInt(ctx.params.id));

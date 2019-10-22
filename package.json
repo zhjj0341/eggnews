@@ -4,13 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "egg-scripts start --daemon --title=egg-server-cnode",
+    "stop": "egg-scripts stop --title=egg-server-cnode",
+    "restart": "npm run stop && npm run start",
+    "docker": "egg-scripts start --title=egg-server-cnode",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
-    "test": "egg-bin test",
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "egg-bin test",
     "cov": "egg-bin cov",
-    "prod": "npm install --production",
-    "start": "egg-scripts start --daemon",
-    "stop": "egg-scripts stop"
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "autod",
+    "assets": "loader app/view app/"
   },
   "repository": {
     "type": "git",

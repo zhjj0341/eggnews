@@ -1,0 +1,53 @@
+version: '3'
+services: 
+  eggnews:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+      args:
+        - env=value
+    # image: cnode/egg-cnode:latest
+    # environment:
+    #   - NODE_ENV=production
+    #   - EGG_SERVER_ENV=prod
+    #   - EGG_REDIS_DB=0
+    #   - EGG_REDIS_HOST=redis
+    #   - EGG_REDIS_PORT=6379
+    #   - EGG_REDIS_PASSWORD=egg_cnode
+    #   - EGG_MONGODB_URL=mongodb://egg_cnode:egg_cnode@mongodb:27017/egg_cnode
+    #   - EGG_MINI_ASSETS=true
+    #   - EGG_PASSPORT_GITHUB_CLIENT_ID=test
+    #   - EGG_PASSPORT_GITHUB_CLIENT_SECRET=test
+    #   # - EGG_SITE_STATIC_HOST=${EGG_SITE_STATIC_HOST}
+    #   - EGG_ALINODE_APPID=appid
+    #   - EGG_ALINODE_SECRET=secret
+    depends_on:
+      - mysql
+    networks:
+      - backend
+    ports:
+      - 7001:7001
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=${WORKSPACE_TIMEZONE}
+    volumes:
+      - egg-mysql:/data/db
+      - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
+      - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+    ports:
+      - "${MYSQL_PORT}:3306"
+    networks:
+      - backend
+
+volumes:
+  egg-mysql:
+
+networks:
+  backend:
+    driver: bridge    

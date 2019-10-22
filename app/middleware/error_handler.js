@@ -8,6 +8,7 @@ module.exports = () => {
 
             const status = err.status || 500;
             // 生产环境时 500 错误的详细错误内容不返回给客户端，因为可能包含敏感信息
+            console.log(status, ctx.app.config.env, '================')
             const error = status === 500 && ctx.app.config.env === 'prod'
                 ? 'Internal Server Error'
                 : err.message;

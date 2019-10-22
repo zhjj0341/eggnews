@@ -8,8 +8,7 @@ module.exports = {
             // path: '/var/run/egg.sock',
         }
     },
-
-    session = {
+    session: {
         // key: 'EGG_SESS',
         // maxAge: 24 * 3600 * 1000, // 1 天
         // httpOnly: true,
@@ -40,21 +39,29 @@ module.exports = {
         defaultExtension: '.tpl',
     },
 
+    onerror: {
+        // 线上页面发生异常时，重定向到这个页面上
+        errorPageUrl: '/50x.html',
+        html (err, ctx) {
+            // html hander
+            ctx.body = `<h3>${err}</h3>`;
+            ctx.status = 500;
+        },
+        json (err, ctx) {
+            // json hander
+            ctx.body = { message: err };
+            ctx.status = 500;
+        },
+    },
+
     sequelize: {
         dialect: 'mysql',
         host: '127.0.0.1',
         port: 3306,
-        database: 'egg-sequelize-doc-default',
+        database: 'eggnews_development',
+        username: 'root',
+        password: 'root',
     },
-    // mysql: {
-    //     client: {
-    //         host: 'mysql.com',
-    //         port: '3306',
-    //         user: 'test_user',
-    //         password: 'test_password',
-    //         database: 'test',
-    //     },
-    // },
     // plugins end
 
     /**
@@ -66,7 +73,7 @@ module.exports = {
         ignore：设置符合某些规则的请求不经过这个中间件。
      */
     // 配置需要的中间件，数组顺序即为中间件的加载顺序
-    middleware: ['robot', 'gzip', 'errorHandler'],
+    middleware: ['errorHandler', 'robot', 'gzip'],
     // [ 'robot','compress', 'gzip' ],
 
     robot: {

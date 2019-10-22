@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  ### Redis ################################################
+  # redis:
+  #   image: redis:latest
+  #   command: redis-server --appendonly yes
+  #   volumes:
+  #     - egg-redis:/data
+  #   ports:
+  #     - "${REDIS_PORT}:6379"
+  #   networks:
+  #     - backend
+
+  ### MySQL ################################################
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=${WORKSPACE_TIMEZONE}
+    volumes:
+      - egg-mysql:/data/db
+      - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
+      - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+    ports:
+      - "${MYSQL_PORT}:3306"
+    networks:
+      - backend
+
+volumes:
+  egg-mysql:
+  # egg-redis:
+
+networks:
+  backend:
+    driver: bridge    
