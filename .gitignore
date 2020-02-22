@@ -16,3 +16,6 @@ dump.rdb
 *.debug.*
 app/assets.json
 .env
+build/*.js
+config/*.js
+src/assets

@@ -1,0 +1,105 @@
+@import './variable.less';
+@import './font.less';
+@import './layout.less';
+
+html {
+  min-height: 100%;
+  min-width: 1200px;
+}
+
+body {
+  font-family: 'Microsoft YaHei',"Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 16px;
+  word-spacing: 1px;
+  min-height: 100%;
+  color: #fff;
+  margin: 0;
+  line-height: 24px
+}
+html,body,#app{
+  height:100%;
+}
+* ,address, dl, fieldset, figure, ol, p, pre, ul {
+  margin: 0;
+  padding: 0;
+  box-sizing:border-box
+}
+img {
+  border: none;
+}
+a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  &:hover{
+    color:@global-primary-color
+  }
+}
+
+input{
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    transition-delay: 99999s;
+    transition-property: color,background-color;
+  }
+}
+
+
+.lim_float_icon{
+  display: none!important;  //在线客服图标隐藏
+}
+
+[disabled]{
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill{
+  background-color: none !important;
+  background-image: none !important;
+  color: rgb(0, 0, 0) !important;
+}
+input {
+  -webkit-appearance: none;
+}
+
+.transition1s{
+  transition: all 1s;
+}
+
+// 工具类
+.f-ib {
+  display: inline-block;
+}
+
+.f-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex_center_layout{
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+// 首字母大写
+.f-capitalize{
+  text-transform: capitalize;
+}
+
+.list-unstyled{
+  padding-left: 0;
+  list-style: none;
+}
+
+.pointer {
+  cursor: pointer;
+}

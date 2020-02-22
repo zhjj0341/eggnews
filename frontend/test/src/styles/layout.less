@@ -1,0 +1,44 @@
+/* Clearfix
+ ========================================================================== */
+/*
+ * 1. `table-cell` is used with `::before` because `table` creates a 1px gap when it becomes a flex item, only in Webkit
+ * 2. `table` is used again with `::after` because `clear` only works with block elements.
+ * Note: `display: block` with `overflow: hidden` is currently not working in the latest Safari
+ */
+/* Float
+========================================================================== */
+.center {
+  width: 1200px;
+  // width: 100%;
+  // height: 100%;
+  margin: 0 auto;
+}
+
+.clearfix{
+  &:before {
+    content: "";
+    display: table-cell;
+  }
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+  /*
+  * 1. Prevent content overflow
+  */
+
+  .float-left { float: left; }
+  .float-right { float: right; }
+
+  /* 1 */
+  [class*='float-'] { max-width: 100%; }
+}
