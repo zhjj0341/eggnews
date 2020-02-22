@@ -1,39 +1,34 @@
 version: '3'
-
 services:
-  ### Redis ################################################
-  # redis:
-  #   image: redis:latest
-  #   command: redis-server --appendonly yes
-  #   volumes:
-  #     - egg-redis:/data
-  #   ports:
-  #     - "${REDIS_PORT}:6379"
-  #   networks:
-  #     - backend
-
-  ### MySQL ################################################
-  mysql:
-    image: mysql:5.7
-    environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - TZ=${WORKSPACE_TIMEZONE}
+  redis:
+    image: redis:3.2-alpine
+    command: redis-server --appendonly yes --requirepass egg_news
     volumes:
-      - egg-mysql:/data/db
-      - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
-      - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
-    ports:
-      - "${MYSQL_PORT}:3306"
+      - egg-redis:/data
     networks:
-      - backend
+      - docker_news
+    ports:
+      - 6379:6379
+
+  mongodb:
+    image: mongo:3.2
+    restart: always
+    environment:      
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=mongodb
+      - MONGO_INITDB_DATABASE=egg_news
+    volumes:
+      - egg-mongo:/data/db
+      - ./init.d/mongo/:/docker-entrypoint-initdb.d/
+    networks:
+      - docker_news
+    ports:
+      - 27017:27017
 
 volumes:
-  egg-mysql:
-  # egg-redis:
+  egg-mongo:
+  egg-redis:
 
 networks:
-  backend:
+  docker_news:
     driver: bridge    

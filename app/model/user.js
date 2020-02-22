@@ -1,15 +1,25 @@
 'use strict';
 
+const utility = require('utility');
+
 module.exports = app => {
-    const { STRING, INTEGER, DATE } = app.Sequelize;
+  const mongoose = app.mongoose;
+  const Schema = mongoose.Schema;
 
-    const User = app.model.define('user', {
-        id: { type: INTEGER, primaryKey: true, autoIncrement: true },
-        name: STRING(30),
-        age: INTEGER,
-        created_at: DATE,
-        updated_at: DATE,
-    });
+  const UserSchema = new Schema({
+    name: { type: String },
+    age:  { type: Number, default: 0 },
+    create_at: { type: Date, default: Date.now },
+    update_at: { type: Date, default: Date.now },
+  });
 
-    return User;
+  // UserSchema.index({ name: 1 });
+
+  UserSchema.pre('save', function(next) {
+    const now = new Date();
+    this.update_at = now;
+    next();
+  });
+
+  return mongoose.model('User', UserSchema);
 };

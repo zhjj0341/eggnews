@@ -54,13 +54,16 @@ module.exports = {
         },
     },
 
-    sequelize: {
-        dialect: 'mysql',
-        host: '127.0.0.1',
-        port: 3306,
-        database: 'eggnews_development',
-        username: 'root',
-        password: 'root',
+    /**
+     * @see http://mongodb.github.io/node-mongodb-native/2.2/api/Db.html#createCollection
+     */
+    mongoose: {
+        url: process.env.EGG_MONGODB_URL || 'mongodb://test:test@127.0.0.1:27017/egg_news',
+        options: {
+        server: { poolSize: 20 },
+        reconnectTries: 10,
+        reconnectInterval: 500,
+        },
     },
     // plugins end
 
@@ -73,7 +76,7 @@ module.exports = {
         ignore：设置符合某些规则的请求不经过这个中间件。
      */
     // 配置需要的中间件，数组顺序即为中间件的加载顺序
-    middleware: ['errorHandler', 'robot', 'gzip'],
+    middleware: ['errorHandler', 'robot', 'gzip','report'],
     // [ 'robot','compress', 'gzip' ],
 
     robot: {
