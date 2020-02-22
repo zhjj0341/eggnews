@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Helper 函数用来提供一些实用的 utility 函数。
  * 它的作用在于我们可以将一些常用的动作抽离在 helper.js 里面成为一个独立的函数，这样可以用 JavaScript 来写复杂的逻辑，避免逻辑分散各处。
@@ -6,6 +7,6 @@
  */
 const moment = require('moment');
 module.exports = {
-    // 通过 ctx.helper 访问到 helper 对象，例如：
-    relativeTime: time => moment(new Date(time * 1000)).fromNow()
+  // 通过 ctx.helper 访问到 helper 对象，例如：
+  relativeTime: time => moment(new Date(time * 1000)).fromNow(),
 };

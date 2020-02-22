@@ -2,11 +2,11 @@
 const moment = require('moment');
 
 module.exports = {
-  relativeTime (time) {
+  relativeTime(time) {
     return moment(new Date(time * 1000)).fromNow();
   },
-  domain (url) {
+  domain(url) {
     return url && url.split('/')[2];
-  }
-}
+  },
+};
 
