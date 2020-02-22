@@ -57,7 +57,7 @@ services:
 
 ## Develop
 
-Setup redis / mongodb / egg-cnode
+Setup mysql / redis / mongodb / egg-news
 
 ```bash
 # start
