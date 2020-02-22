@@ -79,6 +79,7 @@
             </el-form-item>
             <el-button type="success" @click="addCandidate(form.candidate)">新增选项</el-button>
         </el-form-item>
+        <pre v-html="preview"></pre>
         <el-form-item>
             <el-button
             @click="submitForm"
@@ -108,6 +109,11 @@ export default {
         candidate: [],
         answer: []
       }
+    }
+  },
+  computed: {
+    preview () {
+      return JSON.stringify(this.form, null, 6)
     }
   },
   methods: {
