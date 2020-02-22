@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-cnode",
-    "stop": "egg-scripts stop --title=egg-server-cnode",
+    "start": "egg-scripts start --daemon --title=egg-server-news",
+    "stop": "egg-scripts stop --title=egg-server-news",
     "restart": "npm run stop && npm run start",
-    "docker": "egg-scripts start --title=egg-server-cnode",
+    "docker": "egg-scripts start --title=egg-server-news",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
