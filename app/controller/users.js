@@ -9,23 +9,29 @@ function toInt (str) {
 class UserController extends Controller {
     async index () {
         const ctx = this.ctx;
-        const query = { limit: toInt(ctx.query.limit), offset: toInt(ctx.query.offset) };
-        ctx.body = await ctx.model.User.findAll(query);
+        const opts = { skip: toInt(ctx.query.offset), limit: toInt(ctx.query.limit) };
+        console.log(await this.ctx.model.User.find(null, null, opts).exec())
+        ctx.body = await this.ctx.model.User.find(null, null, opts).exec();
     }
 
     async new () {
+        console.log('new')
         await this.ctx.render('user.tpl');
     }
 
     async show () {
         const ctx = this.ctx;
-        ctx.body = await ctx.model.User.findByPk(toInt(ctx.params.id));
+        ctx.body = await ctx.model.User.findOne({ _id: toInt(ctx.params.id) }).exec();;
     }
 
     async create () {
         const ctx = this.ctx;
         const { name, age } = ctx.request.body;
-        const user = await ctx.model.User.create({ name, age });
+        const user = new this.ctx.model.User();
+        user.name = name;
+        user.age = age;
+        user.save();
+
         ctx.status = 201;
         ctx.body = user;
     }
@@ -33,7 +39,7 @@ class UserController extends Controller {
     async update () {
         const ctx = this.ctx;
         const id = toInt(ctx.params.id);
-        const user = await ctx.model.User.findByPk(id);
+        const user = await ctx.model.User.findOne({ _id: id }).exec();
         if (!user) {
             ctx.status = 404;
             return;
@@ -47,7 +53,7 @@ class UserController extends Controller {
     async destroy () {
         const ctx = this.ctx;
         const id = toInt(ctx.params.id);
-        const user = await ctx.model.User.findByPk(id);
+        const user = await ctx.model.User.findOne({ _id: id }).exec();
         if (!user) {
             ctx.status = 404;
             return;

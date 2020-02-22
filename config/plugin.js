@@ -4,9 +4,9 @@ module.exports = {
     // 对于内置插件，可以用下面的简洁方式开启或关闭
     onerror: true,
 
-    sequelize: {
+    mongoose: {
         enable: true,
-        package: 'egg-sequelize',
+        package: 'egg-mongoose',
     },
 
     nunjucks: {

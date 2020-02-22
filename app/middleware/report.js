@@ -4,6 +4,6 @@ module.exports = () => {
       const startTime = Date.now();
       await next();
       // 上报请求时间
-      reportTime(Date.now() - startTime);
+      console.log(Date.now() - startTime);
     }
   };

@@ -1,53 +1,120 @@
 version: '3'
 services: 
-  eggnews:
-    build:
-      context: ..
+  newstest:
+    context: ..
       dockerfile: ./docker/Dockerfile
-      args:
-        - env=value
-    # image: cnode/egg-cnode:latest
-    # environment:
-    #   - NODE_ENV=production
-    #   - EGG_SERVER_ENV=prod
-    #   - EGG_REDIS_DB=0
-    #   - EGG_REDIS_HOST=redis
-    #   - EGG_REDIS_PORT=6379
-    #   - EGG_REDIS_PASSWORD=egg_cnode
-    #   - EGG_MONGODB_URL=mongodb://egg_cnode:egg_cnode@mongodb:27017/egg_cnode
-    #   - EGG_MINI_ASSETS=true
-    #   - EGG_PASSPORT_GITHUB_CLIENT_ID=test
-    #   - EGG_PASSPORT_GITHUB_CLIENT_SECRET=test
-    #   # - EGG_SITE_STATIC_HOST=${EGG_SITE_STATIC_HOST}
-    #   - EGG_ALINODE_APPID=appid
-    #   - EGG_ALINODE_SECRET=secret
+    environment:
+      - NODE_ENV=production
+      - EGG_SERVER_ENV=prod
+      - EGG_REDIS_DB=0
+      - EGG_REDIS_HOST=redis
+      - EGG_REDIS_PORT=6379
+      - EGG_REDIS_PASSWORD=egg_news
+      - EGG_MONGODB_URL=mongodb://egg_news:egg_news@mongodb:27017/egg_news
+      - EGG_ALINODE_APPID=appid
+      - EGG_ALINODE_SECRET=secret
     depends_on:
-      - mysql
+      - redis
+      - mongodb
     networks:
-      - backend
+      - docker_news
     ports:
       - 7001:7001
 
-  mysql:
-    image: mysql:5.7
-    environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - TZ=${WORKSPACE_TIMEZONE}
+  redis:
+    image: redis:3.2-alpine
+    command: redis-server --appendonly yes --requirepass egg_news
     volumes:
-      - egg-mysql:/data/db
-      - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
-      - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
-    ports:
-      - "${MYSQL_PORT}:3306"
+      - egg-redis:/data
     networks:
-      - backend
+      - docker_news
+    # ports:
+    #   - 6379:6379
+
+  mongodb:
+    image: mongo:3.2
+    restart: always
+    environment:      
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=mongodb
+      - MONGO_INITDB_DATABASE=egg_news
+    volumes:
+      - egg-mongo:/data/db
+      - ./init.d/mongo:/docker-entrypoint-initdb.d
+    networks:
+      - docker_news
+    # ports:
+    #   - 27017:27017
 
 volumes:
-  egg-mysql:
+  egg-mongo:
+  egg-redis:
 
 networks:
-  backend:
+  docker_news:
     driver: bridge    
+
+version: '3'
+services: 
+  newstest:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    #   args:
+    #     - env=value
+    image: newstest/egg-newstest:latest
+    environment:
+      - NODE_ENV=production
+      - EGG_SERVER_ENV=prod
+      - EGG_REDIS_DB=0
+      - EGG_REDIS_HOST=redis
+      - EGG_REDIS_PORT=6379
+      - EGG_REDIS_PASSWORD=egg_news
+      - EGG_MONGODB_URL=mongodb://egg_news:egg_news@mongodb:27017/egg_news
+      - EGG_MINI_ASSETS=true
+      - EGG_PASSPORT_GITHUB_CLIENT_ID=test
+      - EGG_PASSPORT_GITHUB_CLIENT_SECRET=test
+      # - EGG_SITE_STATIC_HOST=${EGG_SITE_STATIC_HOST}
+      - EGG_ALINODE_APPID=appid
+      - EGG_ALINODE_SECRET=secret
+    depends_on:
+      - redis
+      - mongodb
+    networks:
+      - docker_news
+    ports:
+      - 7001:7001
+
+  redis:
+    image: redis:3.2-alpine
+    command: redis-server --appendonly yes --requirepass egg_news
+    volumes:
+      - egg-redis:/data
+    networks:
+      - docker_news
+    # ports:
+    #   - 6379:6379
+
+  mongodb:
+    image: mongo:3.2
+    restart: always
+    environment:      
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=mongodb
+      - MONGO_INITDB_DATABASE=egg_news
+    volumes:
+      - egg-mongo:/data/db
+      - ./init.d/mongo:/docker-entrypoint-initdb.d
+    networks:
+      - docker_news
+    # ports:
+    #   - 27017:27017
+
+volumes:
+  egg-mongo:
+  egg-redis:
+
+networks:
+  docker_news:
+    driver: bridge    
+    
