@@ -17,3 +17,7 @@ export default {
 @import "~normalize.css/normalize.css"; // normalize.css 样式格式化
 @import "./styles/common.less"; // 全局自定义的css样式
 </style>
+
+<style lang="scss">
+  @import './styles/common.scss'; // 全局自定义的css样式
+</style>

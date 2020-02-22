@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { RNS } from './router_names'
-/* layout */
+
+/* Layout */
+const Layout = () => import('@/views/layout/Layout')
 
 const _import = file => () => import(`@/views/${file}.vue`)
 // console.log(process.env.NODE_ENV)
@@ -18,11 +20,23 @@ Vue.use(Router)
   * isShow: 纯展示页面
   **/
 export const constantRouterMap = [
-  { path: '/404', component: _import('errorPage/404') },
-  { path: '/401', component: _import('errorPage/401') },
-  { path: '/dashboard', redirect: '/' },
-  { path: '/', name: RNS['HOME'], component: _import('dashboard/index') },
-  { path: '*', redirect: '/404', hidden: true }
+  { path: '/404', component: _import('errorPage/404'), hidden: true },
+  { path: '/401', component: _import('errorPage/401'), hidden: true },
+  { path: '/', redirect: '/question', hidden: true },
+  // { path: '/', name: RNS['HOME'], component: _import('dashboard/index') },
+  { path: '*', redirect: '/404', hidden: true },
+  {
+    path: '/question',
+    component: Layout,
+    name: '答题管理',
+    children: [
+      {
+        path: '',
+        component: _import('question/edit'),
+        name: '新增题目'
+      }
+    ]
+  }
 ]
 
 export default new Router({
