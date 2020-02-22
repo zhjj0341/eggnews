@@ -1,3 +1,4 @@
+'use strict';
 // If you want to debug the httpclient requests, just need to add below code to config.local.js:
 // module.exports = () => {
 //     const config = {};
@@ -17,15 +18,15 @@
 // }
 
 exports.httpclient = {
-    request: {
-        enableProxy: true,
-        rejectUnauthorized: false,
-        proxy: 'http://127.0.0.1:1080',
-    },
+  request: {
+    enableProxy: true,
+    rejectUnauthorized: false,
+    proxy: 'http://127.0.0.1:1080',
+  },
 };
 
 exports.robot = {
-    ua: [
-        /Baiduspider/i,
-    ],
+  ua: [
+    /Baiduspider/i,
+  ],
 };

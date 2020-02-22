@@ -1,5 +1,4 @@
 'use strict';
-
 const utility = require('utility');
 
 module.exports = app => {
@@ -8,7 +7,8 @@ module.exports = app => {
 
   const UserSchema = new Schema({
     name: { type: String },
-    age:  { type: Number, default: 0 },
+    age: { type: Number, default: 0 },
+    hometown: Schema.Types.Mixed,
     create_at: { type: Date, default: Date.now },
     update_at: { type: Date, default: Date.now },
   });
