@@ -7,16 +7,15 @@ module.exports = app => {
 
   const QuestionSchema = new Schema({
     id: { type: String },
-    type: { type: String }, 
+    type: { type: String },
     desc: { type: String },
-    question: { type: ofMixed },
-    candidate: { type: ofMixed },
+    question: { type: Schema.Types.ofMixed },
+    candidate: { type: Schema.Types.ofMixed },
     answer: { type: mongoose.Mixed },
   });
 
   QuestionSchema.pre('save', function(next) {
-    if (!this.created)
-    next();
+    if (!this.created) { next(); }
   });
 
   return mongoose.model('Question', QuestionSchema);

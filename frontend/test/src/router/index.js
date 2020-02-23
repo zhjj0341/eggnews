@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { RNS } from './router_names'
 
 /* Layout */
 const Layout = () => import('@/views/layout/Layout')
@@ -33,7 +32,7 @@ export const constantRouterMap = [
       {
         path: '',
         component: _import('question/edit'),
-        name: '新增题目'
+        name: 'AddQuestion'
       }
     ]
   }

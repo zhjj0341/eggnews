@@ -1,6 +1,9 @@
 import enLocale from 'element-ui/lib/locale/lang/zh-CN'
 export default {
   message: 'hello',
+  module: {
+    'AddQuestion': '添加题目'
+  },
   question: {
     type: {
       '1': '单选，(每个题目有自己的选项)', // 单选，(每个题目有自己的选项)

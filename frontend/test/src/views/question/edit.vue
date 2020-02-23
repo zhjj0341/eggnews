@@ -8,30 +8,32 @@
             <el-select v-model="form.type">
                 <el-option
                     v-for="(item, key) in QUESTION_TYPE"
-                    :key="item"
+                    :key="item+key"
                     :label="utils.generateTitle(item, 'question.type')"
                     :value="item"
                 ></el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="题目">
-            <el-form-item
-                v-for="(question, index) in form.question"
-                class="split-pane"
-                :label="'问题' + (index + 1)"
-                :key="question.num"
-                 label-width="50px"
-            >
-                <el-select v-model="question.type">
+            <el-form-item label="题目类型" label-width="80px">
+                <el-select v-model="form.question.type">
                     <el-option
                         v-for="(item, key) in CONTENT_TYPE"
-                        :key="item"
+                        :key="item+key"
                         :label="utils.generateTitle(item, 'question.content_type')"
                         :value="item"
                     ></el-option>
                 </el-select>
-                <el-input v-model="question.content" placeholder="请输入内容" autosize></el-input>
-                 <br/>
+            </el-form-item>
+            <el-form-item
+                v-for="(question, index) in form.question.list"
+                class="split-pane"
+                :label="'问题' + (index + 1)"
+                :key="index"
+                 label-width="50px"
+            >
+                <el-input v-model="form.question.list[index].content" placeholder="请输入内容" autosize></el-input>
+                 <!-- <br/>
                 <el-form-item label="选项" label-width="50px">
                     <el-form-item
                         v-for="(candidate, index) in question['candidate']"
@@ -51,33 +53,35 @@
                         <el-input v-model="candidate.content" placeholder="请输入内容" autosize></el-input>
                         <el-button type="warning" @click.prevent="removeItems(candidate, question['candidate'])">删除</el-button>
                     </el-form-item>
-                    <el-button type="success" @click="addCandidate(question['candidate'])">新增选项</el-button>
-                </el-form-item>
-                <el-button type="warning" @click.prevent="removeItems(question, form.question)">删除</el-button>
+                    <el-button type="success" @click="addContent(question['candidate'])">新增选项</el-button>
+                </el-form-item> -->
+                <el-button type="warning" @click.prevent="removeItems(question, form.question.list)">删除</el-button>
             </el-form-item>
-            <el-button type="success" @click="addQuestion">新增题目</el-button>
+            <el-button type="success" @click="addContent(form.question.list)">新增题目</el-button>
         </el-form-item>
 
         <el-form-item label="选项">
+            <el-form-item label="选项类型" label-width="80px">
+                <el-select v-model="form.candidate.type">
+                    <el-option
+                        v-for="(item, key) in CONTENT_TYPE"
+                        :key="item+key"
+                        :label="utils.generateTitle(item, 'question.content_type')"
+                        :value="item"
+                    ></el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item
-                v-for="(candidate, index) in form.candidate"
+                v-for="(candidate, index) in form.candidate.list"
                 class="split-pane"
                 :label="'选项' + (index + 1)"
                 :key="index"
                  label-width="50px"
             >
-                <el-select v-model="candidate.type">
-                    <el-option
-                        v-for="(item, key) in CONTENT_TYPE"
-                        :key="item"
-                        :label="utils.generateTitle(item, 'question.content_type')"
-                        :value="item"
-                    ></el-option>
-                </el-select>
-                <el-input v-model="candidate.content" placeholder="请输入内容" autosize></el-input>
-                <el-button type="warning" @click.prevent="removeItems(candidate, form.candidate)">删除</el-button>
+                <el-input v-model="form.candidate.list[index].content" placeholder="请输入内容" autosize></el-input>
+                <el-button type="warning" @click.prevent="removeItems(candidate, form.candidate.list)">删除</el-button>
             </el-form-item>
-            <el-button type="success" @click="addCandidate(form.candidate)">新增选项</el-button>
+            <el-button type="success" @click="addContent(form.candidate.list)">新增选项</el-button>
         </el-form-item>
         <pre v-html="preview"></pre>
         <el-form-item>
@@ -105,8 +109,14 @@ export default {
         id: '',
         type: QUESTION_TYPE['RADIO1'],
         desc: '',
-        question: [],
-        candidate: [],
+        question: {
+          type: CONTENT_TYPE['TEXT'],
+          list: []
+        },
+        candidate: {
+          type: CONTENT_TYPE['TEXT'],
+          list: []
+        },
         answer: []
       }
     }
@@ -123,17 +133,9 @@ export default {
         parentArray.splice(index, 1)
       }
     },
-    addQuestion () {
-      this.form.question.push({
-        num: Date.now(),
-        type: CONTENT_TYPE['TEXT'],
-        content: '',
-        candidate: []
-      })
-    },
-    addCandidate (parentArray) {
+    addContent (parentArray) { // 添加内容
       parentArray.push({
-        type: CONTENT_TYPE['TEXT'],
+        num: Date.now() + parseInt(Math.random() * 100),
         content: ''
       })
     },
