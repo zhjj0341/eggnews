@@ -7,7 +7,7 @@ class QuestionController extends Controller {
     const ctx = this.ctx;
     const question = new this.ctx.model.Question();
 
-    const  content_type = ctx.request.body.CONTENT_TYPE;
+    const content_type = ctx.request.body.CONTENT_TYPE;
     const question_type = ctx.request.body.QUESTION_TYPE;
     const form = ctx.request.body.form;
 
@@ -19,15 +19,16 @@ class QuestionController extends Controller {
     question.candidate = form.candidate;
     question.answer = form.answer;
 
-    question.save()
-    
+    question.save();
+
     ctx.status = 201;
     ctx.body = question;
 
-  };
-  async show() {
-    // render question 
-  };
+  }
+  async index() {
+    // render question
+    this.ctx.body = 'question';
+  }
 }
 
 module.exports = QuestionController;
