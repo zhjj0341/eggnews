@@ -20,6 +20,12 @@ module.exports = () => {
         ctx.body.detail = err.errors;
       }
       ctx.status = status;
+    } finally {
+      ctx.body = {
+        status: ctx.status,
+        data: ctx.body,
+        message: ctx.body.detail || ctx.body.error || 'success',
+      };
     }
   };
 };

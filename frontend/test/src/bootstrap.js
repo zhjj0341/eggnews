@@ -8,3 +8,7 @@ import ElementLocale from 'element-ui/lib/locale'
 Vue.use(ElementUI, { size: 'mini' })
 
 ElementLocale.i18n((key, value) => i18n.t(key, value))
+
+window._ = {
+  cloneDeep: require('lodash/cloneDeep')
+}

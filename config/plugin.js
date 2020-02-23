@@ -14,6 +14,12 @@ module.exports = {
     enable: true,
     package: 'egg-view-nunjucks',
   },
+
+  cors: {
+    enable: true,
+    package: 'egg-cors',
+  },
+
   ua: {
     enable: true,
     path: path.join(__dirname, '../lib/plugin/egg-ua'),

@@ -31,6 +31,11 @@ export const constantRouterMap = [
     children: [
       {
         path: '',
+        component: _import('question/list'),
+        name: 'QuestionList'
+      },
+      {
+        path: 'edit',
         component: _import('question/edit'),
         name: 'AddQuestion'
       }

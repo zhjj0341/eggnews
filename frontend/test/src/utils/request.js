@@ -2,6 +2,7 @@ import axios from 'axios'
 // import Vue from 'vue'
 // import store from '@/store'
 // import { getToken } from '@/utils/auth'
+import { eleMessage } from '@/utils/global'
 let CancelToken = axios.CancelToken
 // 设置请求的baseURL
 axios.defaults.baseURL = G_BASE_API
@@ -33,12 +34,11 @@ axios.interceptors.response.use( // respone拦截器
     //   store.commit('SET_TOKEN', { data: { token, time: res.headers['token-refresh-at'] } })
     // }
     if (res.status !== 200) {
-      alert(res.message)
-      // eleMessage({
-      //   message: res.message,
-      //   type: 'error',
-      //   duration: 5 * 1000
-      // })
+      eleMessage({
+        message: res.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
       return Promise.reject(new Error('error'))
     } else {
       return response.data
@@ -124,13 +124,12 @@ function wrapMethod (methodName) {
               break
             default:
               if (!handleCustomError) {
-                alert(message)
-                // eleMessage({
-                //   message,
-                //   type: 'error',
-                //   showClose: true,
-                //   duration: 5 * 1000
-                // })
+                eleMessage({
+                  message,
+                  type: 'error',
+                  showClose: true,
+                  duration: 5 * 1000
+                })
               }
               break
           }

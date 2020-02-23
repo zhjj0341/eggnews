@@ -59,6 +59,12 @@
       }
     }
   }
+  .el-input-group,.el-input,.el-input-number{
+    width: 150px;
+  }
+  .el-button--mini, .el-button--mini.is-round{
+      padding:5px;
+  }
   .el-button ,.el-button + .el-button{
     margin: 0 2px 5px;
   }

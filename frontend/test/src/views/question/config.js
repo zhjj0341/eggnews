@@ -1,11 +1,21 @@
 export const QUESTION_TYPE = {
-  'RADIO1': 1, // 单选，(每个题目有自己的选项)
-  'RADIO2': 2, // 单选，所有题目共用选项（不能重复选？）
-  'INPUT1': 3, // 填空，（答案有可能不唯一的,用数组验证？）
-  'CHECKBOX1': 4// 多选 (怎么验证答案？数组全等？)
+  'RADIO': 1, // 单选
+  'CHECKBOX': 2, // 多选
+  'INPUT': 3 // 填空
+}
+
+export const QUESTION_LEVEL = {// 题目难度
+  'LOW': 1, // 易
+  'MID': 2, // 中
+  'HIG': 3 // 难
 }
 
 export const CONTENT_TYPE = {
   'TEXT': 1, // 文本，
   'IMG': 2// 图片
+}
+
+export const CANDIDATE_TYPE = {// 选项类型
+  'SPLIT': 1,
+  'GROUP': 2
 }

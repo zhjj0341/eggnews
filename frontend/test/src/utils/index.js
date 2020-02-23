@@ -1,4 +1,5 @@
 import utils from '@/utils/global'
+// Load method categories.
 const plugin = {
   install (Vue) {
     Vue.prototype.utils = utils// 常用的方法
