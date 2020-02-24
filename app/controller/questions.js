@@ -61,6 +61,14 @@ class QuestionController extends Controller {
     ctx.body = item;
   }
 
+  async show() {
+    const ctx = this.ctx;
+    ctx.body = await ctx.model.Question.findOne({ _id: ctx.params.id })
+      .select({ level: 1, type: 1, candidate_type: 1, desc: 1, question: 1, candidate: 1, candidate_group: 1 })
+      .exec();
+
+  }
+
 }
 
 module.exports = QuestionController;

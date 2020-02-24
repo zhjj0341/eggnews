@@ -38,6 +38,11 @@ export const constantRouterMap = [
         path: 'edit',
         component: _import('question/edit'),
         name: 'AddQuestion'
+      },
+      {
+        path: 'test',
+        component: _import('question/test'),
+        name: 'TestQuestion'
       }
     ]
   }

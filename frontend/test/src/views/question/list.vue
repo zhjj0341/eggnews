@@ -1,40 +1,27 @@
 <template>
   <div class="m-question-list" v-loading.body="loading">
-            <el-button
-            @click="getList"
-            type="primary"
-            v-loading="loading"
-            >刷新</el-button>
-          <el-table
-              :data="tableData"
-              style="width: 100%"
-              border
-              stripe
-              >
-              <el-table-column type="index" width="50"></el-table-column>
-              <el-table-column prop="desc" label="题目详情"></el-table-column>
-              <el-table-column label="难易度">
-                  <template slot-scope="{row}">
-                        {{utils.generateTitle(row['level'], 'question.level')}}
-                    </template>
-              </el-table-column>
-              <el-table-column label="题目类型">
-                  <template slot-scope="{row}">
-                        {{utils.generateTitle(row['type'], 'question.type')}}
-                    </template>
-              </el-table-column>
-              <el-table-column label="题目">
-                  <div slot-scope="{row}" v-html="getQuestion(row)">
-                  </div>
-              </el-table-column>
+    <el-button @click="getList" type="primary" v-loading="loading">刷新</el-button>
+    <el-table :data="tableData" style="width: 100%" border stripe>
+      <el-table-column type="index" width="50"></el-table-column>
+      <el-table-column prop="desc" label="题目详情"></el-table-column>
+      <el-table-column label="难易度">
+        <template slot-scope="{row}">{{utils.generateTitle(row['level'], 'question.level')}}</template>
+      </el-table-column>
+      <el-table-column label="题目类型">
+        <template slot-scope="{row}">{{utils.generateTitle(row['type'], 'question.type')}}</template>
+      </el-table-column>
+      <el-table-column label="题目">
+        <div slot-scope="{row}" v-html="getQuestion(row)"></div>
+      </el-table-column>
 
-              <el-table-column label="操作" fixed="right" width="60px">
-                    <template slot-scope="scope">
-                        <el-button type="primary" @click.prevent="editQuestion(scope.row)">编辑</el-button>
-                        <el-button type="danger" @click.prevent="deleteQuestion(scope.row)">删除</el-button>
-                    </template>
-                </el-table-column>
-          </el-table>
+      <el-table-column label="操作" fixed="right" width="60px">
+        <template slot-scope="scope">
+          <el-button type="primary" @click.prevent="editQuestion(scope.row)">编辑</el-button>
+          <el-button type="success" @click.prevent="test(scope.row)">答题</el-button>
+          <el-button type="danger" @click.prevent="deleteQuestion(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -68,6 +55,12 @@ export default {
         params: question
       })
     },
+    test (question) {
+      this.$router.push({
+        path: '/question/test',
+        query: { id: question._id }
+      })
+    },
     deleteQuestion (item) {
       this.loading = true
       deleteQuestion(item._id).then(({ res, err }) => {
@@ -81,12 +74,13 @@ export default {
     getQuestion (question) {
       let result = ''
       try {
-        for (let item of question['question']) {
+        for (let index in question['question']) {
+          let item = question['question'][index]
           if (item['type'] === CONTENT_TYPE['TEXT']) {
-            result += item['content'] + '<br>'
+            result += (Number(index) + 1) + '.' + item['content'] + '<br>'
           }
         }
-      } catch (e) {}
+      } catch (e) { }
       return result
     }
   }
@@ -94,45 +88,49 @@ export default {
 </script>
 
 <style lang="less">
-.m-question-edit{
-    .el-table{
-        .cell{
-            display: flex;
-            flex-wrap: wrap;
-            &>*{
-                margin-bottom: 5px;
-            }
-        }
-        .candidate-col{
-            .cell{
-                flex-direction: column;
-                align-items: baseline;
-            }
-        }
-        .el-input-group,.el-input,.el-input-number{
-            width: 150px;
-        }
-        .el-button--mini, .el-button--mini.is-round{
-            padding:5px;
-        }
+.m-question-edit {
+  .el-table {
+    .cell {
+      display: flex;
+      flex-wrap: wrap;
+      & > * {
+        margin-bottom: 5px;
+      }
     }
-    .el-form .el-form-item{
-        .el-radio-button--mini .el-radio-button__inner{
-            padding:5px;
-        }
-        .split-pane,.split-pane2{
-            background:#fdf6ec;
-            margin-bottom:5px;
-            padding: 5px;
-            .el-select {
-                .el-input{
-                    width:100px;
-                }
-            }
-        }
-        .split-pane2{
-            padding: 0 5px;
-        }
+    .candidate-col {
+      .cell {
+        flex-direction: column;
+        align-items: baseline;
+      }
     }
+    .el-input-group,
+    .el-input,
+    .el-input-number {
+      width: 150px;
+    }
+    .el-button--mini,
+    .el-button--mini.is-round {
+      padding: 5px;
+    }
+  }
+  .el-form .el-form-item {
+    .el-radio-button--mini .el-radio-button__inner {
+      padding: 5px;
+    }
+    .split-pane,
+    .split-pane2 {
+      background: #fdf6ec;
+      margin-bottom: 5px;
+      padding: 5px;
+      .el-select {
+        .el-input {
+          width: 100px;
+        }
+      }
+    }
+    .split-pane2 {
+      padding: 0 5px;
+    }
+  }
 }
 </style>

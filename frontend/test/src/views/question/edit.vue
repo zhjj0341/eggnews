@@ -1,124 +1,130 @@
 <template>
   <div class="m-question-edit" v-loading.body="loading">
     <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="题目详情" prop="desc">
-            <el-input v-model="form.desc"></el-input>
-        </el-form-item>
-        <el-form-item label="难易度" prop="level">
-            <el-radio-group v-model="form.level">
-                <el-radio-button  v-for="(item, key) in QUESTION_LEVEL"
-                    :key="item+key"
-                    :label="item">
-                    {{utils.generateTitle(item, 'question.level')}}
-                </el-radio-button>
+      <el-form-item label="题目详情" prop="desc">
+        <el-input v-model.trim="form.desc"></el-input>
+      </el-form-item>
+      <el-form-item label="难易度" prop="level">
+        <el-radio-group v-model="form.level">
+          <el-radio-button
+            v-for="(item, key) in QUESTION_LEVEL"
+            :key="item+key"
+            :label="item"
+          >{{utils.generateTitle(item, 'question.level')}}</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="题目类型" prop="type">
+        <el-radio-group v-model="form.type" @change="handleTypeChange">
+          <el-radio-button
+            v-for="(item, key) in QUESTION_TYPE"
+            :key="item+key"
+            :label="item"
+          >{{utils.generateTitle(item, 'question.type')}}</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item v-if="QUESTION_TYPE['INPUT']!==form['type']" label="选项类型" prop="candidate_type">
+        <el-radio-group v-model="form.candidate_type" @change="handleCandidateTypeChange">
+          <el-radio-button
+            v-for="(item, key) in CANDIDATE_TYPE"
+            :key="item+key"
+            :label="item"
+          >{{utils.generateTitle(item, 'question.candidate_type')}}</el-radio-button>
+        </el-radio-group>
+        <el-form-item v-if="!isSplitCandidate">
+          <div v-for="(candidate, index) in form['candidate_group']" :key="index">
+            选项{{index+1}}
+            <el-radio-group v-model="candidate['type']" size="mini">
+              <el-radio-button
+                v-for="(item, key) in CONTENT_TYPE"
+                :key="item+key"
+                :label="item"
+              >{{utils.generateTitle(item, 'question.content_type')}}</el-radio-button>
             </el-radio-group>
-        </el-form-item>
-        <el-form-item label="题目类型" prop="type">
-            <el-radio-group v-model="form.type" @change="handleTypeChange">
-                <el-radio-button  v-for="(item, key) in QUESTION_TYPE"
-                    :key="item+key"
-                    :label="item">
-                    {{utils.generateTitle(item, 'question.type')}}
-                </el-radio-button>
-            </el-radio-group>
-        </el-form-item>
-        <el-form-item v-if="QUESTION_TYPE['INPUT']!==form['type']" label="选项类型" prop="candidate_type">
-            <el-radio-group v-model="form.candidate_type" @change="handleCandidateTypeChange">
-                <el-radio-button  v-for="(item, key) in CANDIDATE_TYPE"
-                    :key="item+key"
-                    :label="item">
-                    {{utils.generateTitle(item, 'question.candidate_type')}}
-                </el-radio-button>
-            </el-radio-group>
-            <el-form-item v-if="!isSplitCandidate">
-                <div v-for="(candidate, index) in form['candidate_group']" :key="index">
-                    选项{{index+1}}
-                    <el-radio-group v-model="candidate['type']" size="mini">
-                        <el-radio-button v-for="(item, key) in CONTENT_TYPE"
-                            :key="item+key"
-                            :label="item">
-                            {{utils.generateTitle(item, 'question.content_type')}}
-                        </el-radio-button>
-                    </el-radio-group>
-                    <el-input v-model="candidate['content']" placeholder="请输入内容" autosize></el-input>
-                    <el-button type="warning" @click.prevent="removeContent(candidate, form['candidate_group'])">删除</el-button>
-                </div>
-                <el-button type="success" @click="addContent(form['candidate_group'])">新增选项</el-button>
-            </el-form-item>
-        </el-form-item>
-        <el-form-item label="题目">
-            <el-table
-                :data="form.question"
-                style="width: 100%"
-                border
-                stripe
-                >
-                <el-table-column type="index" width="50"></el-table-column>
-                <el-table-column label="问题" width="250">
-                    <template slot-scope="scope">
-                        <el-radio-group slot="prepend"  v-model="scope.row.type" size="mini">
-                            <el-radio-button v-for="(item, key) in CONTENT_TYPE"
-                                :key="item+key"
-                                :label="item">
-                                {{utils.generateTitle(item, 'question.content_type')}}
-                            </el-radio-button>
-                        </el-radio-group>
-                        <el-input v-model="scope.row.content" placeholder="请输入内容" autosize>
-                        </el-input>
-                    </template>
-                </el-table-column>
-                <template v-if="QUESTION_TYPE['INPUT']!==form['type'] && isSplitCandidate">
-                    <el-table-column label="选项列表" class-name="candidate-col">
-                        <template slot-scope="{row}">
-                            <div v-for="(candidate, index) in form['candidate'][row['num']]" :key="index">
-                                选项{{index+1}}
-                                <el-radio-group v-model="candidate['type']" size="mini">
-                                    <el-radio-button v-for="(item, key) in CONTENT_TYPE"
-                                        :key="item+key"
-                                        :label="item">
-                                        {{utils.generateTitle(item, 'question.content_type')}}
-                                    </el-radio-button>
-                                </el-radio-group>
-                                <el-input v-model="candidate['content']" placeholder="请输入内容" autosize></el-input>
-                                <el-button type="warning" @click.prevent="removeContent(candidate, form['candidate'][row['num']])">删除</el-button>
-                            </div>
-                            <el-button type="success" @click="addContent(form['candidate'][row['num']])">新增选项</el-button>
-                        </template>
-                    </el-table-column>
-                </template>
-                <el-table-column label="答案">
-                    <template slot-scope="{row}">
-                        <!-- 单选多选都使用这个 -->
-                        <el-select
-                            v-model="form['answer'][row['num']]"
-                            :multiple="[QUESTION_TYPE['INPUT'],QUESTION_TYPE['CHECKBOX']].includes(form['type'])"
-                            :allow-create="QUESTION_TYPE['INPUT']===form['type']"
-                            placeholder="请选择"
-                            default-first-option
-                            filterable>
-                            <template v-for="(item,index) in getCandidate(row)">
-                                <el-option v-if="item.content" :key="index" :label="item.content" :value="item.num"></el-option>
-                            </template>
-                        </el-select>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作" fixed="right" width="60px">
-                    <template slot-scope="scope">
-                        <el-button type="danger" @click.prevent="removeQuestion(scope.row)">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <el-button type="success" @click="addQuestion()">新增题目</el-button>
-        </el-form-item>
-        <el-form-item>
+            <el-input v-model="candidate['content']" placeholder="请输入内容" autosize></el-input>
             <el-button
-            @click="submitForm"
-            type="primary"
-            class="wrap-width"
-            v-loading="loading"
-            >{{$t('submit')}}</el-button>
+              type="warning"
+              @click.prevent="removeContent(candidate, form['candidate_group'])"
+            >删除</el-button>
+          </div>
+          <el-button type="success" @click="addContent(form['candidate_group'])">新增选项</el-button>
         </el-form-item>
-        <pre v-html="preview"></pre>
+      </el-form-item>
+      <el-form-item label="题目">
+        <el-table :data="form.question" style="width: 100%" border stripe>
+          <el-table-column type="index" width="50"></el-table-column>
+          <el-table-column label="问题" width="250">
+            <template slot-scope="scope">
+              <el-radio-group slot="prepend" v-model="scope.row.type" size="mini">
+                <el-radio-button
+                  v-for="(item, key) in CONTENT_TYPE"
+                  :key="item+key"
+                  :label="item"
+                >{{utils.generateTitle(item, 'question.content_type')}}</el-radio-button>
+              </el-radio-group>
+              <el-input v-model="scope.row.content" placeholder="请输入内容" autosize></el-input>
+            </template>
+          </el-table-column>
+          <template v-if="QUESTION_TYPE['INPUT']!==form['type'] && isSplitCandidate">
+            <el-table-column label="选项列表" class-name="candidate-col">
+              <template slot-scope="{row}">
+                <div v-for="(candidate, index) in form['candidate'][row['num']]" :key="index">
+                  选项{{index+1}}
+                  <el-radio-group v-model="candidate['type']" size="mini">
+                    <el-radio-button
+                      v-for="(item, key) in CONTENT_TYPE"
+                      :key="item+key"
+                      :label="item"
+                    >{{utils.generateTitle(item, 'question.content_type')}}</el-radio-button>
+                  </el-radio-group>
+                  <el-input v-model="candidate['content']" placeholder="请输入内容" autosize></el-input>
+                  <el-button
+                    type="warning"
+                    @click.prevent="removeContent(candidate, form['candidate'][row['num']])"
+                  >删除</el-button>
+                </div>
+                <el-button type="success" @click="addContent(form['candidate'][row['num']])">新增选项</el-button>
+              </template>
+            </el-table-column>
+          </template>
+          <el-table-column label="答案">
+            <template slot-scope="{row}">
+              <!-- 单选多选都使用这个 -->
+              <el-select
+                v-model="form['answer'][row['num']]"
+                :multiple="[QUESTION_TYPE['INPUT'],QUESTION_TYPE['CHECKBOX']].includes(form['type'])"
+                :allow-create="QUESTION_TYPE['INPUT']===form['type']"
+                placeholder="请选择"
+                default-first-option
+                filterable
+              >
+                <template v-for="(item,index) in getCandidate(row)">
+                  <el-option
+                    v-if="item.content"
+                    :key="index"
+                    :label="item.content"
+                    :value="item.num"
+                  ></el-option>
+                </template>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" fixed="right" width="60px">
+            <template slot-scope="scope">
+              <el-button type="danger" @click.prevent="removeQuestion(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-button type="success" @click="addQuestion()">新增题目</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          @click="submitForm"
+          type="primary"
+          class="wrap-width"
+          v-loading="loading"
+        >{{$t('submit')}}</el-button>
+      </el-form-item>
+      <pre v-html="preview"></pre>
     </el-form>
   </div>
 </template>
@@ -199,7 +205,7 @@ export default {
     }
   },
   created () {
-    this.$set(this, 'form', Object.assign(this.form, this.$route.params))
+    if (this.isEdit) this.$set(this, 'form', Object.assign(this.form, this.$route.params))
   },
   computed: {
     isSplitCandidate () {
@@ -310,39 +316,40 @@ export default {
 </script>
 
 <style lang="less">
-.m-question-edit{
-    .el-table{
-        .cell{
-            display: flex;
-            flex-wrap: wrap;
-            &>*{
-                margin-bottom: 5px;
-            }
-        }
-        .candidate-col{
-            .cell{
-                flex-direction: column;
-                align-items: baseline;
-            }
-        }
+.m-question-edit {
+  .el-table {
+    .cell {
+      display: flex;
+      flex-wrap: wrap;
+      & > * {
+        margin-bottom: 5px;
+      }
     }
-    .el-form .el-form-item{
-        .el-radio-button--mini .el-radio-button__inner{
-            padding:5px;
-        }
-        .split-pane,.split-pane2{
-            background:#fdf6ec;
-            margin-bottom:5px;
-            padding: 5px;
-            .el-select {
-                .el-input{
-                    width:100px;
-                }
-            }
-        }
-        .split-pane2{
-            padding: 0 5px;
-        }
+    .candidate-col {
+      .cell {
+        flex-direction: column;
+        align-items: baseline;
+      }
     }
+  }
+  .el-form .el-form-item {
+    .el-radio-button--mini .el-radio-button__inner {
+      padding: 5px;
+    }
+    .split-pane,
+    .split-pane2 {
+      background: #fdf6ec;
+      margin-bottom: 5px;
+      padding: 5px;
+      .el-select {
+        .el-input {
+          width: 100px;
+        }
+      }
+    }
+    .split-pane2 {
+      padding: 0 5px;
+    }
+  }
 }
 </style>

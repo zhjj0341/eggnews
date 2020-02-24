@@ -6,7 +6,8 @@ export default {
   module: {
     'Home': '首页',
     'QuestionList': '题目列表',
-    'AddQuestion': '添加题目'
+    'AddQuestion': '添加题目',
+    'TestQuestion': '测试题目'
   },
   question: {
     type: {

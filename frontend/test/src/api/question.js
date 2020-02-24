@@ -26,3 +26,16 @@ export function deleteQuestion (id) {
     url: `/api/questions/${id}`
   })
 }
+
+export function testQuestion (params) {
+  return request.post({
+    url: '/api/questions/test', params
+  })
+}
+
+// 查找一个问题
+export function showQuestion (id) {
+  return request.get({
+    url: `/api/questions/${id}`
+  })
+}
