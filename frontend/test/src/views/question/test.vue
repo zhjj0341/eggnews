@@ -85,14 +85,14 @@ export default {
         this.loading = false
         if (!err) {
           this.$set(this, 'form', Object.assign(this.form, res))
+          let _answer_type = this.getAnswerType()
+          for (let q of this.form['question']) {
+            this.$set(this.answer, q['num'], _answer_type)
+          }
         }
       })
     } else {
       this.$router.go(-1)
-    }
-    let _answer_type = this.getAnswerType()
-    for (let q of this.form['question']) {
-      this.$set(this.answer, q['num'], _answer_type)
     }
   },
   computed: {
