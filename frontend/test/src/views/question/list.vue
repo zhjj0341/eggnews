@@ -5,7 +5,7 @@
       <el-table-column type="index" width="50"></el-table-column>
       <el-table-column prop="desc" label="题目详情"></el-table-column>
       <el-table-column label="难易度">
-        <template slot-scope="{row}">{{utils.generateTitle(row['level'], 'question.level')}}</template>
+        <template slot-scope="{row}">{{utils.generateTitle(row['difficulty'], 'question.difficulty')}}</template>
       </el-table-column>
       <el-table-column label="题目类型">
         <template slot-scope="{row}">{{utils.generateTitle(row['type'], 'question.type')}}</template>
@@ -13,7 +13,9 @@
       <el-table-column label="题目">
         <div slot-scope="{row}" v-html="getQuestion(row)"></div>
       </el-table-column>
-
+      <el-table-column label="知识点">
+        <template slot-scope="{row}">{{utils.generateTitle(row['knowledge_point'], 'question.knowledge_point')}}</template>
+      </el-table-column>
       <el-table-column label="操作" fixed="right" width="60px">
         <template slot-scope="scope">
           <el-button type="primary" @click.prevent="editQuestion(scope.row)">编辑</el-button>
@@ -29,7 +31,7 @@
 import { getQuestion, deleteQuestion } from '@/api/question'
 import { CONTENT_TYPE } from './config'
 export default {
-  name: 'qestionList',
+  name: 'questionList',
   data () {
     return {
       loading: false,

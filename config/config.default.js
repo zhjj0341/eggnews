@@ -69,7 +69,7 @@ module.exports = {
      * @see http://mongodb.github.io/node-mongodb-native/2.2/api/Db.html#createCollection
      */
   mongoose: {
-    url: process.env.EGG_MONGODB_URL || 'mongodb://test:test@127.0.0.1:27017/egg_news',
+    url: process.env.EGG_MONGODB_URL || 'mongodb://127.0.0.1:27017/egg_news',
     options: {
       server: { poolSize: 20 },
       reconnectTries: 10,

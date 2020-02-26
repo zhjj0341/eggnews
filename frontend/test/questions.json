@@ -1,0 +1,193 @@
+[
+    {
+        "id": "29",
+        "type": "1",
+        "desc": "选出正确的拼音。",
+        "question": [
+            {
+                "num": "29-1",
+                "type": "1",
+                "content": "中"
+            },
+            {
+                "num": "29-2",
+                "type": "1",
+                "content": "美"
+            },
+            {
+                "num": "29-3",
+                "type": "1",
+                "content": "右"
+            },
+            {
+                "num": "29-4",
+                "type": "1",
+                "content": "白"
+            }
+        ],
+        "candidate_type": 1,
+        "candidate": [
+            {
+                "29-1": [
+                    {
+                        "num": "29-1-a",
+                        "type": 1,
+                        "content": "zhōng" 
+                    },
+                    {
+                        "num": "29-1-b",
+                        "type": 1,
+                        "content": "zhóng" 
+                    },
+                    {
+                        "num": "29-1-c",
+                        "type": 1,
+                        "content": "zhǒng"
+                    },
+                    {
+                        "num": "29-1-d",
+                        "type": 1,
+                        "content": "zhòng"
+                    }
+                    ], 
+                "29-2": [
+                    {
+                        "num": "29-2-a",
+                        "type": 1,
+                        "content": "mēi" 
+                    },
+                    {
+                        "num": "29-2-b",
+                        "type": 1,
+                        "content": "méi" 
+                    },
+                    {
+                        "num": "29-2-c",
+                        "type": 1,
+                        "content": "měi"
+                    },
+                    {
+                        "num": "29-2-d",
+                        "type": 1,
+                        "content": "mèi"
+                    }
+                ], 
+                "29-3": [
+                    {
+                        "num": "29-3-a",
+                        "type": 1,
+                        "content": "yōu" 
+                    },
+                    {
+                        "num": "29-3-b",
+                        "type": 1,
+                        "content": "yóu" 
+                    },
+                    {
+                        "num": "29-3-c",
+                        "type": 1,
+                        "content": "yǒu"
+                    },
+                    {
+                        "num": "29-3-d",
+                        "type": 1,
+                        "content": "yòu"
+                    }
+                ], 
+                "29-4": [
+                    {
+                        "num": "29-4-a",
+                        "type": 1,
+                        "content": "bāi" 
+                    },
+                    {
+                        "num": "29-4-b",
+                        "type": 1,
+                        "content": "bái"
+                    },
+                    {
+                        "num": "29-4-c",
+                        "type": 1,
+                        "content": "băi"
+                    },
+                    {
+                        "num": "29-4-d",
+                        "type": 1,
+                        "content": "bài"
+                    }
+                ]
+            }
+        ],
+        "answer": [
+            {
+                "29-1": "29-1-a",
+                "29-2": "29-2-c", 
+                "29-3": "29-3-d", 
+                "29-4": "29-4-b"
+            }
+        ],
+        "difficulty": 3,
+        "discrimination": "",
+        "knowledge_point": ["拼音—标声调"]
+    },
+    {
+        "id": "21",
+        "type": "2",
+        "desc": "找出以下带有“三点水”的字。",
+        "question": [
+            {
+            "num": "21-1",
+            "type": "2",
+            "content": "江"
+            },
+            {
+                "num": "21-2",
+                "type": "2",
+                "content": "打"
+            },
+            {
+                "num": "21-3",
+                "type": "2",
+                "content": "湖"
+            },
+            {
+                "num": "21-1",
+                "type": "2",
+                "content": "中"
+            },
+            {
+                "num": "21-1",
+                "type": "2",
+                "content": "中"
+            },
+    ],
+        "candidate": [],
+        "answer": [],
+        "difficulty": 1,
+        "discrimination": "",
+        "knowledge_point": ["写字"]
+    },
+    {
+        "id": "23",
+        "type": "",
+        "desc": "",
+        "question": "",
+        "candidate": [],
+        "answer": [],
+        "difficulty": "",
+        "discrimination": "",
+        "knowledge_point": []
+    },
+    {
+        "id": "",
+        "type": "",
+        "desc": "",
+        "question": "",
+        "candidate": [],
+        "answer": [],
+        "difficulty": "",
+        "discrimination": "",
+        "knowledge_point": []
+    }
+]
+

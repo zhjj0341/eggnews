@@ -20,7 +20,7 @@ class QuestionController extends Controller {
 
     const form = ctx.request.body;
 
-    question.level = form.level;
+    question.difficulty = form.difficulty;
     question.desc = form.desc;
     question.type = form.type;
     question.content_type = form.content_type;
@@ -29,6 +29,8 @@ class QuestionController extends Controller {
     question.candidate = form.candidate;
     question.candidate_group = form.candidate_group;
     question.answer = form.answer;
+    question.discrimination = form.discrimination;
+    question.knowledge_point = form.knowledge_point;
 
     question.save();
 
@@ -45,8 +47,8 @@ class QuestionController extends Controller {
       return;
     }
 
-    const { level, desc, type, content_type, candidate_type, question, candidate, candidate_group, answer } = ctx.request.body;
-    await item.update({ level, desc, type, content_type, candidate_type, question, candidate, candidate_group, answer });
+    const { difficulty, desc, type, content_type, candidate_type, question, candidate, candidate_group, answer, discrimination, knowledge_point } = ctx.request.body;
+    await item.update({ difficulty, desc, type, content_type, candidate_type, question, candidate, candidate_group, answer, discrimination, knowledge_point });
     ctx.body = item;
   }
 
@@ -64,7 +66,7 @@ class QuestionController extends Controller {
   async show() {
     const ctx = this.ctx;
     ctx.body = await ctx.model.Question.findOne({ _id: ctx.params.id })
-      .select({ level: 1, type: 1, candidate_type: 1, desc: 1, question: 1, candidate: 1, candidate_group: 1 })
+      .select({ difficulty: 1, type: 1, candidate_type: 1, desc: 1, question: 1, candidate: 1, candidate_group: 1, discrimination: 1, knowledge_point: 1 })
       .exec();
 
   }
