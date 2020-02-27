@@ -1,193 +1,1672 @@
-[
-    {
-        "id": "29",
-        "type": "1",
-        "desc": "选出正确的拼音。",
-        "question": [
-            {
-                "num": "29-1",
-                "type": "1",
-                "content": "中"
-            },
-            {
-                "num": "29-2",
-                "type": "1",
-                "content": "美"
-            },
-            {
-                "num": "29-3",
-                "type": "1",
-                "content": "右"
-            },
-            {
-                "num": "29-4",
-                "type": "1",
-                "content": "白"
-            }
-        ],
-        "candidate_type": 1,
-        "candidate": [
-            {
-                "29-1": [
+{
+    "status": 200,
+    "data": [
+        {
+            "difficulty": 2,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 1,
+            "_id": "5e5295998e5dba9fe60c090a",
+            "level": 2,
+            "desc": "完成短句。",
+            "question": [
+                {
+                    "num": 1582462673939,
+                    "type": 1,
+                    "content": "门（___）大。 "
+                },
+                {
+                    "num": 1582462785556,
+                    "type": 1,
+                    "content": "他有三个儿（___）"
+                }
+            ],
+            "candidate": {
+                "1582462673939": [
                     {
-                        "num": "29-1-a",
+                        "num": 1582462675759,
                         "type": 1,
-                        "content": "zhōng" 
+                        "content": "太"
                     },
                     {
-                        "num": "29-1-b",
+                        "num": 1582462757366,
                         "type": 1,
-                        "content": "zhóng" 
-                    },
-                    {
-                        "num": "29-1-c",
-                        "type": 1,
-                        "content": "zhǒng"
-                    },
-                    {
-                        "num": "29-1-d",
-                        "type": 1,
-                        "content": "zhòng"
+                        "content": "大"
                     }
-                    ], 
-                "29-2": [
+                ],
+                "1582462785556": [
                     {
-                        "num": "29-2-a",
+                        "num": 1582462821564,
                         "type": 1,
-                        "content": "mēi" 
+                        "content": "子"
                     },
                     {
-                        "num": "29-2-b",
+                        "num": 1582462829731,
                         "type": 1,
-                        "content": "méi" 
+                        "content": "了"
+                    }
+                ]
+            },
+            "candidate_group": [],
+            "answer": {
+                "1582462673939": 1582462675759,
+                "1582462785556": 1582462821564
+            },
+            "__v": 0,
+            "discrimination": "",
+            "knowledge_point": "认读生字"
+        },
+        {
+            "difficulty": 1,
+            "type": 2,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e56a96fec029152ac46ed1c",
+            "desc": "选一选",
+            "question": [
+                {
+                    "num": 1582737830734,
+                    "type": 1,
+                    "content": "找出以下带有“三点水”的字。"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582737716523,
+                    "type": 1,
+                    "content": "江"
+                },
+                {
+                    "num": 1582737728570,
+                    "type": 1,
+                    "content": "打"
+                },
+                {
+                    "num": 1582737735107,
+                    "type": 1,
+                    "content": "湖"
+                },
+                {
+                    "num": 1582737739286,
+                    "type": 1,
+                    "content": "马"
+                },
+                {
+                    "num": 1582737746306,
+                    "type": 1,
+                    "content": "江"
+                },
+                {
+                    "num": 1582737752286,
+                    "type": 1,
+                    "content": "路"
+                },
+                {
+                    "num": 1582737756339,
+                    "type": 1,
+                    "content": "吃"
+                },
+                {
+                    "num": 1582737760486,
+                    "type": 1,
+                    "content": "河"
+                },
+                {
+                    "num": 1582737765989,
+                    "type": 1,
+                    "content": "匹"
+                }
+            ],
+            "discrimination": "",
+            "knowledge_point": "写字",
+            "__v": 0,
+            "answer": {
+                "1582737830734": [
+                    1582737716523,
+                    1582737735107,
+                    1582737746306,
+                    1582737760486
+                ]
+            }
+        },
+        {
+            "difficulty": 1,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e57133793ba5f045e4cfd12",
+            "desc": "看图选字",
+            "question": [
+                {
+                    "num": 1582764504959,
+                    "type": 1,
+                    "content": "车"
+                },
+                {
+                    "num": 1582764646741,
+                    "type": 1,
+                    "content": "火"
+                }
+            ],
+            "candidate": {
+                "1582764504959": [
+                    {
+                        "num": 1582764710629,
+                        "type": 1,
+                        "content": "火"
                     },
                     {
-                        "num": "29-2-c",
+                        "num": 1582764724648,
+                        "type": 1,
+                        "content": "车"
+                    }
+                ],
+                "1582764646741": [
+                    {
+                        "num": 1582764881971,
+                        "type": 1,
+                        "content": "火"
+                    },
+                    {
+                        "num": 1582764885882,
+                        "type": 1,
+                        "content": "车"
+                    }
+                ]
+            },
+            "candidate_group": [
+                {
+                    "num": 1582765640725,
+                    "type": 2,
+                    "content": "/public/imgs/car.png"
+                },
+                {
+                    "num": 1582765653743,
+                    "type": 2,
+                    "content": "/public/imgs/fire.png"
+                }
+            ],
+            "answer": {
+                "1582764504959": 1582765640725,
+                "1582764646741": 1582765653743
+            },
+            "discrimination": "",
+            "knowledge_point": "认读生字",
+            "__v": 0
+        },
+        {
+            "difficulty": 3,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 1,
+            "_id": "5e5714f693ba5f045e4cfd13",
+            "desc": "选出正确的拼音",
+            "question": [
+                {
+                    "num": 1582765036293,
+                    "type": 1,
+                    "content": "中"
+                },
+                {
+                    "num": 1582765079738,
+                    "type": 1,
+                    "content": "美"
+                },
+                {
+                    "num": 1582765095333,
+                    "type": 1,
+                    "content": "右"
+                },
+                {
+                    "num": 1582765104045,
+                    "type": 1,
+                    "content": "白"
+                }
+            ],
+            "candidate": {
+                "1582765036293": [
+                    {
+                        "num": 1582765169979,
+                        "type": 1,
+                        "content": "zhōng"
+                    },
+                    {
+                        "num": 1582765177899,
+                        "type": 1,
+                        "content": "zhóng"
+                    },
+                    {
+                        "num": 1582765183459,
+                        "type": 1,
+                        "content": " zhǒng"
+                    },
+                    {
+                        "num": 1582765190182,
+                        "type": 1,
+                        "content": " zhòng"
+                    }
+                ],
+                "1582765079738": [
+                    {
+                        "num": 1582765196437,
+                        "type": 1,
+                        "content": "mēi"
+                    },
+                    {
+                        "num": 1582765208849,
+                        "type": 1,
+                        "content": "méi"
+                    },
+                    {
+                        "num": 1582765216409,
                         "type": 1,
                         "content": "měi"
                     },
                     {
-                        "num": "29-2-d",
+                        "num": 1582765222430,
                         "type": 1,
                         "content": "mèi"
                     }
-                ], 
-                "29-3": [
+                ],
+                "1582765095333": [
                     {
-                        "num": "29-3-a",
+                        "num": 1582765230669,
                         "type": 1,
-                        "content": "yōu" 
+                        "content": "yōu"
                     },
                     {
-                        "num": "29-3-b",
+                        "num": 1582765237662,
                         "type": 1,
-                        "content": "yóu" 
+                        "content": "yóu"
                     },
                     {
-                        "num": "29-3-c",
+                        "num": 1582765243134,
                         "type": 1,
                         "content": "yǒu"
                     },
                     {
-                        "num": "29-3-d",
+                        "num": 1582765249357,
                         "type": 1,
                         "content": "yòu"
                     }
-                ], 
-                "29-4": [
+                ],
+                "1582765104045": [
                     {
-                        "num": "29-4-a",
+                        "num": 1582765261012,
                         "type": 1,
-                        "content": "bāi" 
+                        "content": "bāi"
                     },
                     {
-                        "num": "29-4-b",
+                        "num": 1582765270522,
                         "type": 1,
                         "content": "bái"
                     },
                     {
-                        "num": "29-4-c",
+                        "num": 1582765275969,
                         "type": 1,
                         "content": "băi"
                     },
                     {
-                        "num": "29-4-d",
+                        "num": 1582765282865,
                         "type": 1,
                         "content": "bài"
                     }
                 ]
-            }
-        ],
-        "answer": [
-            {
-                "29-1": "29-1-a",
-                "29-2": "29-2-c", 
-                "29-3": "29-3-d", 
-                "29-4": "29-4-b"
-            }
-        ],
-        "difficulty": 3,
-        "discrimination": "",
-        "knowledge_point": ["拼音—标声调"]
-    },
-    {
-        "id": "21",
-        "type": "2",
-        "desc": "找出以下带有“三点水”的字。",
-        "question": [
-            {
-            "num": "21-1",
-            "type": "2",
-            "content": "江"
             },
-            {
-                "num": "21-2",
-                "type": "2",
-                "content": "打"
+            "candidate_group": [],
+            "answer": {
+                "1582765036293": 1582765169979,
+                "1582765079738": 1582765216409,
+                "1582765095333": 1582765249357,
+                "1582765104045": 1582765270522
             },
-            {
-                "num": "21-3",
-                "type": "2",
-                "content": "湖"
+            "discrimination": "",
+            "knowledge_point": "拼音——标声调",
+            "__v": 0
+        },
+        {
+            "difficulty": 3,
+            "type": 2,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e57162d93ba5f045e4cfd14",
+            "desc": "选一选",
+            "question": [
+                {
+                    "num": 1582765570914,
+                    "type": 2,
+                    "content": "/public/imgs/hengzhegou.png"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582765478564,
+                    "type": 2,
+                    "content": "/public/imgs/ye.png"
+                },
+                {
+                    "num": 1582765511737,
+                    "type": 2,
+                    "content": "/public/imgs/shi.png"
+                },
+                {
+                    "num": 1582765521414,
+                    "type": 2,
+                    "content": "/public/imgs/de.png"
+                }
+            ],
+            "answer": {
+                "1582765570914": [
+                    1582765478564,
+                    1582765521414
+                ]
             },
-            {
-                "num": "21-1",
-                "type": "2",
-                "content": "中"
+            "discrimination": "",
+            "knowledge_point": "写字",
+            "__v": 0
+        },
+        {
+            "difficulty": 2,
+            "type": 3,
+            "content_type": 1,
+            "candidate_type": 1,
+            "_id": "5e57174d93ba5f045e4cfd15",
+            "desc": "数笔画",
+            "question": [
+                {
+                    "num": 1582765813209,
+                    "type": 1,
+                    "content": "自：   共（  ）笔"
+                },
+                {
+                    "num": 1582765837727,
+                    "type": 1,
+                    "content": "天：   共（  ）笔"
+                },
+                {
+                    "num": 1582765853204,
+                    "type": 1,
+                    "content": "土：   共（  ）笔"
+                }
+            ],
+            "candidate": {
+                "1582765813209": [],
+                "1582765837727": [],
+                "1582765853204": []
             },
-            {
-                "num": "21-1",
-                "type": "2",
-                "content": "中"
+            "candidate_group": [],
+            "answer": {
+                "1582765813209": [
+                    "6"
+                ],
+                "1582765837727": [
+                    "4"
+                ],
+                "1582765853204": [
+                    "3"
+                ]
             },
+            "discrimination": "",
+            "knowledge_point": "写字",
+            "__v": 0
+        },
+        {
+            "difficulty": 2,
+            "type": 3,
+            "content_type": 1,
+            "candidate_type": 1,
+            "_id": "5e5717f893ba5f045e4cfd16",
+            "desc": "写出对应的中文或数字",
+            "question": [
+                {
+                    "num": 1582765995701,
+                    "type": 1,
+                    "content": "二           （     ）"
+                },
+                {
+                    "num": 1582766005040,
+                    "type": 1,
+                    "content": "七十一    （     ）"
+                },
+                {
+                    "num": 1582766023220,
+                    "type": 1,
+                    "content": "34           （     ）"
+                },
+                {
+                    "num": 1582766031401,
+                    "type": 1,
+                    "content": "60           （     ）"
+                }
+            ],
+            "candidate": {
+                "1582765995701": [],
+                "1582766005040": [],
+                "1582766023220": [],
+                "1582766031401": []
+            },
+            "candidate_group": [],
+            "answer": {
+                "1582765995701": [
+                    "2"
+                ],
+                "1582766005040": [
+                    "71"
+                ],
+                "1582766023220": [
+                    "三十四"
+                ],
+                "1582766031401": [
+                    "六十"
+                ]
+            },
+            "discrimination": "",
+            "knowledge_point": "认词+常识",
+            "__v": 0
+        },
+        {
+            "difficulty": 1,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 1,
+            "_id": "5e571a3393ba5f045e4cfd17",
+            "desc": "请选出发音是一声的拼音。",
+            "question": [
+                {
+                    "num": 1582766385195,
+                    "type": 1,
+                    "content": "/public/imgs/yisheng_1.png"
+                },
+                {
+                    "num": 1582766458029,
+                    "type": 1,
+                    "content": "/public/imgs/yisheng_2.png"
+                }
+            ],
+            "candidate": {
+                "1582766385195": [
+                    {
+                        "num": 1582766584857,
+                        "type": 1,
+                        "content": "wū"
+                    },
+                    {
+                        "num": 1582766592908,
+                        "type": 1,
+                        "content": "wú"
+                    },
+                    {
+                        "num": 1582766598920,
+                        "type": 1,
+                        "content": "wǔ"
+                    },
+                    {
+                        "num": 1582766605024,
+                        "type": 1,
+                        "content": "wù"
+                    }
+                ],
+                "1582766458029": [
+                    {
+                        "num": 1582766611789,
+                        "type": 1,
+                        "content": "tā"
+                    },
+                    {
+                        "num": 1582766625486,
+                        "type": 1,
+                        "content": "tá"
+                    },
+                    {
+                        "num": 1582766631870,
+                        "type": 1,
+                        "content": "tǎ"
+                    },
+                    {
+                        "num": 1582766637557,
+                        "type": 1,
+                        "content": " tà"
+                    }
+                ]
+            },
+            "candidate_group": [],
+            "answer": {
+                "1582766385195": 1582766584857,
+                "1582766458029": 1582766611789
+            },
+            "discrimination": "",
+            "knowledge_point": "拼音——标声调",
+            "__v": 0
+        },
+        {
+            "difficulty": 2,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 1,
+            "_id": "5e57280793ba5f045e4cfd18",
+            "desc": "根据图画内容，圈出正确的拼音",
+            "question": [
+                {
+                    "num": 1582766894635,
+                    "type": 2,
+                    "content": "/public/imgs/du.png"
+                },
+                {
+                    "num": 1582766911090,
+                    "type": 2,
+                    "content": "/public/imgs/pa.png"
+                }
+            ],
+            "candidate": {
+                "1582766894635": [
+                    {
+                        "num": 1582766921360,
+                        "type": 1,
+                        "content": "dú "
+                    },
+                    {
+                        "num": 1582766923952,
+                        "type": 1,
+                        "content": "yú"
+                    }
+                ],
+                "1582766911090": [
+                    {
+                        "num": 1582766925333,
+                        "type": 1,
+                        "content": "pá "
+                    },
+                    {
+                        "num": 1582766926344,
+                        "type": 1,
+                        "content": "pā"
+                    }
+                ]
+            },
+            "candidate_group": [],
+            "answer": {
+                "1582766894635": 1582766921360,
+                "1582766911090": 1582766925333
+            },
+            "discrimination": "",
+            "knowledge_point": "认读拼音",
+            "__v": 0
+        },
+        {
+            "difficulty": 3,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e572a3793ba5f045e4cfd19",
+            "desc": "请选出正确的字词填在句子里",
+            "question": [
+                {
+                    "num": 1582770701414,
+                    "type": 2,
+                    "content": "/public/imgs/xiaogoupao.png"
+                },
+                {
+                    "num": 1582770719325,
+                    "type": 2,
+                    "content": "/public/imgs/xiaomingdang.png"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582770331386,
+                    "type": 1,
+                    "content": "医院"
+                },
+                {
+                    "num": 1582770348793,
+                    "type": 1,
+                    "content": "荡"
+                },
+                {
+                    "num": 1582770355223,
+                    "type": 1,
+                    "content": "跑"
+                }
+            ],
+            "answer": {
+                "1582770701414": 1582770355223,
+                "1582770719325": 1582770348793
+            },
+            "discrimination": "",
+            "knowledge_point": "认读生字",
+            "__v": 0
+        },
+        {
+            "difficulty": 1,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e572ae693ba5f045e4cfd1a",
+            "desc": "看图选词",
+            "question": [
+                {
+                    "num": 1582770888688,
+                    "type": 2,
+                    "content": "/public/imgs/yueliang.png"
+                },
+                {
+                    "num": 1582770904010,
+                    "type": 2,
+                    "content": "/public/imgs/taiyang.png"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582770837142,
+                    "type": 1,
+                    "content": "太阳"
+                },
+                {
+                    "num": 1582770845962,
+                    "type": 1,
+                    "content": "月亮"
+                }
+            ],
+            "answer": {
+                "1582770888688": 1582770845962,
+                "1582770904010": 1582770837142
+            },
+            "discrimination": "",
+            "knowledge_point": "认读生词",
+            "__v": 0
+        },
+        {
+            "difficulty": 2,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e572b8f93ba5f045e4cfd1b",
+            "desc": "看图选词",
+            "question": [
+                {
+                    "num": 1582771058748,
+                    "type": 2,
+                    "content": "/public/imgs/bashi.png"
+                },
+                {
+                    "num": 1582771073272,
+                    "type": 1,
+                    "content": "/public/imgs/huahua.png"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582771025187,
+                    "type": 1,
+                    "content": "巴士"
+                },
+                {
+                    "num": 1582771033627,
+                    "type": 1,
+                    "content": "画画"
+                }
+            ],
+            "answer": {
+                "1582771058748": 1582771025187,
+                "1582771073272": 1582771033627
+            },
+            "discrimination": "",
+            "knowledge_point": "认读生词",
+            "__v": 0
+        },
+        {
+            "difficulty": 3,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 1,
+            "_id": "5e572c5a93ba5f045e4cfd1c",
+            "desc": "认字选图",
+            "question": [
+                {
+                    "num": 1582771223726,
+                    "type": 1,
+                    "content": "乌龟"
+                },
+                {
+                    "num": 1582771229165,
+                    "type": 1,
+                    "content": "老虎"
+                }
+            ],
+            "candidate": {
+                "1582771223726": [
+                    {
+                        "num": 1582771240701,
+                        "type": 2,
+                        "content": "/public/imgs/wugui.png"
+                    },
+                    {
+                        "num": 1582771256182,
+                        "type": 2,
+                        "content": "/public/imgs/woniu.png"
+                    }
+                ],
+                "1582771229165": [
+                    {
+                        "num": 1582771266768,
+                        "type": 2,
+                        "content": "/public/imgs/laohu.png"
+                    },
+                    {
+                        "num": 1582771274553,
+                        "type": 2,
+                        "content": "/public/imgs/mao.png"
+                    }
+                ]
+            },
+            "candidate_group": [],
+            "answer": {
+                "1582771223726": 1582771240701,
+                "1582771229165": 1582771266768
+            },
+            "discrimination": "",
+            "knowledge_point": "认读生词",
+            "__v": 0
+        },
+        {
+            "difficulty": 1,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e572cff93ba5f045e4cfd1d",
+            "desc": "选择组词",
+            "question": [
+                {
+                    "num": 1582771417078,
+                    "type": 1,
+                    "content": "西（ ）"
+                },
+                {
+                    "num": 1582771429914,
+                    "type": 1,
+                    "content": "小（ ）"
+                },
+                {
+                    "num": 1582771438144,
+                    "type": 1,
+                    "content": "（ ）朵"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582771396028,
+                    "type": 1,
+                    "content": "瓜"
+                },
+                {
+                    "num": 1582771405744,
+                    "type": 1,
+                    "content": "羊"
+                },
+                {
+                    "num": 1582771411293,
+                    "type": 1,
+                    "content": "耳"
+                }
+            ],
+            "answer": {
+                "1582771417078": 1582771396028,
+                "1582771429914": 1582771405744,
+                "1582771438144": 1582771411293
+            },
+            "discrimination": "",
+            "knowledge_point": "组词",
+            "__v": 0
+        },
+        {
+            "difficulty": 2,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e5730b093ba5f045e4cfd1e",
+            "desc": "选出合适的字组成词语",
+            "question": [
+                {
+                    "num": 1582772379878,
+                    "type": 1,
+                    "content": "学"
+                },
+                {
+                    "num": 1582772384044,
+                    "type": 1,
+                    "content": "树"
+                },
+                {
+                    "num": 1582772388879,
+                    "type": 1,
+                    "content": "桌"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582772362345,
+                    "type": 1,
+                    "content": "子"
+                },
+                {
+                    "num": 1582772366043,
+                    "type": 1,
+                    "content": "叶"
+                },
+                {
+                    "num": 1582772371775,
+                    "type": 1,
+                    "content": "习"
+                }
+            ],
+            "answer": {
+                "1582772379878": 1582772371775,
+                "1582772384044": 1582772366043,
+                "1582772388879": 1582772362345
+            },
+            "discrimination": "",
+            "knowledge_point": "组词",
+            "__v": 0
+        },
+        {
+            "difficulty": 3,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e57314093ba5f045e4cfd1f",
+            "desc": "选出合适的字组成词语",
+            "question": [
+                {
+                    "num": 1582772479842,
+                    "type": 1,
+                    "content": "几（   ）"
+                },
+                {
+                    "num": 1582772502889,
+                    "type": 1,
+                    "content": "月（   ）     "
+                },
+                {
+                    "num": 1582772511089,
+                    "type": 1,
+                    "content": "人（    ）      "
+                },
+                {
+                    "num": 1582772521159,
+                    "type": 1,
+                    "content": "羊（    ）\u000b"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582772436840,
+                    "type": 1,
+                    "content": "个"
+                },
+                {
+                    "num": 1582772445741,
+                    "type": 1,
+                    "content": "亮"
+                },
+                {
+                    "num": 1582772450326,
+                    "type": 1,
+                    "content": "们"
+                },
+                {
+                    "num": 1582772454948,
+                    "type": 1,
+                    "content": "毛"
+                },
+                {
+                    "num": 1582772458588,
+                    "type": 1,
+                    "content": "桌"
+                },
+                {
+                    "num": 1582772462532,
+                    "type": 1,
+                    "content": "穿"
+                },
+                {
+                    "num": 1582772466334,
+                    "type": 1,
+                    "content": "大"
+                },
+                {
+                    "num": 1582772473167,
+                    "type": 1,
+                    "content": "树"
+                },
+                {
+                    "num": 1582772476193,
+                    "type": 1,
+                    "content": "花"
+                }
+            ],
+            "answer": {
+                "1582772479842": 1582772436840,
+                "1582772502889": 1582772445741,
+                "1582772511089": 1582772450326,
+                "1582772521159": 1582772454948
+            },
+            "discrimination": "",
+            "knowledge_point": "组词",
+            "__v": 0
+        },
+        {
+            "difficulty": 1,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e57329993ba5f045e4cfd21",
+            "desc": "选出小动物爱吃的食物",
+            "question": [
+                {
+                    "num": 1582772757758,
+                    "type": 1,
+                    "content": "小猫"
+                },
+                {
+                    "num": 1582772782153,
+                    "type": 1,
+                    "content": " 小狗"
+                },
+                {
+                    "num": 1582772798813,
+                    "type": 1,
+                    "content": " 小羊 "
+                },
+                {
+                    "num": 1582772805824,
+                    "type": 1,
+                    "content": " 小鸡"
+                },
+                {
+                    "num": 1582772814738,
+                    "type": 1,
+                    "content": "小兔       "
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582772671965,
+                    "type": 2,
+                    "content": "/public/imgs/huluobo.png"
+                },
+                {
+                    "num": 1582772725693,
+                    "type": 2,
+                    "content": "/public/imgs/cao.png"
+                },
+                {
+                    "num": 1582772734115,
+                    "type": 2,
+                    "content": "/public/imgs/gutou.png"
+                },
+                {
+                    "num": 1582772741310,
+                    "type": 2,
+                    "content": "/public/imgs/chongzi.png"
+                },
+                {
+                    "num": 1582772748011,
+                    "type": 2,
+                    "content": "/public/imgs/yu.png"
+                }
+            ],
+            "answer": {
+                "1582772757758": 1582772748011,
+                "1582772782153": 1582772734115,
+                "1582772798813": 1582772725693,
+                "1582772805824": 1582772741310,
+                "1582772814738": 1582772671965
+            },
+            "discrimination": "",
+            "knowledge_point": "认词+常识",
+            "__v": 0
+        },
+        {
+            "difficulty": 3,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e57341f93ba5f045e4cfd22",
+            "desc": "排排序。",
+            "question": [
+                {
+                    "num": 1582773217755,
+                    "type": 2,
+                    "content": "/public/imgs/faya.png"
+                },
+                {
+                    "num": 1582773233125,
+                    "type": 2,
+                    "content": "/public/imgs/zhangda.png"
+                },
+                {
+                    "num": 1582773244014,
+                    "type": 2,
+                    "content": "/public/imgs/zhongzi.png"
+                },
+                {
+                    "num": 1582773250419,
+                    "type": 2,
+                    "content": "/public/imgs/kaihua.png"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582773207664,
+                    "type": 1,
+                    "content": "1"
+                },
+                {
+                    "num": 1582773210364,
+                    "type": 1,
+                    "content": "2"
+                },
+                {
+                    "num": 1582773212764,
+                    "type": 1,
+                    "content": "3"
+                },
+                {
+                    "num": 1582773215016,
+                    "type": 1,
+                    "content": "4"
+                }
+            ],
+            "answer": {
+                "1582773217755": 1582773210364,
+                "1582773233125": 1582773212764,
+                "1582773244014": 1582773207664,
+                "1582773250419": 1582773215016
+            },
+            "discrimination": "",
+            "knowledge_point": "认词+常识",
+            "__v": 0
+        },
+        {
+            "difficulty": 1,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e57347293ba5f045e4cfd23",
+            "desc": "选出合适的量词",
+            "question": [
+                {
+                    "num": 1582773325626,
+                    "type": 2,
+                    "content": "/public/imgs/shubao.png"
+                },
+                {
+                    "num": 1582773343837,
+                    "type": 2,
+                    "content": "/public/imgs/xiaochouyu.png"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582773318498,
+                    "type": 1,
+                    "content": "条"
+                },
+                {
+                    "num": 1582773321973,
+                    "type": 1,
+                    "content": "个"
+                }
+            ],
+            "answer": {
+                "1582773325626": 1582773321973,
+                "1582773343837": 1582773318498
+            },
+            "discrimination": "",
+            "knowledge_point": "量词",
+            "__v": 0
+        },
+        {
+            "difficulty": 2,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e5734e193ba5f045e4cfd24",
+            "desc": "选出合适的量词",
+            "question": [
+                {
+                    "num": 1582773444381,
+                    "type": 1,
+                    "content": "一（  ）书       "
+                },
+                {
+                    "num": 1582773452918,
+                    "type": 1,
+                    "content": "一（  ）猫 "
+                },
+                {
+                    "num": 1582773464639,
+                    "type": 1,
+                    "content": "一（  ）苹果 "
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582773428635,
+                    "type": 1,
+                    "content": "只"
+                },
+                {
+                    "num": 1582773434186,
+                    "type": 1,
+                    "content": "本"
+                },
+                {
+                    "num": 1582773439917,
+                    "type": 1,
+                    "content": "个"
+                }
+            ],
+            "answer": {
+                "1582773444381": 1582773434186,
+                "1582773452918": 1582773428635,
+                "1582773464639": 1582773439917
+            },
+            "discrimination": "",
+            "knowledge_point": "量词",
+            "__v": 0
+        },
+        {
+            "difficulty": 3,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e57366393ba5f045e4cfd25",
+            "desc": "选出合适的量词",
+            "question": [
+                {
+                    "num": 1582773813132,
+                    "type": 1,
+                    "content": "一（  ）牛"
+                },
+                {
+                    "num": 1582773821933,
+                    "type": 1,
+                    "content": "一（  ）花"
+                },
+                {
+                    "num": 1582773836450,
+                    "type": 1,
+                    "content": "一（  ）马"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582773785195,
+                    "type": 1,
+                    "content": "朵"
+                },
+                {
+                    "num": 1582773791472,
+                    "type": 1,
+                    "content": "头"
+                },
+                {
+                    "num": 1582773795105,
+                    "type": 1,
+                    "content": "匹"
+                },
+                {
+                    "num": 1582773798843,
+                    "type": 1,
+                    "content": "个"
+                },
+                {
+                    "num": 1582773802720,
+                    "type": 1,
+                    "content": "只"
+                },
+                {
+                    "num": 1582773807180,
+                    "type": 1,
+                    "content": "支"
+                }
+            ],
+            "answer": {
+                "1582773813132": 1582773791472,
+                "1582773821933": 1582773785195,
+                "1582773836450": 1582773795105
+            },
+            "discrimination": "",
+            "knowledge_point": "量词",
+            "__v": 0
+        },
+        {
+            "difficulty": 2,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e57410293ba5f045e4cfd26",
+            "desc": "选择合适的反义词组",
+            "question": [
+                {
+                    "num": 1582776521378,
+                    "type": 2,
+                    "content": "/public/imgs/shaoduo.png"
+                },
+                {
+                    "num": 1582776544709,
+                    "type": 2,
+                    "content": "/public/imgs/shangxia.png"
+                },
+                {
+                    "num": 1582776560724,
+                    "type": 2,
+                    "content": "/public/imgs/daxiao.png"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582776422754,
+                    "type": 1,
+                    "content": "少    多"
+                },
+                {
+                    "num": 1582776432180,
+                    "type": 1,
+                    "content": "上    下"
+                },
+                {
+                    "num": 1582776438483,
+                    "type": 1,
+                    "content": "大    小"
+                }
+            ],
+            "answer": {
+                "1582776521378": 1582776422754,
+                "1582776544709": 1582776432180,
+                "1582776560724": 1582776438483
+            },
+            "discrimination": "",
+            "knowledge_point": "反义词",
+            "__v": 0
+        },
+        {
+            "difficulty": 3,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e5741c393ba5f045e4cfd27",
+            "desc": "选出意思相反的字填在（）里。",
+            "question": [
+                {
+                    "num": 1582776688984,
+                    "type": 1,
+                    "content": "上   — （     ）"
+                },
+                {
+                    "num": 1582776708641,
+                    "type": 1,
+                    "content": "前   — （      ）"
+                },
+                {
+                    "num": 1582776733892,
+                    "type": 1,
+                    "content": "多   — （     ）"
+                },
+                {
+                    "num": 1582776753754,
+                    "type": 1,
+                    "content": "大   —  （     ）"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582776662528,
+                    "type": 1,
+                    "content": "小"
+                },
+                {
+                    "num": 1582776667638,
+                    "type": 1,
+                    "content": "少"
+                },
+                {
+                    "num": 1582776671189,
+                    "type": 1,
+                    "content": "后"
+                },
+                {
+                    "num": 1582776675228,
+                    "type": 1,
+                    "content": "下"
+                },
+                {
+                    "num": 1582776679080,
+                    "type": 1,
+                    "content": "高"
+                },
+                {
+                    "num": 1582776682985,
+                    "type": 1,
+                    "content": "长"
+                }
+            ],
+            "answer": {
+                "1582776688984": 1582776675228,
+                "1582776708641": 1582776671189,
+                "1582776733892": 1582776667638,
+                "1582776753754": 1582776662528
+            },
+            "discrimination": "",
+            "knowledge_point": "反义词",
+            "__v": 0
+        },
+        {
+            "difficulty": 1,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e57426293ba5f045e4cfd28",
+            "desc": "填一填:请在句子里填上适当的标点符号。（ 。 ？）",
+            "question": [
+                {
+                    "num": 1582776912731,
+                    "type": 1,
+                    "content": "你吃饭了吗（    ）"
+                },
+                {
+                    "num": 1582776919556,
+                    "type": 1,
+                    "content": "我吃饭了（    ）"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582776906498,
+                    "type": 1,
+                    "content": "。"
+                },
+                {
+                    "num": 1582776909636,
+                    "type": 1,
+                    "content": "？"
+                }
+            ],
+            "answer": {
+                "1582776912731": 1582776909636,
+                "1582776919556": 1582776906498
+            },
+            "discrimination": "",
+            "knowledge_point": "标点符号",
+            "__v": 0
+        },
+        {
+            "difficulty": 2,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e57429b93ba5f045e4cfd29",
+            "desc": "填一填:请在句子里填上适当的标点符号。（ ！ ，）",
+            "question": [
+                {
+                    "num": 1582776973088,
+                    "type": 1,
+                    "content": "今天天气真冷啊（   ）"
+                },
+                {
+                    "num": 1582776976050,
+                    "type": 1,
+                    "content": "妈妈来接我（    ）我很开心。"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582776966639,
+                    "type": 1,
+                    "content": "！"
+                },
+                {
+                    "num": 1582776970106,
+                    "type": 1,
+                    "content": "，"
+                }
+            ],
+            "answer": {
+                "1582776973088": 1582776966639,
+                "1582776976050": 1582776970106
+            },
+            "discrimination": "",
+            "knowledge_point": "标点符号",
+            "__v": 0
+        },
+        {
+            "difficulty": 3,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 1,
+            "_id": "5e5743df93ba5f045e4cfd2a",
+            "desc": "填一填: 请在句子里填上适当的标点符号。（ 。  ！ ，）",
+            "question": [
+                {
+                    "num": 1582777020811,
+                    "type": 1,
+                    "content": "一天上午（    ）我背着书包去上学（     ）今天天气真好啊（     ）"
+                }
+            ],
+            "candidate": {
+                "1582777020811": [
+                    {
+                        "num": 1582777056568,
+                        "type": 1,
+                        "content": "， 。 ！"
+                    },
+                    {
+                        "num": 1582777248308,
+                        "type": 1,
+                        "content": "， ！ 。"
+                    },
+                    {
+                        "num": 1582777258141,
+                        "type": 1,
+                        "content": "。 ， ！"
+                    },
+                    {
+                        "num": 1582777276916,
+                        "type": 1,
+                        "content": "。 ！ ，"
+                    },
+                    {
+                        "num": 1582777286111,
+                        "type": 1,
+                        "content": "！ ， 。"
+                    },
+                    {
+                        "num": 1582777292614,
+                        "type": 1,
+                        "content": "！ 。 ，"
+                    }
+                ]
+            },
+            "candidate_group": [
+                {
+                    "num": 1582777012170,
+                    "type": 1,
+                    "content": "。"
+                },
+                {
+                    "num": 1582777014679,
+                    "type": 1,
+                    "content": "，"
+                },
+                {
+                    "num": 1582777017161,
+                    "type": 1,
+                    "content": "！"
+                }
+            ],
+            "answer": {
+                "1582777020811": 1582777056568
+            },
+            "discrimination": "",
+            "knowledge_point": "标点符号",
+            "__v": 0
+        },
+        {
+            "difficulty": 1,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e57451e93ba5f045e4cfd2b",
+            "desc": "选出和图片对应的拼音",
+            "question": [
+                {
+                    "num": 1582777502366,
+                    "type": 2,
+                    "content": "/public/imgs/che1.png"
+                },
+                {
+                    "num": 1582777527763,
+                    "type": 2,
+                    "content": "/public/imgs/tu4.png"
+                },
+                {
+                    "num": 1582777537826,
+                    "type": 2,
+                    "content": "/public/imgs/ba4.png"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582777371549,
+                    "type": 1,
+                    "content": "bà"
+                },
+                {
+                    "num": 1582777491543,
+                    "type": 1,
+                    "content": "chē"
+                },
+                {
+                    "num": 1582777499185,
+                    "type": 1,
+                    "content": "tù"
+                }
+            ],
+            "answer": {
+                "1582777502366": 1582777491543,
+                "1582777527763": 1582777499185,
+                "1582777537826": 1582777371549
+            },
+            "discrimination": "",
+            "knowledge_point": "认读拼音",
+            "__v": 0
+        },
+        {
+            "difficulty": 3,
+            "type": 1,
+            "content_type": 1,
+            "candidate_type": 2,
+            "_id": "5e57460093ba5f045e4cfd2c",
+            "desc": "选出和图片对应的拼音",
+            "question": [
+                {
+                    "num": 1582777798130,
+                    "type": 1,
+                    "content": "下"
+                },
+                {
+                    "num": 1582777804361,
+                    "type": 1,
+                    "content": "米"
+                },
+                {
+                    "num": 1582777807444,
+                    "type": 1,
+                    "content": "五"
+                },
+                {
+                    "num": 1582777810881,
+                    "type": 1,
+                    "content": "石"
+                },
+                {
+                    "num": 1582777817469,
+                    "type": 1,
+                    "content": "土"
+                },
+                {
+                    "num": 1582777821997,
+                    "type": 1,
+                    "content": "火"
+                },
+                {
+                    "num": 1582777825470,
+                    "type": 1,
+                    "content": "大"
+                },
+                {
+                    "num": 1582777828654,
+                    "type": 1,
+                    "content": "日"
+                }
+            ],
+            "candidate_group": [
+                {
+                    "num": 1582777682883,
+                    "type": 1,
+                    "content": "mǐ "
+                },
+                {
+                    "num": 1582777756751,
+                    "type": 1,
+                    "content": "shí"
+                },
+                {
+                    "num": 1582777762883,
+                    "type": 1,
+                    "content": "xià "
+                },
+                {
+                    "num": 1582777770415,
+                    "type": 1,
+                    "content": "wǔ "
+                },
+                {
+                    "num": 1582777774921,
+                    "type": 1,
+                    "content": "dà "
+                },
+                {
+                    "num": 1582777784928,
+                    "type": 1,
+                    "content": "huǒ "
+                },
+                {
+                    "num": 1582777789073,
+                    "type": 1,
+                    "content": "tǔ"
+                },
+                {
+                    "num": 1582777793533,
+                    "type": 1,
+                    "content": " rì"
+                }
+            ],
+            "answer": {
+                "1582777798130": 1582777762883,
+                "1582777804361": 1582777682883,
+                "1582777807444": 1582777770415,
+                "1582777810881": 1582777756751,
+                "1582777817469": 1582777789073,
+                "1582777821997": 1582777784928,
+                "1582777825470": 1582777774921,
+                "1582777828654": 1582777793533
+            },
+            "discrimination": "",
+            "knowledge_point": "认读拼音",
+            "__v": 0
+        }
     ],
-        "candidate": [],
-        "answer": [],
-        "difficulty": 1,
-        "discrimination": "",
-        "knowledge_point": ["写字"]
-    },
-    {
-        "id": "23",
-        "type": "",
-        "desc": "",
-        "question": "",
-        "candidate": [],
-        "answer": [],
-        "difficulty": "",
-        "discrimination": "",
-        "knowledge_point": []
-    },
-    {
-        "id": "",
-        "type": "",
-        "desc": "",
-        "question": "",
-        "candidate": [],
-        "answer": [],
-        "difficulty": "",
-        "discrimination": "",
-        "knowledge_point": []
-    }
-]
-
+    "message": "success"
+}}
