@@ -91,13 +91,12 @@ class QuestionController extends Controller {
     // });
     // console.log(ctx.body);
 
-    const result = await ctx.curl('https://localhost:5000/test');
-    console.log(result);
-    ctx.body = result.data;
+    const result = await ctx.curl('https://google.com');
+    // console.log(result);
     // ctx.status = result.status;
     // console.log(result.status);
-    // ctx.set(result.headers);
-    // ctx.body = result.data;
+    ctx.set(result.headers);
+    ctx.body = result.data;
     // console.log(result);
   }
 }
