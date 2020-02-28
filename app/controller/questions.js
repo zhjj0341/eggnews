@@ -71,6 +71,35 @@ class QuestionController extends Controller {
 
   }
 
+  async next() {
+    const ctx = this.ctx;
+    // console.log(ctx);
+    // this.ctx.body = '<html>hello world</html>';
+    // console.log(ctx);
+    // const result = await ctx.curl('http://127.0.0.1:5000/test');
+    // const result = await ctx.curl('http://www.google.com', { dataType: 'json' });
+    // const result = await ctx.curl('https://httpbin.org/get?foo=bar');
+    // ctx.status = result.status;
+    // ctx.set(result.headers);
+    // ctx.body = result.data;
+    // console.log(result);
+    // const result = await ctx.curl('https://registry.npm.taobao.org/egg/latest', {
+    //   // 自动解析 JSON response
+    //   dataType: 'json',
+    //   // 3 秒超时
+    //   timeout: 3000,
+    // });
+    // console.log(ctx.body);
+
+    const result = await ctx.curl('https://localhost:5000/test');
+    console.log(result);
+    ctx.body = result.data;
+    // ctx.status = result.status;
+    // console.log(result.status);
+    // ctx.set(result.headers);
+    // ctx.body = result.data;
+    // console.log(result);
+  }
 }
 
 module.exports = QuestionController;

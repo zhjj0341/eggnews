@@ -20,4 +20,5 @@ module.exports = app => {
 
   // questions handler starts here
   router.resources('questions', '/api/questions', controller.questions);
+  router.get('/questions/next', controller.questions.next);
 };
