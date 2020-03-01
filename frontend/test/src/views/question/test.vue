@@ -9,7 +9,9 @@
           <el-table-column type="index" width="50"></el-table-column>
           <el-table-column label="问题" width="250">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.content" placeholder="请输入内容" autosize></el-input>
+              <el-input v-if="CONTENT_TYPE['TEXT'] === scope.row.content['type']"
+              v-model="scope.row.content" autosize></el-input>
+              <img v-else :src=$store.getters.backendUrl + scope.row.content>
             </template>
           </el-table-column>
           <el-table-column label="答案">
@@ -55,10 +57,10 @@
 </template>
 
 <script>
-import { testQuestion, showQuestion } from '@/api/question'
+import { testQuestion, showQuestion, nextQuestion } from '@/api/question'
 import { QUESTION_TYPE, QUESTION_LEVEL, CONTENT_TYPE, CANDIDATE_TYPE } from '@/views/question/config'
 export default {
-  name: 'editQuestion',
+  name: 'testQuestion',
   data () {
     return {
       QUESTION_TYPE,
@@ -79,6 +81,7 @@ export default {
     }
   },
   created () {
+    // console.log(this.$route.query)
     if (this.$route.query['id']) {
       this.loading = true
       showQuestion(this.$route.query['id']).then(({ res, err }) => {
@@ -92,7 +95,19 @@ export default {
         }
       })
     } else {
-      this.$router.go(-1)
+      // alert('------')
+      this.loading = true
+      nextQuestion().then(({ res, err }) => {
+        // console.log(res)
+        this.loading = false
+        if (!err) {
+          this.$set(this, 'form', Object.assign(this.form, res.question))
+          let _answer_type = this.getAnswerType()
+          for (let q of this.form['question']) {
+            this.$set(this.answer, q['num'], _answer_type)
+          }
+        }
+      })
     }
   },
   computed: {
