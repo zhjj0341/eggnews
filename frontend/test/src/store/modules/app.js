@@ -11,7 +11,12 @@ const app = {
       opened: !+Cookies.get('sidebarStatus'),
       withoutAnimation: false
     },
-    device: 'desktop'
+    device: 'desktop',
+    backendUrl: (() => { // 初始化后端的线路列表
+      try {
+        return G_BASE_API
+      } catch (e) {}
+    })()
   },
   getters: {
   },
