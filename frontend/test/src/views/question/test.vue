@@ -165,9 +165,6 @@ export default {
       & > * {
         margin-bottom: 5px;
       }
-      img{
-        max-height:100px;
-      }
     }
     .candidate-col {
       .cell {
