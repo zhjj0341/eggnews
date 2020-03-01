@@ -46,7 +46,7 @@
                 :label="item"
               >{{utils.generateTitle(item, 'question.content_type')}}</el-radio-button>
             </el-radio-group>
-            <el-input v-model="candidate['content']" placeholder="请输入内容" autosize></el-input>
+            <el-input v-model.lazy="candidate['content']" placeholder="请输入内容" autosize></el-input>
             <el-button
               type="warning"
               @click.prevent="removeContent(candidate, form['candidate_group'])"
@@ -67,7 +67,7 @@
                   :label="item"
                 >{{utils.generateTitle(item, 'question.content_type')}}</el-radio-button>
               </el-radio-group>
-              <el-input v-model="scope.row.content" placeholder="请输入内容" autosize></el-input>
+              <el-input v-model.lazy="scope.row.content" placeholder="请输入内容" autosize></el-input>
             </template>
           </el-table-column>
           <template v-if="QUESTION_TYPE['INPUT']!==form['type'] && isSplitCandidate">
@@ -82,7 +82,7 @@
                       :label="item"
                     >{{utils.generateTitle(item, 'question.content_type')}}</el-radio-button>
                   </el-radio-group>
-                  <el-input v-model="candidate['content']" placeholder="请输入内容" autosize></el-input>
+                  <el-input v-model.lazy="candidate['content']" placeholder="请输入内容" autosize></el-input>
                   <el-button
                     type="warning"
                     @click.prevent="removeContent(candidate, form['candidate'][row['num']])"
