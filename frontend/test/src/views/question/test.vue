@@ -2,7 +2,7 @@
   <div class="m-question-edit" v-loading.body="loading">
     <el-form ref="form" :model="form" label-width="100px">
       <el-form-item label="题目详情" prop="desc">{{form.desc}}</el-form-item>
-      <el-form-item label="难易度" prop="level">{{utils.generateTitle(form.level, 'question.level')}}</el-form-item>
+      <el-form-item label="难易度" prop="difficulty">{{utils.generateTitle(form.difficulty, 'question.difficulty')}}</el-form-item>
       <el-form-item label="题目类型" prop="type">{{utils.generateTitle(form.type, 'question.type')}}</el-form-item>
       <el-form-item label="题目">
         <el-table :data="form.question" style="width: 100%" border stripe>
@@ -67,7 +67,7 @@ export default {
       CANDIDATE_TYPE,
       loading: false,
       form: {
-        level: QUESTION_LEVEL['LOW'],
+        difficulty: QUESTION_LEVEL['LOW'],
         type: QUESTION_TYPE['RADIO'],
         candidate_type: CANDIDATE_TYPE['SPLIT'],
         desc: '',

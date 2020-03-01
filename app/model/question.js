@@ -6,7 +6,7 @@ module.exports = app => {
   const Schema = mongoose.Schema;
 
   const QuestionSchema = new Schema({
-    level: { type: Number, default: 1 },
+    difficulty: { type: Number, default: 1 },
     desc: { type: String },
     type: { type: Number, default: 1 },
     content_type: { type: Number, default: 1 },
@@ -15,6 +15,8 @@ module.exports = app => {
     candidate: { type: Schema.Types.Mixed }, // 每个问题自己单独的选项
     candidate_group: { type: Schema.Types.Mixed }, // 共用的选项
     answer: { type: Schema.Types.Mixed },
+    discrimination: { type: String },
+    knowledge_point: { type: String },
   });
 
   return mongoose.model('Question', QuestionSchema);

@@ -20,7 +20,7 @@ class QuestionController extends Controller {
 
     const form = ctx.request.body;
 
-    question.level = form.level;
+    question.difficulty = form.difficulty;
     question.desc = form.desc;
     question.type = form.type;
     question.content_type = form.content_type;
@@ -29,6 +29,8 @@ class QuestionController extends Controller {
     question.candidate = form.candidate;
     question.candidate_group = form.candidate_group;
     question.answer = form.answer;
+    question.discrimination = form.discrimination;
+    question.knowledge_point = form.knowledge_point;
 
     question.save();
 
@@ -45,8 +47,8 @@ class QuestionController extends Controller {
       return;
     }
 
-    const { level, desc, type, content_type, candidate_type, question, candidate, candidate_group, answer } = ctx.request.body;
-    await item.update({ level, desc, type, content_type, candidate_type, question, candidate, candidate_group, answer });
+    const { difficulty, desc, type, content_type, candidate_type, question, candidate, candidate_group, answer, discrimination, knowledge_point } = ctx.request.body;
+    await item.update({ difficulty, desc, type, content_type, candidate_type, question, candidate, candidate_group, answer, discrimination, knowledge_point });
     ctx.body = item;
   }
 
@@ -64,11 +66,39 @@ class QuestionController extends Controller {
   async show() {
     const ctx = this.ctx;
     ctx.body = await ctx.model.Question.findOne({ _id: ctx.params.id })
-      .select({ level: 1, type: 1, candidate_type: 1, desc: 1, question: 1, candidate: 1, candidate_group: 1 })
+      .select({ difficulty: 1, type: 1, candidate_type: 1, desc: 1, question: 1, candidate: 1, candidate_group: 1, discrimination: 1, knowledge_point: 1 })
       .exec();
 
   }
 
+  async next() {
+    const ctx = this.ctx;
+    // console.log(ctx);
+    // this.ctx.body = '<html>hello world</html>';
+    // console.log(ctx);
+    // const result = await ctx.curl('http://127.0.0.1:5000/test');
+    // const result = await ctx.curl('http://www.google.com', { dataType: 'json' });
+    // const result = await ctx.curl('https://httpbin.org/get?foo=bar');
+    // ctx.status = result.status;
+    // ctx.set(result.headers);
+    // ctx.body = result.data;
+    // console.log(result);
+    // const result = await ctx.curl('https://registry.npm.taobao.org/egg/latest', {
+    //   // 自动解析 JSON response
+    //   dataType: 'json',
+    //   // 3 秒超时
+    //   timeout: 3000,
+    // });
+    // console.log(ctx.body);
+
+    const result = await ctx.curl('https://google.com');
+    // console.log(result);
+    // ctx.status = result.status;
+    // console.log(result.status);
+    ctx.set(result.headers);
+    ctx.body = result.data;
+    // console.log(result);
+  }
 }
 
 module.exports = QuestionController;

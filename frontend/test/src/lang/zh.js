@@ -20,6 +20,11 @@ export default {
       '2': '中',
       '3': '难'
     },
+    discrimination: {
+      '1': '易',
+      '2': '中',
+      '3': '难'
+    },
     content_type: {
       1: '文字',
       2: '图片'

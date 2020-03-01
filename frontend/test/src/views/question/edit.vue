@@ -4,13 +4,19 @@
       <el-form-item label="题目详情" prop="desc">
         <el-input v-model.trim="form.desc"></el-input>
       </el-form-item>
-      <el-form-item label="难易度" prop="level">
-        <el-radio-group v-model="form.level">
+      <el-form-item label="区分度" prop="discrimination">
+          <el-input v-model.trim="form.discrimination"></el-input>
+        </el-form-item>
+        <el-form-item label="知识点" prop="knowledge_point">
+          <el-input v-model.trim="form.knowledge_point"></el-input>
+        </el-form-item>
+      <el-form-item label="难易度" prop="difficulty">
+        <el-radio-group v-model="form.difficulty">
           <el-radio-button
             v-for="(item, key) in QUESTION_LEVEL"
             :key="item+key"
             :label="item"
-          >{{utils.generateTitle(item, 'question.level')}}</el-radio-button>
+          >{{utils.generateTitle(item, 'question.difficulty')}}</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="题目类型" prop="type">
@@ -193,14 +199,16 @@ export default {
       //       }
       // }
       form: {
-        level: QUESTION_LEVEL['LOW'],
+        difficulty: QUESTION_LEVEL['LOW'],
         type: QUESTION_TYPE['RADIO'],
         candidate_type: CANDIDATE_TYPE['SPLIT'],
         desc: '',
         question: [],
         candidate: {},
         candidate_group: [],
-        answer: {}
+        answer: {},
+        discrimination: '',
+        knowledge_point: ''
       }
     }
   },
