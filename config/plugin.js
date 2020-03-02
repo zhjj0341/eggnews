@@ -10,10 +10,10 @@ module.exports = {
     package: 'egg-mongoose',
   },
 
-  redis: {
-    enable: true,
-    package: 'egg-redis',
-  },
+  // redis: {
+  //   enable: true,
+  //   package: 'egg-redis',
+  // },
 
   nunjucks: {
     enable: true,
