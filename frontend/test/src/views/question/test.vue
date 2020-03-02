@@ -11,7 +11,7 @@
             <template slot-scope="scope">
               <el-input v-if="CONTENT_TYPE['TEXT'] === scope.row.content['type']"
               v-model="scope.row.content" autosize></el-input>
-              <img v-else :src=$store.getters.backendUrl + scope.row.content>
+              <img v-else :src="$store.getters.backendUrl + scope.row.content" autosize>
             </template>
           </el-table-column>
           <el-table-column label="答案">
