@@ -39,6 +39,12 @@ export function nextQuestion () {
   })
 }
 
+export function firstQuestion () {
+  return request.get({
+    url: '/api/questions/first'
+  })
+}
+
 // 查找一个问题
 export function showQuestion (id) {
   return request.get({

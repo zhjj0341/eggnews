@@ -33,8 +33,8 @@ class ItemResponseTheoryModel:
         self.initializer = RandomInitializer() # change default, should use normal distribution and range should fit the difficulty level?
         self.selector = MaxInfoSelector()
         self.estimator = HillClimbingEstimator()
-        self.stopper = MaxItemStopper(self.question_bank_size)
-        self.est_theta = self.initializer.initialize()
+        self.stopper = MaxItemStopper(self.question_bank_size) # change default, could use minErrorStopper
+        self.est_theta = self.initializer.initialize() # change default, customized theta initializer based on age group
         self.responses = []
         self.administered_items = []
         for i in range(len(self.indexed_items)):
@@ -153,4 +153,4 @@ def page_not_found(e):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='127.0.0.1', port=5000, debug=False)
