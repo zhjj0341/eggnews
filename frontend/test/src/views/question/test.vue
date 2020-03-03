@@ -1,6 +1,6 @@
 <template>
   <div class="m-question-edit" v-loading.body="loading">
-    <el-form ref="form" :model="form" label-width="100px">
+    <el-form ref="form" :model="answer" label-width="100px">
       <el-form-item label="题目详情" prop="desc">{{form.desc}}</el-form-item>
       <el-form-item label="难易度" prop="difficulty">{{utils.generateTitle(form.difficulty, 'question.difficulty')}}</el-form-item>
       <el-form-item label="题目类型" prop="type">{{utils.generateTitle(form.type, 'question.type')}}</el-form-item>
@@ -16,46 +16,52 @@
           </el-table-column>
           <el-table-column label="答案">
             <template slot-scope="{row}">
-              <!-- 选择题：单选 -->
-              <el-radio-group
-                v-if="QUESTION_TYPE['RADIO']===form['type']"
-                v-model="answer[row['num']]"
-              >
-                <el-radio-button
-                  v-for="(item,index) in getCandidate(row)"
-                  :key="index"
-                  :label="item.num"
+              <el-form-item :prop="String(row['num'])" :rules="[
+                 QUESTION_TYPE['CHECKBOX']===form['type']?
+                 { type:'array', required: true, message: '请完善答案', trigger: 'change' }:
+                 { required: true, message: '请完善答案', trigger: 'change' }
+              ],">
+                <!-- 选择题：单选 -->
+                <el-radio-group
+                  v-if="QUESTION_TYPE['RADIO']===form['type']"
+                  v-model="answer[row['num']]"
                 >
-                <!-- 选项类型：图片/文字 -->
-                <template v-if="CONTENT_TYPE['TEXT']===item.type">{{item.content}}</template>
-                <img v-else :src="$store.getters.backendUrl + item.content" autosize>
-                </el-radio-button>
-              </el-radio-group>
-              <!-- 选择题：多选 -->
-              <el-checkbox-group
-                v-else-if="QUESTION_TYPE['CHECKBOX']===form['type']"
-                v-model="answer[row['num']]"
-              >
-                <el-checkbox
-                  v-for="(item,index) in getCandidate(row)"
-                  :key="index"
-                  :label="item.num"
+                  <el-radio-button
+                    v-for="(item,index) in getCandidate(row)"
+                    :key="index"
+                    :label="item.num"
+                  >
+                  <!-- 选项类型：图片/文字 -->
+                  <template v-if="CONTENT_TYPE['TEXT']===item.type">{{item.content}}</template>
+                  <img v-else :src="$store.getters.backendUrl + item.content" autosize>
+                  </el-radio-button>
+                </el-radio-group>
+                <!-- 选择题：多选 -->
+                <el-checkbox-group
+                  v-else-if="QUESTION_TYPE['CHECKBOX']===form['type']"
+                  v-model="answer[row['num']]"
                 >
-                <!-- 选项类型：图片/文字 -->
-                <template v-if="CONTENT_TYPE['TEXT']===item.type">{{item.content}}</template>
-                <img v-else :src="$store.getters.backendUrl + item.content" autosize>
-                </el-checkbox>
-              </el-checkbox-group>
-              <!-- 填空题 -->
-              <el-input
-                v-else-if="QUESTION_TYPE['INPUT']===form['type']"
-                v-model.trim="answer[row['num']]"
-              ></el-input>
+                  <el-checkbox
+                    v-for="(item,index) in getCandidate(row)"
+                    :key="index"
+                    :label="item.num"
+                  >
+                  <!-- 选项类型：图片/文字 -->
+                  <template v-if="CONTENT_TYPE['TEXT']===item.type">{{item.content}}</template>
+                  <img v-else :src="$store.getters.backendUrl + item.content" autosize>
+                  </el-checkbox>
+                </el-checkbox-group>
+                <!-- 填空题 -->
+                <el-input
+                  v-else-if="QUESTION_TYPE['INPUT']===form['type']"
+                  v-model.trim="answer[row['num']]"
+                ></el-input>
+              </el-form-item>
             </template>
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item>
+      <el-form-item v-if="!detailId">
         <el-button
           @click="submitForm"
           type="primary"
@@ -68,7 +74,7 @@
 </template>
 
 <script>
-import { testQuestion, showQuestion, firstQuestion } from '@/api/question'
+import { nextQuestion, showQuestion, firstQuestion } from '@/api/question'
 import { QUESTION_TYPE, QUESTION_LEVEL, CONTENT_TYPE, CANDIDATE_TYPE } from '@/views/question/config'
 export default {
   name: 'testQuestion',
@@ -79,6 +85,7 @@ export default {
       QUESTION_LEVEL,
       CANDIDATE_TYPE,
       loading: false,
+      detailId: this.$route.query['id'],
       form: {
         difficulty: QUESTION_LEVEL['LOW'],
         type: QUESTION_TYPE['RADIO'],
@@ -93,9 +100,9 @@ export default {
   },
   created () {
     // console.log(this.$route.query)
-    if (this.$route.query['id']) {
+    if (this.detailId) {
       this.loading = true
-      showQuestion(this.$route.query['id']).then(({ res, err }) => {
+      showQuestion(this.detailId).then(({ res, err }) => {
         this.loading = false
         if (!err) {
           this.$set(this, 'form', Object.assign(this.form, res))
@@ -154,7 +161,7 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (!valid) return false
         this.loading = true
-        testQuestion(this.answer).then(({ res, err }) => {
+        nextQuestion({ answer: this.answer }).then(({ res, err }) => {
           this.loading = false
           if (!err) {
             this.utils.successMsg()
@@ -169,13 +176,6 @@ export default {
 <style lang="less">
 .m-question-edit {
   .el-table {
-    .cell {
-      display: flex;
-      flex-wrap: wrap;
-      & > * {
-        margin-bottom: 5px;
-      }
-    }
     .candidate-col {
       .cell {
         flex-direction: column;

@@ -2,6 +2,12 @@
 module.exports = {
   keys: 'asdasdasd',
 
+  QUESTION_TYPE: {
+    RADIO: 1, // 单选
+    CHECKBOX: 2, // 多选
+    INPUT: 3, // 填空
+  },
+
   cluster: {
     listen: {
       port: 7001,
@@ -10,10 +16,10 @@ module.exports = {
     },
   },
   session: {
-    // key: 'EGG_SESS',
-    // maxAge: 24 * 3600 * 1000, // 1 天
-    // httpOnly: true,
-    // encrypt: true,
+    key: 'EGG_SESS',
+    maxAge: 24 * 3600 * 1000, // 1 天
+    httpOnly: true,
+    encrypt: true,
   },
 
   news: {
@@ -78,14 +84,14 @@ module.exports = {
     },
   },
   // database
-  // redis: {
-  //   client: {
-  //     host: process.env.EGG_REDIS_HOST || '127.0.0.1',
-  //     port: process.env.EGG_REDIS_PORT || 6379,
-  //     password: process.env.EGG_REDIS_PASSWORD || 'egg_news',
-  //     db: process.env.EGG_REDIS_DB || 0,
-  //   },
-  // },
+  redis: {
+    client: {
+      host: process.env.EGG_REDIS_HOST || '127.0.0.1',
+      port: process.env.EGG_REDIS_PORT || 6379,
+      password: process.env.EGG_REDIS_PASSWORD || 'egg_news',
+      db: process.env.EGG_REDIS_DB || 0,
+    },
+  },
   // image: redis:3.2-alpine
   // command: redis-server --appendonly yes --requirepass egg_news
   // volumes:

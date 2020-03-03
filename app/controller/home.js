@@ -8,7 +8,6 @@ class HomeController extends Controller {
   }
 
   async post() {
-    console.log(this.ctx.request);
     this.ctx.body = this.ctx.request.body;
   }
 }

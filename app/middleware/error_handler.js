@@ -26,7 +26,6 @@ module.exports = () => {
         data: ctx.body,
         message: ctx.body.detail || ctx.body.error || 'success',
       };
-      console.log(ctx.body);
     }
   };
 };

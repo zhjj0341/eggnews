@@ -23,5 +23,4 @@ module.exports = app => {
   router.post('/api/questions/next', controller.questions.next);
   router.resources('questions', '/api/questions', controller.questions);
   // router.post('/api/questions/next', controller.questions.next);
-  // console.log(process.env.http_proxy, 'test http_proxy ++++++++++++++++++++++++++++++++++++++');
 };

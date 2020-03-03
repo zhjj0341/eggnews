@@ -33,9 +33,9 @@ export function testQuestion (params) {
   })
 }
 
-export function nextQuestion () {
-  return request.get({
-    url: '/api/questions/next'
+export function nextQuestion (params) {
+  return request.post({
+    url: '/api/questions/next', params
   })
 }
 

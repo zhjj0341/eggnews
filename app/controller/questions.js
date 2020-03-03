@@ -1,4 +1,5 @@
 'use strict';
+const _ = require('lodash');
 const Controller = require('egg').Controller;
 
 function toInt(str) {
@@ -93,11 +94,11 @@ class QuestionController extends Controller {
       return;
     }
     // todo:cache object&&questionid
-    // ctx.session.carolyn_question = {
-    //   object: result.data.object,
-    //   question_id: result.data.question,
-    // };
-    // ctx.set(result.headers);
+    ctx.session.carolyn_question = 1;
+    await this.service.cache.setex('carolyn_question', {
+      object: result.data.object,
+      question_id: result.data.question,
+    }, 60 * 5); // 五分钟
     // console.log(result);
     const showQuestion = await ctx.model.Question.findOne({ _id: result.data.question })
       .select({ difficulty: 1, type: 1, candidate_type: 1, desc: 1, question: 1, candidate: 1, candidate_group: 1, discrimination: 1, knowledge_point: 1 })
@@ -108,14 +109,54 @@ class QuestionController extends Controller {
 
   async next() {
     const ctx = this.ctx;
-    // todo:get object&&questionid
-    // console.log(ctx.session.carolyn_question)
-    const result = await ctx.curl('http://127.0.0.1:5000/test', { dataType: 'json' });
-    ctx.set(result.headers);
-    // console.log(result);
-    ctx.body = result.data;
-    ctx.body.fromPython = true;
-    // console.log(ctx.body.fromPython);
+    // // todo:get object&&questionid
+    const questionUserCache = await this.service.cache.get('carolyn_question');
+    if (!questionUserCache) {
+      ctx.status = 400;
+      ctx.body = { error: '未检测到题目，请重新答题!' };
+      return;
+    }
+
+    // 获取用户提交的答案
+    const form = ctx.request.body;
+    const userAnswer = form.answer;
+    if (!userAnswer) {
+      ctx.status = 422;
+      ctx.body = { error: '请提交答案!' };
+      return;
+    }
+
+    const questionItem = await ctx.model.Question.findOne({ _id: questionUserCache.question_id })
+      .select({ answer: 1, type: 1 })
+      .exec();
+
+    // 获取配置
+    const config = this.config;
+    const answer = questionItem.answer;
+
+    let correct = true;
+    for (const key in answer) { // 遍历标准答案
+      if (config.QUESTION_TYPE.RADIO === questionItem.type) { // 单选
+        // 如果全部题目其中有一个题目的答案不符合,即是错误
+        if (String(userAnswer[key]) !== String(answer[key])) {
+          correct = false;
+          break;
+        }
+      } else if (config.QUESTION_TYPE.RADIO === questionItem.type) { // 多选
+        const _xor = _.xor(userAnswer[key], answer[key]);// _.xor([2, 1], [2, 3])=> [1, 3]
+        // 如果用户提交的答案跟标准答案的有不一样的选项即视为错误
+        if (_xor.length > 0) {
+          correct = false;
+          break;
+        }
+      } else { // 填空
+        // 填空的标准答案是数组，如果用户的答案是标准答案之中的其中一个，即视为正确
+        correct = !!_.find(answer[key], o => { return String(userAnswer[key]) === o; });
+      }
+    }
+
+    ctx.body = correct;
+    // todo：nextquestion&&is STOP
   }
 }
 
