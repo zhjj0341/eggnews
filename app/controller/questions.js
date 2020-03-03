@@ -82,7 +82,8 @@ class QuestionController extends Controller {
       method: 'POST',
       dataType: 'json',
       contentType: 'json',
-      data: { questions: allQuestions } });
+      data: { questions: allQuestions },
+    });
 
     if (result.status !== 200) {
       ctx.status = 422;
@@ -91,6 +92,11 @@ class QuestionController extends Controller {
       };
       return;
     }
+    // todo:cache object&&questionid
+    // ctx.session.carolyn_question = {
+    //   object: result.data.object,
+    //   question_id: result.data.question,
+    // };
     // ctx.set(result.headers);
     // console.log(result);
     const showQuestion = await ctx.model.Question.findOne({ _id: result.data.question })
@@ -102,6 +108,8 @@ class QuestionController extends Controller {
 
   async next() {
     const ctx = this.ctx;
+    // todo:get object&&questionid
+    // console.log(ctx.session.carolyn_question)
     const result = await ctx.curl('http://127.0.0.1:5000/test', { dataType: 'json' });
     ctx.set(result.headers);
     // console.log(result);
