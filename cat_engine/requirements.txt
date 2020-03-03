@@ -1,0 +1,11 @@
+matplotlib
+numpy
+pyparsing
+python-dateutil
+scikit-learn
+scipy
+six
+tqdm
+Flask
+Jinja2
+jsonpickle

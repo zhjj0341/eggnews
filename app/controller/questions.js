@@ -71,33 +71,51 @@ class QuestionController extends Controller {
 
   }
 
+  async first() {
+    const ctx = this.ctx;
+    const allQuestions = await ctx.model.Question
+      .aggregate()
+      .project({ question: '$_id', difficulty: '$difficulty' })
+      .exec();
+    // console.log(ctx.body);
+    const result = await ctx.curl('http://127.0.0.1:5000/firstQuestion', {
+      method: 'POST',
+      dataType: 'json',
+      contentType: 'json',
+      data: { questions: allQuestions },
+    });
+
+    if (result.status !== 200) {
+      ctx.status = 422;
+      ctx.body = {
+        error: '抽取题目错误!',
+      };
+      return;
+    }
+    // todo:cache object&&questionid
+    // ctx.session.carolyn_question = {
+    //   object: result.data.object,
+    //   question_id: result.data.question,
+    // };
+    // ctx.set(result.headers);
+    // console.log(result);
+    const showQuestion = await ctx.model.Question.findOne({ _id: result.data.question })
+      .select({ difficulty: 1, type: 1, candidate_type: 1, desc: 1, question: 1, candidate: 1, candidate_group: 1, discrimination: 1, knowledge_point: 1 })
+      .exec();
+    ctx.body = showQuestion;
+    // console.log(ctx.body);
+  }
+
   async next() {
     const ctx = this.ctx;
-    // console.log(ctx);
-    // this.ctx.body = '<html>hello world</html>';
-    // console.log(ctx);
-    // const result = await ctx.curl('http://127.0.0.1:5000/test');
-    // const result = await ctx.curl('http://www.google.com', { dataType: 'json' });
-    // const result = await ctx.curl('https://httpbin.org/get?foo=bar');
-    // ctx.status = result.status;
-    // ctx.set(result.headers);
-    // ctx.body = result.data;
-    // console.log(result);
-    // const result = await ctx.curl('https://registry.npm.taobao.org/egg/latest', {
-    //   // 自动解析 JSON response
-    //   dataType: 'json',
-    //   // 3 秒超时
-    //   timeout: 3000,
-    // });
-    // console.log(ctx.body);
-
-    const result = await ctx.curl('https://google.com');
-    // console.log(result);
-    // ctx.status = result.status;
-    // console.log(result.status);
+    // todo:get object&&questionid
+    // console.log(ctx.session.carolyn_question)
+    const result = await ctx.curl('http://127.0.0.1:5000/test', { dataType: 'json' });
     ctx.set(result.headers);
-    ctx.body = result.data;
     // console.log(result);
+    ctx.body = result.data;
+    ctx.body.fromPython = true;
+    // console.log(ctx.body.fromPython);
   }
 }
 

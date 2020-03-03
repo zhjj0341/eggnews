@@ -9,11 +9,14 @@
           <el-table-column type="index" width="50"></el-table-column>
           <el-table-column label="问题" width="250">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.content" placeholder="请输入内容" autosize></el-input>
+              <el-input v-if="CONTENT_TYPE['TEXT'] === scope.row['type']"
+              v-model="scope.row.content" autosize></el-input>
+              <img v-else :src="$store.getters.backendUrl + scope.row.content" autosize>
             </template>
           </el-table-column>
           <el-table-column label="答案">
             <template slot-scope="{row}">
+              <!-- 选择题：单选 -->
               <el-radio-group
                 v-if="QUESTION_TYPE['RADIO']===form['type']"
                 v-model="answer[row['num']]"
@@ -22,8 +25,13 @@
                   v-for="(item,index) in getCandidate(row)"
                   :key="index"
                   :label="item.num"
-                >{{item.content}}</el-radio-button>
+                >
+                <!-- 选项类型：图片/文字 -->
+                <template v-if="CONTENT_TYPE['TEXT']===item.type">{{item.content}}</template>
+                <img v-else :src="$store.getters.backendUrl + item.content" autosize>
+                </el-radio-button>
               </el-radio-group>
+              <!-- 选择题：多选 -->
               <el-checkbox-group
                 v-else-if="QUESTION_TYPE['CHECKBOX']===form['type']"
                 v-model="answer[row['num']]"
@@ -32,8 +40,13 @@
                   v-for="(item,index) in getCandidate(row)"
                   :key="index"
                   :label="item.num"
-                >{{item.content}}</el-checkbox>
+                >
+                <!-- 选项类型：图片/文字 -->
+                <template v-if="CONTENT_TYPE['TEXT']===item.type">{{item.content}}</template>
+                <img v-else :src="$store.getters.backendUrl + item.content" autosize>
+                </el-checkbox>
               </el-checkbox-group>
+              <!-- 填空题 -->
               <el-input
                 v-else-if="QUESTION_TYPE['INPUT']===form['type']"
                 v-model.trim="answer[row['num']]"
@@ -55,10 +68,10 @@
 </template>
 
 <script>
-import { testQuestion, showQuestion } from '@/api/question'
+import { testQuestion, showQuestion, firstQuestion } from '@/api/question'
 import { QUESTION_TYPE, QUESTION_LEVEL, CONTENT_TYPE, CANDIDATE_TYPE } from '@/views/question/config'
 export default {
-  name: 'editQuestion',
+  name: 'testQuestion',
   data () {
     return {
       QUESTION_TYPE,
@@ -79,6 +92,7 @@ export default {
     }
   },
   created () {
+    // console.log(this.$route.query)
     if (this.$route.query['id']) {
       this.loading = true
       showQuestion(this.$route.query['id']).then(({ res, err }) => {
@@ -92,7 +106,18 @@ export default {
         }
       })
     } else {
-      this.$router.go(-1)
+      // alert('------')
+      this.loading = true
+      firstQuestion().then(({ res, err }) => {
+        this.loading = false
+        if (!err) {
+          this.$set(this, 'form', Object.assign(this.form, res))
+          let _answer_type = this.getAnswerType()
+          for (let q of this.form['question']) {
+            this.$set(this.answer, q['num'], _answer_type)
+          }
+        }
+      })
     }
   },
   computed: {

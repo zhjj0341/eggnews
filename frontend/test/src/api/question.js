@@ -28,8 +28,20 @@ export function deleteQuestion (id) {
 }
 
 export function testQuestion (params) {
-  return request.post({
+  return request.get({
     url: '/api/questions/test', params
+  })
+}
+
+export function nextQuestion () {
+  return request.get({
+    url: '/api/questions/next'
+  })
+}
+
+export function firstQuestion () {
+  return request.get({
+    url: '/api/questions/first'
   })
 }
 
