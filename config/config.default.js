@@ -71,12 +71,29 @@ module.exports = {
      * user: root, pwd: mongodb, readWriteAnyDatabase
      */
   mongoose: {
-    url: process.env.EGG_MONGODB_URL || 'mongodb://127.0.0.1:27017/egg_news',
+    url: process.env.EGG_MONGODB_URL || 'mongodb://test:test@127.0.0.1:27017/egg_news',
     options: {
       useUnifiedTopology: true,
       poolSize: 20,
     },
   },
+  // database
+  // redis: {
+  //   client: {
+  //     host: process.env.EGG_REDIS_HOST || '127.0.0.1',
+  //     port: process.env.EGG_REDIS_PORT || 6379,
+  //     password: process.env.EGG_REDIS_PASSWORD || 'egg_news',
+  //     db: process.env.EGG_REDIS_DB || 0,
+  //   },
+  // },
+  // image: redis:3.2-alpine
+  // command: redis-server --appendonly yes --requirepass egg_news
+  // volumes:
+  //   - egg-redis:/data
+  // networks:
+  //   - docker_news
+  // ports:
+  //   - 6379:6379
   // plugins end
 
   /**
