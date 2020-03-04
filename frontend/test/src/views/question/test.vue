@@ -105,11 +105,7 @@ export default {
       showQuestion(this.detailId).then(({ res, err }) => {
         this.loading = false
         if (!err) {
-          this.$set(this, 'form', Object.assign(this.form, res))
-          let _answer_type = this.getAnswerType()
-          for (let q of this.form['question']) {
-            this.$set(this.answer, q['num'], _answer_type)
-          }
+          this.handleSetForm(res)
         }
       })
     } else {
@@ -118,11 +114,7 @@ export default {
       firstQuestion().then(({ res, err }) => {
         this.loading = false
         if (!err) {
-          this.$set(this, 'form', Object.assign(this.form, res))
-          let _answer_type = this.getAnswerType()
-          for (let q of this.form['question']) {
-            this.$set(this.answer, q['num'], _answer_type)
-          }
+          this.handleSetForm(res)
         }
       })
     }
@@ -136,6 +128,13 @@ export default {
     }
   },
   methods: {
+    handleSetForm (data) {
+      this.$set(this, 'form', Object.assign(this.form, data))
+      let _answer_type = this.getAnswerType()
+      for (let q of this.form['question']) {
+        this.$set(this.answer, q['num'], _answer_type)
+      }
+    },
     getCandidate (question) { // 根据不同的选项类型，去展示答案列表
       if (this.form['type'] === QUESTION_TYPE['INPUT']) {
         return []
@@ -167,7 +166,7 @@ export default {
             if (res.stop) {
               alert(res.message)
             } else {
-              this.$set(this, 'form', Object.assign(this.form, res))
+              this.handleSetForm(res)
             }
             this.utils.successMsg()
           }
