@@ -163,10 +163,14 @@ export default {
         nextQuestion({ answer: this.answer }).then(({ res, err }) => {
           this.loading = false
           if (!err) {
+            // 判断是否停止
             if (res.stop) {
               alert(res.message)
             } else {
+              // todo,,加上提示信息
+              // 设置form，页面回答下一题
               this.handleSetForm(res)
+              this.$refs['form'].clearValidate()// 清除表单校验提示效果
             }
             this.utils.successMsg()
           }
