@@ -94,8 +94,8 @@ class QuestionController extends Controller {
       return;
     }
     // todo:cache object&&questionid
-    ctx.session.carolyn_question = 1;
     await this.service.cache.setex('carolyn_question', {
+      index: result.data.index,
       object: result.data.object,
       question_id: result.data.question,
     }, 60 * 5); // 五分钟
@@ -155,7 +155,52 @@ class QuestionController extends Controller {
       }
     }
 
-    ctx.body = correct;
+    // todo：nextquestion
+    const nextQuestion = await ctx.curl('http://127.0.0.1:5000/nextQuestion', {
+      method: 'POST',
+      dataType: 'json',
+      contentType: 'json',
+      data: {
+        correct,
+        index: questionUserCache.index,
+        object: questionUserCache.object,
+      },
+    });
+
+    // 更新题目验证信息
+    await this.service.cache.setex('carolyn_question', {
+      index: nextQuestion.data.index,
+      object: nextQuestion.data.object,
+      question_id: nextQuestion.data.question,
+    }, 60 * 5); // 五分钟
+
+    const stopMsg = await ctx.curl('http://127.0.0.1:5000/stopQuestion', {
+      method: 'POST',
+      dataType: 'json',
+      contentType: 'json',
+      data: {
+        object: nextQuestion.data.object,
+      },
+    });
+
+    // 停止就需要返回需要停止的信息
+    if (stopMsg.data.stop === true) {
+      ctx.body = { stop: true, message: stopMsg.data.message };
+      return;
+    }
+
+    // 查找下一个题目并且返回
+    const showQuestion = await ctx.model.Question.findOne({ _id: nextQuestion.data.question })
+      .select({ difficulty: 1, type: 1, candidate_type: 1, desc: 1, question: 1, candidate: 1, candidate_group: 1, discrimination: 1, knowledge_point: 1 })
+      .exec();
+    ctx.body = showQuestion;
+
+    // todo:cache object&&questionid
+    // await this.service.cache.setex('carolyn_question', {
+    //   index: result.data.object,
+    //   object: result.data.object,
+    //   question_id: result.data.question,
+    // }, 60 * 5); // 五分钟
     // todo：nextquestion&&is STOP
   }
 }

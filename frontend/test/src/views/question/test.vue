@@ -1,5 +1,5 @@
 <template>
-  <div class="m-question-edit" v-loading.body="loading">
+  <div class="m-question-test" v-loading.body="loading">
     <el-form ref="form" :model="answer" label-width="100px">
       <el-form-item label="题目详情" prop="desc">{{form.desc}}</el-form-item>
       <el-form-item label="难易度" prop="difficulty">{{utils.generateTitle(form.difficulty, 'question.difficulty')}}</el-form-item>
@@ -164,6 +164,11 @@ export default {
         nextQuestion({ answer: this.answer }).then(({ res, err }) => {
           this.loading = false
           if (!err) {
+            if (res.stop) {
+              alert(res.message)
+            } else {
+              this.$set(this, 'form', Object.assign(this.form, res))
+            }
             this.utils.successMsg()
           }
         })
@@ -174,7 +179,7 @@ export default {
 </script>
 
 <style lang="less">
-.m-question-edit {
+.m-question-test {
   .el-table {
     .candidate-col {
       .cell {

@@ -5,6 +5,8 @@ module.exports = app => {
   app.router.redirect('/index', '/', 302);
   router.get('/', controller.home.index);
 
+  router.get('/test', controller.home.test);
+
   router.resources('users', '/users', controller.users);
 
   router.post('/post', controller.home.post);
