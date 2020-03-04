@@ -130,6 +130,7 @@ export default {
   methods: {
     handleSetForm (data) {
       this.$set(this, 'form', Object.assign(this.form, data))
+      this.$set(this, 'answer', {})
       let _answer_type = this.getAnswerType()
       for (let q of this.form['question']) {
         this.$set(this.answer, q['num'], _answer_type)

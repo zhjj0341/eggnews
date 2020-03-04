@@ -167,6 +167,7 @@ class QuestionController extends Controller {
       },
     });
 
+    // 题目不够/太少的时候，这里返回的信息有问题，需要判断一下
     // 更新题目验证信息
     await this.service.cache.setex('carolyn_question', {
       index: nextQuestion.data.index,
