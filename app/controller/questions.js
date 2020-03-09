@@ -96,7 +96,7 @@ class QuestionController extends Controller {
     // console.log(ctx.body);
     allQuestions = randomizeDifficulty(allQuestions);
 
-    console.log(allQuestions);
+    // console.log(allQuestions);
     // console.log(typeof (allQuestions[0]));
     // console.log('+++', Math.random() * (1 / 3 - 1 / 1000) + 1 / 1000);
     // console.log(typeof (allQuestions));
