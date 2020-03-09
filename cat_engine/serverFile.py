@@ -33,12 +33,22 @@ class ItemResponseTheoryModel:
         self.initializer = RandomInitializer() # change default, should use normal distribution and range should fit the difficulty level?
         self.selector = MaxInfoSelector()
         self.estimator = HillClimbingEstimator()
-        self.stopper = MaxItemStopper(self.question_bank_size) # change default, could use minErrorStopper
+        # self.stopper = MaxItemStopper(self.question_bank_size) # change default, could use minErrorStopper
+        # self.stopper = MaxItemStopper(3) # change default, could use minErrorStopper
+        self.stopper = MixedStopper(self.question_bank_size/2)
         self.est_theta = self.initializer.initialize() # change default, customized theta initializer based on age group
         self.responses = []
         self.administered_items = []
+        self.question_KPs = []
+        self.administered_kps = []
         for i in range(len(self.indexed_items)):
             self.indexed_items[i][1] = question_bank[i][1]
+
+    def setQuestionKnowledgePoints(self, question_KPs):
+        self.question_KPs = question_KPs
+
+    def setAdministeredKnowledgePoints(self, administered_kps):
+        self.administered_kps.append(administered_kps)
 
     #question_index is integer >= 0
     #answer is a boolean
@@ -57,7 +67,10 @@ class ItemResponseTheoryModel:
     # can be called after each question to know if we should stop asking further questions
     # this call is voluntary
     def shouldWeStopAskingQuestions(self):
-        stop = self.stopper.stop(administered_items=self.indexed_items[self.administered_items], theta=self.est_theta)
+        # def stop(self, index: int = None, administered_items: numpy.ndarray = None, question_kps: list = None,
+            #  administered_kps: list = None, coverage: float = 0.7, **kwargs) -> bool:
+        stop = self.stopper.stop(administered_items=self.indexed_items[self.administered_items], 
+        question_kps=self.question_KPs, administered_kps=self.administered_kps, coverage=0.7, theta=self.est_theta)
         return stop
 
 
@@ -82,15 +95,22 @@ def question_first():
     if request.method == 'POST':
         #list of tuples containing questions along with difficulty level
         questionsList = []
+        questionsKPs = []
         questions = request.data.get("questions")
         for ques in questions:
             tup = (ques["question"], ques["difficulty"])
+            tup_2 = (ques["question"], ques["knowledge_point"])
             questionsList.append(tup)
-        #print(questionsList)
+            questionsKPs.append(tup_2)
         var = ItemResponseTheoryModel(questionsList)
         getQuestion = var.getNextQuestionIndexToAsk()
+        while getQuestion[1][1] >= 0.3:
+            getQuestion = var.getNextQuestionIndexToAsk()
+        var.setQuestionKnowledgePoints(questionsKPs)
+        var.setAdministeredKnowledgePoints(questionsKPs[getQuestion[0]][1])
         pickled = jsonpickle.encode(var)
-        resp = {"object": pickled, "index": getQuestion[0],"question": getQuestion[1][0], "difficulty": getQuestion[1][1]}
+        resp = {"object": pickled, "index": getQuestion[0],"question": getQuestion[1][0], 
+                "difficulty": getQuestion[1][1], "knowledge_point": questionsKPs[getQuestion[0]][1]}
 
         return resp, status.HTTP_200_OK
 
@@ -107,11 +127,13 @@ def question_next():
         questionIndex = request.data.get("index")
 
         unPickled = jsonpickle.decode(pickled)
+        questionsKPs = unPickled.question_KPs
 
         unPickled.answerQuestionAndEstimate(questionIndex, correct)
         getQuestion = unPickled.getNextQuestionIndexToAsk()
+        unPickled.setAdministeredKnowledgePoints(questionsKPs[getQuestion[0]][1])
         rePickled = jsonpickle.encode(unPickled)
-        resp = {"object": rePickled, "index": getQuestion[0],"question": getQuestion[1][0], "difficulty": getQuestion[1][1]}
+        resp = {"object": rePickled, "index": getQuestion[0],"question": getQuestion[1][0], "difficulty": getQuestion[1][1], "knowledge_point": questionsKPs[getQuestion[0]][1]}
 
         return resp, status.HTTP_200_OK
 
