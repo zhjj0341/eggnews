@@ -8,6 +8,21 @@ function toInt(str) {
   return parseInt(str, 10) || 0;
 }
 
+function randomizeDifficulty(questionListObject) {
+  questionListObject.forEach(function(questionObject) {
+    questionObject.difficulty = (questionObject.difficulty - Math.random()) / 3;
+  });
+  //   if (questionObject.difficulty === 1) {
+  //     questionObject.difficulty = Math.random() * (1 / 3 - 1 / 1000) + 1 / 1000;
+  //   } else if (questionObject.difficulty === 2) {
+  //     questionObject.difficulty = Math.random() * (2 / 3 - 1 / 3) + 1 / 3;
+  //   } else {
+  //     questionObject.difficulty = Math.random() * (1 - 2 / 3) + 2 / 3;
+  //   }
+  // });
+  return questionListObject;
+}
+
 class QuestionController extends Controller {
   async index() {
     const ctx = this.ctx;
@@ -74,11 +89,17 @@ class QuestionController extends Controller {
 
   async first() {
     const ctx = this.ctx;
-    const allQuestions = await ctx.model.Question
+    let allQuestions = await ctx.model.Question
       .aggregate()
-      .project({ question: '$_id', difficulty: '$difficulty' })
+      .project({ question: '$_id', difficulty: '$difficulty', knowledge_point: '$knowledge_point' })
       .exec();
     // console.log(ctx.body);
+    allQuestions = randomizeDifficulty(allQuestions);
+
+    console.log(allQuestions);
+    // console.log(typeof (allQuestions[0]));
+    // console.log('+++', Math.random() * (1 / 3 - 1 / 1000) + 1 / 1000);
+    // console.log(typeof (allQuestions));
     const result = await ctx.curl('http://127.0.0.1:5000/firstQuestion', {
       method: 'POST',
       dataType: 'json',
@@ -111,6 +132,12 @@ class QuestionController extends Controller {
     const ctx = this.ctx;
     // // todo:get object&&questionid
     const questionUserCache = await this.service.cache.get('carolyn_question');
+    // console.log(typeof (questionUserCache.object));
+    // const tttt = JSON.parse(questionUserCache.object);
+    // console.log(tttt.administered_items);
+    // console.log('   ===', tttt.question_bank.length);
+    // console.log(questionUserCache.object);
+    // console.log('   ===', tttt.est_theta);
     if (!questionUserCache) {
       ctx.status = 400;
       ctx.body = { error: '未检测到题目，请重新答题!' };
