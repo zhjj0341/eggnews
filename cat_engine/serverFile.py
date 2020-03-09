@@ -104,7 +104,9 @@ def question_first():
             questionsKPs.append(tup_2)
         var = ItemResponseTheoryModel(questionsList)
         getQuestion = var.getNextQuestionIndexToAsk()
-        while getQuestion[1][1] >= 0.3:
+        while getQuestion[1][1] <= 0.3:
+            break
+        else: 
             getQuestion = var.getNextQuestionIndexToAsk()
         var.setQuestionKnowledgePoints(questionsKPs)
         var.setAdministeredKnowledgePoints(questionsKPs[getQuestion[0]][1])
@@ -113,7 +115,6 @@ def question_first():
                 "difficulty": getQuestion[1][1], "knowledge_point": questionsKPs[getQuestion[0]][1]}
 
         return resp, status.HTTP_200_OK
-
 
 
 @app.route("/nextQuestion", methods=['POST'])

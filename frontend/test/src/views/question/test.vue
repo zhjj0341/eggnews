@@ -16,7 +16,7 @@
           </el-table-column>
           <el-table-column label="答案">
             <template slot-scope="{row}">
-              <el-form-item :prop="String(row['num'])" :rules="[
+              <el-form-item :prop="String(row['num'])" v-bind:key="row['num']" :rules="[
                  QUESTION_TYPE['CHECKBOX']===form['type']?
                  { type:'array', required: true, message: '请完善答案', trigger: 'change' }:
                  { required: true, message: '请完善答案', trigger: 'change' }
