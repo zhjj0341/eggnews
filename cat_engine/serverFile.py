@@ -41,6 +41,7 @@ class ItemResponseTheoryModel:
         self.administered_items = []
         self.question_KPs = []
         self.administered_kps = []
+        self.indexed_question_ids = []
         for i in range(len(self.indexed_items)):
             self.indexed_items[i][1] = question_bank[i][1]
 
@@ -49,6 +50,9 @@ class ItemResponseTheoryModel:
 
     def setAdministeredKnowledgePoints(self, administered_kps):
         self.administered_kps.append(administered_kps)
+
+    def setAdministeredQuestionIds(self, question_id):
+        self.indexed_question_ids.append(question_id)
 
     #question_index is integer >= 0
     #answer is a boolean
@@ -110,6 +114,7 @@ def question_first():
             getQuestion = var.getNextQuestionIndexToAsk()
         var.setQuestionKnowledgePoints(questionsKPs)
         var.setAdministeredKnowledgePoints(questionsKPs[getQuestion[0]][1])
+        var.setAdministeredQuestionIds(getQuestion[1][0])
         pickled = jsonpickle.encode(var)
         resp = {"object": pickled, "index": getQuestion[0],"question": getQuestion[1][0], 
                 "difficulty": getQuestion[1][1], "knowledge_point": questionsKPs[getQuestion[0]][1]}
@@ -133,6 +138,7 @@ def question_next():
         unPickled.answerQuestionAndEstimate(questionIndex, correct)
         getQuestion = unPickled.getNextQuestionIndexToAsk()
         unPickled.setAdministeredKnowledgePoints(questionsKPs[getQuestion[0]][1])
+        unPickled.setAdministeredQuestionIds(getQuestion[1][0])
         rePickled = jsonpickle.encode(unPickled)
         resp = {"object": rePickled, "index": getQuestion[0],"question": getQuestion[1][0], "difficulty": getQuestion[1][1], "knowledge_point": questionsKPs[getQuestion[0]][1]}
 

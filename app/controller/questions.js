@@ -193,6 +193,9 @@ class QuestionController extends Controller {
         object: questionUserCache.object,
       },
     });
+    console.log(questionUserCache.object);
+    const ttt = JSON.parse(questionUserCache.object);
+    console.log(ttt.indexed_question_ids);
 
     // 题目不够/太少的时候，这里返回的信息有问题，需要判断一下
     // 更新题目验证信息
