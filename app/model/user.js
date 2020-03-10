@@ -7,13 +7,13 @@ module.exports = app => {
 
   const UserSchema = new Schema({
     name: { type: String },
-    age: { type: Number, default: 0 },
-    hometown: Schema.Types.Mixed,
+    type: { type: Number, default: 1 }, // 1-用户，2-管理员
+    pass: { type: String },
     create_at: { type: Date, default: Date.now },
     update_at: { type: Date, default: Date.now },
   });
 
-  // UserSchema.index({ name: 1 });
+  UserSchema.index({ name: 1 }, { unique: true });
 
   UserSchema.pre('save', function(next) {
     const now = new Date();

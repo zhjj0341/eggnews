@@ -1,7 +1,7 @@
 import axios from 'axios'
 // import Vue from 'vue'
-// import store from '@/store'
-// import { getToken } from '@/utils/auth'
+import store from '@/store'
+import { getToken } from '@/utils/auth'
 import { eleMessage } from '@/utils/global'
 let CancelToken = axios.CancelToken
 // 设置请求的baseURL
@@ -9,9 +9,9 @@ axios.defaults.baseURL = G_BASE_API
 // request拦截器
 axios.interceptors.request.use(config => {
   // 请求头Authorization
-  // if (getToken()) {
-  //   config.headers.common['Authorization'] = `Bearer ${getToken()}` // 让每个请求携带自定义token 请根据实际情况自行修改
-  // }
+  if (getToken()) {
+    config.headers.common['Authorization'] = `Bearer ${getToken()}` // 让每个请求携带自定义token 请根据实际情况自行修改
+  }
   return config
 }, error => {
   // Do something with request error
@@ -28,11 +28,11 @@ axios.interceptors.response.use( // respone拦截器
     */
     const res = response
     // 判断一下响应中是否有 token，如果有就直接使用此 token 替换掉本地的 token。你可以根据你的业务需求自己编写更新 token 的逻辑
-    // let token = res.headers.authorization
-    // if (token) {
-    //   // 如果 header 中存在 token，现在只从response更新token
-    //   store.commit('SET_TOKEN', { data: { token, time: res.headers['token-refresh-at'] } })
-    // }
+    let token = res.headers.authorization
+    if (token) {
+      // 如果 header 中存在 token，现在只从response更新token
+      store.commit('SET_TOKEN', { data: { token, time: res.headers['token-refresh-at'] } })
+    }
     if (res.status !== 200) {
       eleMessage({
         message: res.message,

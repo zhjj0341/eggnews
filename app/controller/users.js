@@ -8,7 +8,7 @@ function toInt(str) {
 }
 
 class UserController extends Controller {
-  async index() {
+  async list() {
     const ctx = this.ctx;
     const opts = { skip: toInt(ctx.query.offset), limit: toInt(ctx.query.limit) };
     console.log(await this.ctx.model.User.find(null, null, opts).exec());
@@ -27,16 +27,13 @@ class UserController extends Controller {
 
   async create() {
     const ctx = this.ctx;
-
-    const { name, age } = ctx.request.body;
+    const { name, pass, type } = ctx.request.body;
 
     const user = new this.ctx.model.User();
     user.name = name;
-    user.age = age;
-    user.hometown = {
-      province: '广东',
-      ctiyasd: '广州',
-    };
+    // user.pass = ctx.helper.encrypt(pass);
+    user.pass = pass;
+    user.type = type;
     user.save();
 
     ctx.status = 201;
@@ -68,6 +65,65 @@ class UserController extends Controller {
 
     await user.destroy();
     ctx.status = 200;
+  }
+
+  // 验证登录并且生成 token
+  async login() {
+    const { ctx, app } = this;
+
+    // 获取用户端传递过来的参数
+    const data = ctx.request.body;
+    const { name, pass } = ctx.request.body;
+    if (!name || !pass) {
+      ctx.status = 400;
+      ctx.body = {
+        error: '请输入用户名和密码!',
+      };
+      return;
+    }
+    // const _pass = ctx.helper.encrypt(pass);
+    // console.log({ name, pass: _pass });
+    const result = await ctx.model.User.findOne({ name, pass });
+    if (!result) {
+      ctx.status = 400;
+      ctx.body = {
+        error: '用户信息不正确!',
+      };
+      return;
+    }
+
+    // 进行验证 data 数据 登录是否成功
+    // .........
+    // 成功过后进行一下操作
+
+    // 生成 token 的方式
+    const token = app.jwt.sign({
+      name: result.name, // 需要存储的 token 数据
+      type: result.type,
+    }, app.config.jwt.secret);
+    // 生成的token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE1NjAzNDY5MDN9.B95GqH-fdRpyZIE5g_T0l8RgzNyWOyXepkLiynWqrJg
+
+    // 返回 token 到前端
+    ctx.body = {
+      name: result.name, // 需要存储的 token 数据
+      type: result.type,
+      token,
+    };
+  }
+
+  // 访问user数据时进行验证token，并且解析 token 的数据
+  async index() {
+
+    const { ctx, app } = this;
+
+    console.log(ctx.state.user);
+    /*
+    * 打印内容为：{ username : 'admin', iat: 1560346903 }
+    * iat 为过期时间，可以单独写中间件验证，这里不做细究
+    * 除了 iat 之后，其余的为当时存储的数据
+    **/
+    const user = ctx.state.user;
+    ctx.body = { name: user.name, type: user.type };
   }
 }
 

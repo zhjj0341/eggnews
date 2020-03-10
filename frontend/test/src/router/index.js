@@ -19,6 +19,7 @@ Vue.use(Router)
   * isShow: 纯展示页面
   **/
 export const constantRouterMap = [
+  { path: '/page/login', component: _import('login/index'), hidden: true },
   { path: '/404', component: _import('errorPage/404'), hidden: true },
   { path: '/401', component: _import('errorPage/401'), hidden: true },
   { path: '/', redirect: '/question', hidden: true },

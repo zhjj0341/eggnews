@@ -68,12 +68,21 @@
           class="wrap-width"
           v-loading="loading"
         >{{$t('submit')}}</el-button>
+        <br>
+        <el-button
+          @click="testUser"
+          type="primary"
+          class="wrap-width"
+          v-loading="loading"
+        >查看当前用户</el-button>
+
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+import { getUser } from '@/api/user'
 import { nextQuestion, showQuestion, firstQuestion } from '@/api/question'
 import { QUESTION_TYPE, QUESTION_LEVEL, CONTENT_TYPE, CANDIDATE_TYPE } from '@/views/question/config'
 export default {
@@ -128,6 +137,13 @@ export default {
     }
   },
   methods: {
+    testUser () {
+      getUser().then(({ res, err }) => {
+        if (!err) {
+          alert(JSON.stringify(res))
+        }
+      })
+    },
     handleSetForm (data) {
       this.$set(this, 'form', Object.assign(this.form, data))
       this.$set(this, 'answer', {})

@@ -29,8 +29,10 @@
   },
   "homepage": "https://github.com/ZhenhuiZhang/eggnews#readme",
   "dependencies": {
+    "crypto": "^1.0.1",
     "egg": "^2.24.0",
     "egg-cors": "^2.2.3",
+    "egg-jwt": "^3.1.7",
     "egg-mongoose": "^3.2.0",
     "egg-mysql": "^3.0.0",
     "egg-redis": "^2.4.0",

@@ -6,7 +6,11 @@
  * 框架内置了一些常用的 Helper 函数。我们也可以编写自定义的 Helper 函数。
  */
 const moment = require('moment');
+const crypto = require('crypto');
 module.exports = {
   // 通过 ctx.helper 访问到 helper 对象，例如：
   relativeTime: time => moment(new Date(time * 1000)).fromNow(),
+
+  encrypt: content => crypto.createHash('md5').update(content).digest('hex'),
 };
+
