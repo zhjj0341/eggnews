@@ -193,9 +193,9 @@ class QuestionController extends Controller {
         object: questionUserCache.object,
       },
     });
-    console.log(questionUserCache.object);
-    const ttt = JSON.parse(questionUserCache.object);
-    console.log(ttt.indexed_question_ids);
+    // console.log(questionUserCache.object);
+    // const ttt = JSON.parse(questionUserCache.object);
+    // console.log(ttt.indexed_question_ids);
 
     // 题目不够/太少的时候，这里返回的信息有问题，需要判断一下
     // 更新题目验证信息
@@ -213,10 +213,22 @@ class QuestionController extends Controller {
         object: nextQuestion.data.object,
       },
     });
+    // console.log(nextQuestion.data.object);
 
     // 停止就需要返回需要停止的信息
     if (stopMsg.data.stop === true) {
-      ctx.body = { stop: true, message: stopMsg.data.message };
+      const examResult = await ctx.curl('http://127.0.0.1:5000/analyseResult', {
+        method: 'POST',
+        datatype: 'json',
+        contentType: 'json',
+        data: {
+          object: nextQuestion.data.object,
+        },
+      });
+      // ctx.status = examResult.status;
+      // ctx.set(examResult.headers);
+      console.log(examResult);
+      ctx.body = { stop: true, message: stopMsg.data.message, result: examResult.data };
       return;
     }
 
