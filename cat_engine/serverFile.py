@@ -1,3 +1,4 @@
+from collections import Counter
 import numpy as np
 import jsonpickle
 import jsonpickle.ext.numpy as jsonpickle_numpy
@@ -35,7 +36,8 @@ class ItemResponseTheoryModel:
         self.estimator = HillClimbingEstimator()
         # self.stopper = MaxItemStopper(self.question_bank_size) # change default, could use minErrorStopper
         # self.stopper = MaxItemStopper(3) # change default, could use minErrorStopper
-        self.stopper = MixedStopper(self.question_bank_size/2)
+        # self.stopper = MixedStopper(self.question_bank_size/2)
+        self.stopper = MixedStopper(2)
         self.est_theta = self.initializer.initialize() # change default, customized theta initializer based on age group
         self.responses = []
         self.administered_items = []
@@ -74,8 +76,19 @@ class ItemResponseTheoryModel:
         # def stop(self, index: int = None, administered_items: numpy.ndarray = None, question_kps: list = None,
             #  administered_kps: list = None, coverage: float = 0.7, **kwargs) -> bool:
         stop = self.stopper.stop(administered_items=self.indexed_items[self.administered_items], 
-        question_kps=self.question_KPs, administered_kps=self.administered_kps, coverage=0.7, theta=self.est_theta)
+        question_kps=self.question_KPs, administered_kps=self.administered_kps, coverage=0.1, theta=self.est_theta)
         return stop
+
+    def analyseExamResult(self):
+        exam_result = {}
+        exam_result['user_responses'] = self.responses
+        exam_result['adminitered_knowledpoints'] = self.administered_kps
+        exam_result['question_ids'] = self.indexed_question_ids
+        exam_result['est_theta'] = self.est_theta
+        exam_result['question_difficulties'] = [self.question_bank[i][1] for i in self.administered_items]
+        exam_result['question_marks'] = [difficulty*3 for difficulty in exam_result['question_difficulties']]
+        exam_result['user_scores'] =  [a*b for a,b in zip(exam_result['user_responses'], exam_result['question_marks'])]
+        return exam_result
 
 
 
@@ -108,10 +121,10 @@ def question_first():
             questionsKPs.append(tup_2)
         var = ItemResponseTheoryModel(questionsList)
         getQuestion = var.getNextQuestionIndexToAsk()
-        while getQuestion[1][1] <= 0.3:
-            break
-        else: 
+        while getQuestion[1][1] >= 0.3:
+            var = ItemResponseTheoryModel(questionsList)
             getQuestion = var.getNextQuestionIndexToAsk()
+            continue
         var.setQuestionKnowledgePoints(questionsKPs)
         var.setAdministeredKnowledgePoints(questionsKPs[getQuestion[0]][1])
         var.setAdministeredQuestionIds(getQuestion[1][0])
@@ -165,6 +178,22 @@ def question_stop():
 
         return resp, status.HTTP_200_OK
 
+
+@app.route("/analyseResult", methods=['POST'])
+def analyse_result():
+    """
+    This endpoint is for analysing the exam result.
+    """
+    if request.method == 'POST':
+        # pickled = request.data.get("object")
+        # unPickled = jsonpickle.decode(pickled)
+        # exam_result = unPickled.analyseExamResult()
+        # print(exam_result)
+        # rePickled = jsonpickle.encode(exam_result)
+
+        # resp = {"exam_result": rePickled}
+        resp = {"test": "TTTT"}
+        return resp, status.HTTP_200_OK
 
 
 #Error handling
