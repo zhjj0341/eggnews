@@ -1,4 +1,5 @@
 import { request } from '@/utils/request'
+window.request = request
 // 添加问题
 export function addQuestion (params) {
   return request.post({
