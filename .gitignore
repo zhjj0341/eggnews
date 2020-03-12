@@ -19,3 +19,4 @@ app/assets.json
 build/*.js
 config/*.js
 src/assets
+__pycache__/
