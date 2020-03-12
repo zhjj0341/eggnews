@@ -41,8 +41,8 @@ const user = {
     // 清除用户的信息
     clearUserInfo ({ commit }) {
       commit('SET_TOKEN', { data: { token: '' } })
-      localStorage.removeItem('pm')
-      commit('SET_INIT', false)
+      // localStorage.removeItem('pm')
+      // commit('SET_INIT', false)
       return false
     },
     // 登录

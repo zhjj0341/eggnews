@@ -36,10 +36,11 @@ module.exports = {
 
   jwt: {
     secret: '123456', // 自定义 token 的加密条件字符串
+    expiresIn: 60 * 60,
   },
   security: {
     csrf: {
-    //   ignore: '/api/*/*',
+      //   ignore: '/api/*/*',
       enable: false,
     },
     // ['.domain.com'],  安全白名单，以 . 开头
@@ -114,7 +115,7 @@ module.exports = {
         ignore：设置符合某些规则的请求不经过这个中间件。
      */
   // 配置需要的中间件，数组顺序即为中间件的加载顺序
-  middleware: [ 'errorHandler', 'robot', 'gzip', 'report' ],
+  middleware: [ 'errorHandler', 'robot', 'gzip', 'report', 'tokenRequired' ],
   // [ 'robot','compress', 'gzip' ],
 
   robot: {
@@ -141,6 +142,10 @@ module.exports = {
 
   // 只对 /api 前缀的 url 路径生效
   errorHandler: {
+    match: '/api',
+  },
+
+  tokenRequired: {
     match: '/api',
   },
   // middleware end
