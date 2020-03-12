@@ -10,6 +10,7 @@
     <p>用户估计特质 {{exam_result.est_theta}}<br></p>
     <p>用户名<br></p>
     <p>{{showResult()}}</p>
+    <p>{{result}}</p>
     <!-- <p :class=exam_result.user_responses></p> -->
 </div>
 </template>
@@ -70,7 +71,7 @@ export default {
     },
     showResult () {
       console.log(this.$route)
-      alert(JSON.stringify(this.result))
+      // alert(JSON.stringify(this.result))
     }
   }
 }
