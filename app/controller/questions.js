@@ -23,6 +23,10 @@ function randomizeDifficulty(questionListObject) {
   return questionListObject;
 }
 
+function setQuestionCacheKey(userName) {
+  return userName + '_question';
+}
+
 class QuestionController extends Controller {
   async index() {
     const ctx = this.ctx;
@@ -115,7 +119,7 @@ class QuestionController extends Controller {
       return;
     }
     // todo:cache object&&questionid
-    await this.service.cache.setex('carolyn_question', {
+    await this.service.cache.setex(setQuestionCacheKey(ctx.state.user.name), {
       index: result.data.index,
       object: result.data.object,
       question_id: result.data.question,
@@ -131,7 +135,7 @@ class QuestionController extends Controller {
   async next() {
     const ctx = this.ctx;
     // // todo:get object&&questionid
-    const questionUserCache = await this.service.cache.get('carolyn_question');
+    const questionUserCache = await this.service.cache.get(setQuestionCacheKey(ctx.state.user.name));
     // console.log(typeof (questionUserCache.object));
     // const tttt = JSON.parse(questionUserCache.object);
     // console.log(tttt.administered_items);
@@ -199,7 +203,7 @@ class QuestionController extends Controller {
 
     // 题目不够/太少的时候，这里返回的信息有问题，需要判断一下
     // 更新题目验证信息
-    await this.service.cache.setex('carolyn_question', {
+    await this.service.cache.setex(setQuestionCacheKey(ctx.state.user.name), {
       index: nextQuestion.data.index,
       object: nextQuestion.data.object,
       question_id: nextQuestion.data.question,
@@ -217,18 +221,7 @@ class QuestionController extends Controller {
 
     // 停止就需要返回需要停止的信息
     if (stopMsg.data.stop === true) {
-      const examResult = await ctx.curl('http://127.0.0.1:5000/analyseResult', {
-        method: 'POST',
-        datatype: 'json',
-        contentType: 'json',
-        data: {
-          object: nextQuestion.data.object,
-        },
-      });
-      // ctx.status = examResult.status;
-      // ctx.set(examResult.headers);
-      console.log(examResult);
-      ctx.body = { stop: true, message: stopMsg.data.message, result: examResult.data };
+      ctx.body = { stop: true, message: stopMsg.data.message, result: stopMsg.data.exam_result };
       return;
     }
 

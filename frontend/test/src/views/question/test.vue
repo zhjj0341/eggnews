@@ -183,6 +183,12 @@ export default {
             // 判断是否停止
             if (res.stop) {
               alert(res.message)
+              console.log(typeof (res.result))
+              console.log(res.result)
+
+              this.$router.push({
+                name: 'ExamResult',
+                params: res.result })
             } else {
               // todo,,加上提示信息
               // 设置form，页面回答下一题

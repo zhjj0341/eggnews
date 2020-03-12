@@ -23,7 +23,7 @@ module.exports = () => {
       _status = status;
       // ctx.status = status;
     } finally {
-      console.log(ctx.state.user, '=============');
+      // console.log(ctx.state.user, '=============');
       ctx.body = {
         status: _status || ctx.status,
         data: ctx.body,

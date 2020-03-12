@@ -82,8 +82,8 @@ class ItemResponseTheoryModel:
     def analyseExamResult(self):
         exam_result = {}
         exam_result['user_responses'] = self.responses
-        exam_result['adminitered_knowledpoints'] = self.administered_kps
-        exam_result['question_ids'] = self.indexed_question_ids
+        exam_result['adminitered_knowledpoints'] = self.administered_kps[1:]
+        exam_result['question_ids'] = self.indexed_question_ids[1:]
         exam_result['est_theta'] = self.est_theta
         exam_result['question_difficulties'] = [self.question_bank[i][1] for i in self.administered_items]
         exam_result['question_marks'] = [difficulty*3 for difficulty in exam_result['question_difficulties']]
@@ -171,29 +171,30 @@ def question_stop():
         boolean = unPickled.shouldWeStopAskingQuestions()
         message = ""
         if boolean:
+            exam_result = unPickled.analyseExamResult()
             message = "You can stop asking questions."
         else:
+            exam_result = ''
             message = "You should not stop asking questions."
-        resp = {"stop": boolean,"message": message}
+        resp = {"stop": boolean,"message": message, "exam_result": exam_result}
 
         return resp, status.HTTP_200_OK
 
 
-@app.route("/analyseResult", methods=['POST'])
-def analyse_result():
-    """
-    This endpoint is for analysing the exam result.
-    """
-    if request.method == 'POST':
-        # pickled = request.data.get("object")
-        # unPickled = jsonpickle.decode(pickled)
-        # exam_result = unPickled.analyseExamResult()
-        # print(exam_result)
-        # rePickled = jsonpickle.encode(exam_result)
+# @app.route("/analyseResult", methods=['POST'])
+# def analyse_result():
+#     """
+#     This endpoint is for analysing the exam result.
+#     """
+#     if request.method == 'POST':
+#         pickled = request.data.get("object")
+#         unPickled = jsonpickle.decode(pickled)
+#         exam_result = unPickled.analyseExamResult()
+#         print(exam_result)
+#         # rePickled = jsonpickle.encode(exam_result)
 
-        # resp = {"exam_result": rePickled}
-        resp = {"test": "TTTT"}
-        return resp, status.HTTP_200_OK
+#         # resp = {"exam_result": rePickled}
+#         return exam_result, status.HTTP_200_OK
 
 
 #Error handling

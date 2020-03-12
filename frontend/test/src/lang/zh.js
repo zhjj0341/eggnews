@@ -7,7 +7,8 @@ export default {
     'Home': '首页',
     'QuestionList': '题目列表',
     'AddQuestion': '添加题目',
-    'TestQuestion': '测试题目'
+    'TestQuestion': '测试题目',
+    'ExamResult': '测试结果'
   },
   question: {
     type: {

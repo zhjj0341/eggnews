@@ -26,8 +26,8 @@ module.exports = app => {
 
 
   // questions handler starts here
-  router.get('/api/questions/first', controller.questions.first);
-  router.post('/api/questions/next', controller.questions.next);
+  router.get('/api/questions/first', jwt, controller.questions.first);
+  router.post('/api/questions/next', jwt, controller.questions.next);
   router.resources('questions', '/api/questions', controller.questions);
   // router.post('/api/questions/next', controller.questions.next);
 };
