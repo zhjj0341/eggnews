@@ -42,6 +42,7 @@ module.exports = options => {
           const token = ctx.service.jwt.jwtSign(user);
           ctx.set('authorization', token);
           ctx.set('token-refresh-at', Date.now());
+          ctx.set('Access-Control-Expose-Headers', 'Authorization,Token-Refresh-At');
         }
       }
     }
