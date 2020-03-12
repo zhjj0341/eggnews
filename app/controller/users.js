@@ -31,8 +31,8 @@ class UserController extends Controller {
 
     const user = new this.ctx.model.User();
     user.name = name;
-    // user.pass = ctx.helper.encrypt(pass);
-    user.pass = pass;
+    user.pass = ctx.helper.encrypt(pass);
+    // user.pass = pass;
     user.type = type;
     user.save();
 
@@ -81,32 +81,28 @@ class UserController extends Controller {
       };
       return;
     }
-    // const _pass = ctx.helper.encrypt(pass);
     // console.log({ name, pass: _pass });
-    const result = await ctx.model.User.findOne({ name, pass });
-    if (!result) {
+    // 进行验证 data 数据 登录是否成功
+    const user = await ctx.model.User.findOne({
+      name,
+      pass: ctx.helper.encrypt(pass),
+    });
+    if (!user) {
       ctx.status = 400;
       ctx.body = {
         error: '用户信息不正确!',
       };
       return;
     }
-
-    // 进行验证 data 数据 登录是否成功
-    // .........
     // 成功过后进行一下操作
-
     // 生成 token 的方式
-    const token = app.jwt.sign({
-      name: result.name, // 需要存储的 token 数据
-      type: result.type,
-    }, app.config.jwt.secret);
+    const token = this.service.jwt.jwtSign(user);
     // 生成的token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE1NjAzNDY5MDN9.B95GqH-fdRpyZIE5g_T0l8RgzNyWOyXepkLiynWqrJg
 
     // 返回 token 到前端
     ctx.body = {
-      name: result.name, // 需要存储的 token 数据
-      type: result.type,
+      name: user.name, // 需要存储的 token 数据
+      type: user.type,
       token,
     };
   }

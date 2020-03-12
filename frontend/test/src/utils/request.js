@@ -3,6 +3,8 @@ import axios from 'axios'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import { eleMessage } from '@/utils/global'
+import { MessageBox } from 'element-ui'
+let LogOutMessageBox
 let CancelToken = axios.CancelToken
 // 设置请求的baseURL
 axios.defaults.baseURL = G_BASE_API
@@ -120,7 +122,7 @@ function wrapMethod (methodName) {
           let message = (xhr.response && xhr.response.data && xhr.response.data.message) || xhr.response.statusText
           switch (Number(xhr.response.status)) {
             case 401:
-              // errorMessage(LogOutMessageBox, message)
+              errorMessage(LogOutMessageBox, message)
               break
             default:
               if (!handleCustomError) {
@@ -147,19 +149,19 @@ function wrapMethod (methodName) {
   }
 }
 
-// function errorMessage (LogOutMessageBox, message) {
-//   if (!LogOutMessageBox) {
-//     store.dispatch('clearUserInfo')
-//     LogOutMessageBox = MessageBox.alert(message, '提示', {
-//       confirmButtonText: '确定',
-//       callback: (action, instance) => {
-//         store.dispatch('clearUserInfo')
-//         location.href = '/'
-//         LogOutMessageBox = null
-//       }
-//     })
-//   }
-// }
+function errorMessage (LogOutMessageBox, message) {
+  if (!LogOutMessageBox) {
+    store.dispatch('clearUserInfo')
+    LogOutMessageBox = MessageBox.alert(message, '提示', {
+      confirmButtonText: '确定',
+      callback: (action, instance) => {
+        store.dispatch('clearUserInfo')
+        location.href = '/'
+        LogOutMessageBox = null
+      }
+    })
+  }
+}
 
 function serialize (obj) {
   let str = []
