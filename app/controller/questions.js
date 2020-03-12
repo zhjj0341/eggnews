@@ -221,7 +221,14 @@ class QuestionController extends Controller {
 
     // 停止就需要返回需要停止的信息
     if (stopMsg.data.stop === true) {
-      ctx.body = { stop: true, message: stopMsg.data.message, result: stopMsg.data.exam_result };
+      const ctx = this.ctx;
+      const result = new this.ctx.model.Result();
+      const user = ctx.state.user;
+      result.user_id = user.id;
+      result.exam_result = stopMsg.data.exam_result;
+      result.save();
+
+      ctx.body = { stop: true, message: stopMsg.data.message, result };
       return;
     }
 

@@ -1,5 +1,4 @@
 'use strict';
-const utility = require('utility');
 
 module.exports = app => {
   const mongoose = app.mongoose;

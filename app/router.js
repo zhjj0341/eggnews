@@ -30,4 +30,5 @@ module.exports = app => {
   router.post('/api/questions/next', jwt, controller.questions.next);
   router.resources('questions', '/api/questions', controller.questions);
   // router.post('/api/questions/next', controller.questions.next);
+  router.resources('results', '/api/results', controller.results);
 };

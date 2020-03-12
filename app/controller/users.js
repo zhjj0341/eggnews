@@ -56,14 +56,13 @@ class UserController extends Controller {
 
   async destroy() {
     const ctx = this.ctx;
-    const id = toInt(ctx.params.id);
+    const id = ctx.params.id;
     const user = await ctx.model.User.deleteOne({ _id: id }).exec();
     if (!user) {
       ctx.status = 404;
       return;
     }
 
-    await user.destroy();
     ctx.status = 200;
   }
 

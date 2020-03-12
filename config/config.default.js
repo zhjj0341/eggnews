@@ -146,7 +146,7 @@ module.exports = {
   },
 
   tokenRequired: {
-    match: '/api',
+    ignore: '/api',
   },
   // middleware end
 };
