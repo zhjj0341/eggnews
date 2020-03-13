@@ -97,13 +97,8 @@ class QuestionController extends Controller {
       .aggregate()
       .project({ question: '$_id', difficulty: '$difficulty', knowledge_point: '$knowledge_point' })
       .exec();
-    // console.log(ctx.body);
     allQuestions = randomizeDifficulty(allQuestions);
 
-    // console.log(allQuestions);
-    // console.log(typeof (allQuestions[0]));
-    // console.log('+++', Math.random() * (1 / 3 - 1 / 1000) + 1 / 1000);
-    // console.log(typeof (allQuestions));
     const result = await ctx.curl('http://127.0.0.1:5000/firstQuestion', {
       method: 'POST',
       dataType: 'json',
@@ -118,30 +113,23 @@ class QuestionController extends Controller {
       };
       return;
     }
-    // todo:cache object&&questionid
+
     await this.service.cache.setex(setQuestionCacheKey(ctx.state.user.name), {
       index: result.data.index,
       object: result.data.object,
       question_id: result.data.question,
     }, 60 * 5); // 五分钟
-    // console.log(result);
+
     const showQuestion = await ctx.model.Question.findOne({ _id: result.data.question })
       .select({ difficulty: 1, type: 1, candidate_type: 1, desc: 1, question: 1, candidate: 1, candidate_group: 1, discrimination: 1, knowledge_point: 1 })
       .exec();
     ctx.body = showQuestion;
-    // console.log(ctx.body);
   }
 
   async next() {
     const ctx = this.ctx;
-    // // todo:get object&&questionid
     const questionUserCache = await this.service.cache.get(setQuestionCacheKey(ctx.state.user.name));
-    // console.log(typeof (questionUserCache.object));
-    // const tttt = JSON.parse(questionUserCache.object);
-    // console.log(tttt.administered_items);
-    // console.log('   ===', tttt.question_bank.length);
-    // console.log(questionUserCache.object);
-    // console.log('   ===', tttt.est_theta);
+
     if (!questionUserCache) {
       ctx.status = 400;
       ctx.body = { error: '未检测到题目，请重新答题!' };
@@ -197,9 +185,6 @@ class QuestionController extends Controller {
         object: questionUserCache.object,
       },
     });
-    // console.log(questionUserCache.object);
-    // const ttt = JSON.parse(questionUserCache.object);
-    // console.log(ttt.indexed_question_ids);
 
     // 题目不够/太少的时候，这里返回的信息有问题，需要判断一下
     // 更新题目验证信息
@@ -237,14 +222,6 @@ class QuestionController extends Controller {
       .select({ difficulty: 1, type: 1, candidate_type: 1, desc: 1, question: 1, candidate: 1, candidate_group: 1, discrimination: 1, knowledge_point: 1 })
       .exec();
     ctx.body = showQuestion;
-
-    // todo:cache object&&questionid
-    // await this.service.cache.setex('carolyn_question', {
-    //   index: result.data.object,
-    //   object: result.data.object,
-    //   question_id: result.data.question,
-    // }, 60 * 5); // 五分钟
-    // todo：nextquestion&&is STOP
   }
 }
 

@@ -1,64 +1,31 @@
 <template>
-<div>
-<el-table
-    :data="all_results"
-    style="width: 100%"
-    height="250">
-    <el-table-column
-      fixed
-      prop="user_id"
-      label="User ID"
-      width="150">
-    </el-table-column>
-    <el-table-column
-      label="答题总分"
-      width="120">
-      <template slot-scope="{row}">{{lodash.sum(row.question_marks)}}
-        </template>
-    </el-table-column>
-    <el-table-column
-      label="实际答题情况"
-      width="120">
-      <template slot-scope="{row}">{{translateTrueFalse(row.exam_result)}}
-        </template>
-    </el-table-column>
-    <el-table-column
-      label="实际答题得分"
-      width="120">
-      <template slot-scope="{row}">{{calculateMarks(row.exam_result)}}
-        </template>
-    </el-table-column>
-    <el-table-column
-      label="题目难度"
-      width="120">
-      <template slot-scope="{row}">{{revertDifficulty(row.exam_result)}}
-        </template>
-    </el-table-column>
-    <el-table-column
-      label="测验知识点"
-      width="120">
-      <template slot-scope="{row}">{{lodash.uniq(row.exam_result.adminitered_knowledpoints)}}
-        </template>
-    </el-table-column>
-     <el-table-column
-      label="知识点得分情况"
-      width="120">
-      <template slot-scope="{row}">{{aggregateMarksByKnowledgePoint(row.exam_result)}}
-        </template>
-    </el-table-column>
-    <el-table-column
-      label="用户估计特质"
-      width="120">
-      <template slot-scope="{row}">{{row.exam_result.est_theta}}
-        </template>
-    </el-table-column>
+  <div>
+    <el-table :data="all_results" style="width: 100%" height="250">
+      <el-table-column fixed prop="user_id" label="User ID" width="150"></el-table-column>
+      <el-table-column label="答题总分" width="120">
+        <template slot-scope="{row}">{{lodash.sum(row.question_marks)}}</template>
+      </el-table-column>
+      <el-table-column label="实际答题情况" width="120">
+        <template slot-scope="{row}">{{translateTrueFalse(row.exam_result)}}</template>
+      </el-table-column>
+      <el-table-column label="实际答题得分" width="120">
+        <template slot-scope="{row}">{{calculateMarks(row.exam_result)}}</template>
+      </el-table-column>
+      <el-table-column label="题目难度" width="120">
+        <template slot-scope="{row}">{{revertDifficulty(row.exam_result)}}</template>
+      </el-table-column>
+      <el-table-column label="测验知识点" width="120">
+        <template slot-scope="{row}">{{lodash.uniq(row.exam_result.adminitered_knowledpoints)}}</template>
+      </el-table-column>
+      <el-table-column label="知识点得分情况" width="120">
+        <template slot-scope="{row}">{{aggregateMarksByKnowledgePoint(row.exam_result)}}</template>
+      </el-table-column>
+      <el-table-column label="用户估计特质" width="120">
+        <template slot-scope="{row}">{{row.exam_result.est_theta}}</template>
+      </el-table-column>
 
-    <el-table-column
-      prop="time"
-      label="测验时间"
-      width="120">
-    </el-table-column>
-  </el-table>
+      <el-table-column prop="time" label="测验时间" width="120"></el-table-column>
+    </el-table>
 
     <!-- <p>{{exam_result}}</p>
     <p>答题总分 {{lodash.sum(exam_result.question_marks)}}<br></p>
@@ -68,9 +35,9 @@
     <p>测验知识点 {{lodash.uniq(exam_result.adminitered_knowledpoints)}}<br></p>
     <p>知识点得分情况 {{aggregateMarksByKnowledgePoint()}}<br></p>
     <p>用户估计特质 {{exam_result.est_theta}}<br></p>
-    <p>用户名<br></p> -->
+    <p>用户名<br></p>-->
     <!-- <p :class=exam_result.user_responses></p> -->
-</div>
+  </div>
 </template>
 
 <script>
@@ -98,7 +65,7 @@ export default {
     if (!this.exam_result) {
       getResult().then(({ res, err }) => {
         if (!err) {
-        // console.log(res)
+          // console.log(res)
           this.all_results = res
         }
       })
@@ -109,7 +76,7 @@ export default {
   methods: {
     translateTrueFalse (row) {
       console.log(row)
-      return row.user_responses.map((item) => {
+      return row.user_responses.map(item => {
         return item === false ? '错' : '对'
       })
     },
@@ -143,5 +110,4 @@ export default {
 </script>
 
 <style lang="less">
-
 </style>
