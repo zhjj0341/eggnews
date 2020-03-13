@@ -49,9 +49,16 @@ export const constantRouterMap = [
   },
   {
     path: '/result',
-    component: _import('question/result'),
-    name: 'ExamResult',
-    hidden: true
+    component: Layout,
+    name: '测验结果',
+    children: [
+      {
+        path: '',
+        component: _import('question/result'),
+        name: 'ExamResult',
+        hidden: true
+      }
+    ]
   }
 ]
 
