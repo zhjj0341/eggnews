@@ -9,7 +9,7 @@ class ResultController extends Controller {
       .find(null, null, opts)
       .populate({
         path: 'user_id',
-        select: 'name -_id',
+        select: { name: 1, _id: 0 },
       }).exec();
   }
 
