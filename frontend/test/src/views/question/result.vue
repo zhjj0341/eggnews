@@ -1,30 +1,30 @@
 <template>
   <div>
-    <el-table :data="all_results" style="width: 100%" height="250">
+    <el-table :data="all_results" style="width: 100%">
       <el-table-column fixed prop="user_id" label="用户ID" width="150"></el-table-column>
       <el-table-column label="答题总分" width="120">
-        <template slot-scope="{row}">{{lodash.sum(processAllResult(row)['question_marks'])}}</template>
+        <template slot-scope="{row}">{{lodash.sum(row['question_marks'])}}</template>
       </el-table-column>
       <el-table-column label="实际答题情况" width="120">
-        <template slot-scope="{row}">{{processAllResult(row)['user_responses']}}</template>
+        <template slot-scope="{row}">{{row['user_responses']}}</template>
       </el-table-column>
       <el-table-column label="实际答题得分" width="120">
-        <template slot-scope="{row}">{{processAllResult(row)['question_marks']}}</template>
+        <template slot-scope="{row}">{{row['question_marks']}}</template>
       </el-table-column>
       <el-table-column label="题目难度" width="120">
-        <template slot-scope="{row}">{{processAllResult(row)['displayed_question_difficulties']}}</template>
+        <template slot-scope="{row}">{{row['displayed_question_difficulties']}}</template>
       </el-table-column>
       <el-table-column label="测验知识点" width="120">
-        <template slot-scope="{row}">{{lodash.uniq(row.exam_result.adminitered_knowledpoints)}}</template>
+        <template slot-scope="{row}">{{lodash.uniq(row.adminitered_knowledpoints).join()}}</template>
       </el-table-column>
       <el-table-column label="知识点分布情况" width="120">
-        <template slot-scope="{row}">{{processAllResult(row)['knowledgePoints']}}</template>
+        <template slot-scope="{row}">{{row['knowledgePoints']}}</template>
       </el-table-column>
       <el-table-column label="知识点得分情况" width="120">
-        <template slot-scope="{row}">{{processAllResult(row)['knowledgePointsMarks']}}</template>
+        <template slot-scope="{row}">{{row['knowledgePointsMarks']}}</template>
       </el-table-column>
       <el-table-column label="用户估计特质" width="120">
-        <template slot-scope="{row}">{{row.exam_result.est_theta}}</template>
+        <template slot-scope="{row}">{{row.est_theta}}</template>
       </el-table-column>
 
       <el-table-column prop="time" label="测验时间" width="120"></el-table-column>
@@ -61,7 +61,8 @@ export default {
       // },
       lodash: lodash,
       exam_result: this.$route.params.exam_result,
-      all_results: null
+      all_results: null,
+      count: 0
     }
   },
   async created () {
@@ -74,10 +75,11 @@ export default {
     } else {
       this.all_results = this.exam_result
     }
+    this.all_results = this.all_results.map(item => { return this.processAllResult(item) })
     // console.log(this.all_results.map(item => { return this.processAllResult(item) }))
   },
   methods: {
-    processAllResult ({ exam_result: _ }) {
+    processAllResult ({ exam_result: _, time }) {
       var _usrRspn = []
       var _disQuesDiff = []
       var _quesMrk = []
@@ -104,11 +106,14 @@ export default {
         _disQuesDiff[index] = Math.ceil(_.question_difficulties[index] * 3)
       })
       return {
-        user_responses: _usrRspn,
-        displayed_question_difficulties: _disQuesDiff,
-        question_marks: _quesMrk,
+        user_responses: _usrRspn.join(),
+        displayed_question_difficulties: _disQuesDiff.join(),
+        question_marks: _quesMrk.join(),
         knowledgePoints: _kP,
-        knowledgePointsMarks: _kPM
+        knowledgePointsMarks: _kPM,
+        est_theta: _.est_theta,
+        adminitered_knowledpoints: _.adminitered_knowledpoints,
+        time: time
       }
     }
   }
