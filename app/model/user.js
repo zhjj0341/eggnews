@@ -11,6 +11,7 @@ module.exports = app => {
     pass: { type: String },
     create_at: { type: Date, default: Date.now },
     update_at: { type: Date, default: Date.now },
+    accessToken: { type: String },
   });
 
   UserSchema.index({ name: 1 }, { unique: true });

@@ -4,6 +4,21 @@
     <router-link to="/">
       <p class="title">后台</p>
     </router-link>
+  <div class="right-menu">
+      <el-dropdown class="avatar-container right-menu-item" trigger="click">
+        <div class="content">
+          <div class="avatar-wrapper">
+            {{user_info && user_info.username}}
+            <i class="el-icon-caret-bottom"></i>
+          </div>
+        </div>
+        <el-dropdown-menu class="user-dropdown" slot="dropdown">
+          <span @click="logout">
+            <el-dropdown-item divided>退出登陆</el-dropdown-item>
+          </span>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
   </el-menu>
 </template>
 
@@ -29,6 +44,15 @@ export default {
   methods: {
     toggleSideBar () {
       this.$store.dispatch('ToggleSideBar')
+    },
+    logout () {
+      let loadingInstance = this.$loading()
+      this.$store.dispatch('LogOut').then(() => {
+        loadingInstance.close()
+        location.reload()
+      }).catch(() => {
+        loadingInstance.close()
+      })
     }
   }
 }

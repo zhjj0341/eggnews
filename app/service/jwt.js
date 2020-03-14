@@ -18,7 +18,7 @@ class JwtService extends Service {
   }
 
   jwtVerify(token) {
-    return this.app.jwt.verify(token.split(' ')[1], this.config.jwt.secret);
+    return this.app.jwt.verify(token, this.config.jwt.secret);
   }
 }
 

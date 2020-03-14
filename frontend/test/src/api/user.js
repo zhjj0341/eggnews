@@ -7,6 +7,12 @@ export function login (loginInfo) {
   })
 }
 
+export function logout () {
+  return request.get({
+    url: '/api/user/logout'
+  })
+}
+
 export function getUser (loginInfo) {
   return request.post({
     url: '/api/user',

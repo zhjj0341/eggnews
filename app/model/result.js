@@ -5,7 +5,7 @@ module.exports = app => {
   const Schema = mongoose.Schema;
 
   const ResultSchema = new Schema({
-    user_id: { type: Schema.Types.ObjectId },
+    user_id: { type: Schema.ObjectId, ref: 'User' },
     exam_result: { type: Schema.Types.Mixed },
     time: { type: Schema.Types.Date, default: Date.now },
   });

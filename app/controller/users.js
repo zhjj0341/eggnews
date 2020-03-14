@@ -68,10 +68,9 @@ class UserController extends Controller {
 
   // 验证登录并且生成 token
   async login() {
-    const { ctx, app } = this;
+    const { ctx } = this;
 
     // 获取用户端传递过来的参数
-    const data = ctx.request.body;
     const { name, pass } = ctx.request.body;
     if (!name || !pass) {
       ctx.status = 400;
@@ -88,14 +87,14 @@ class UserController extends Controller {
     });
     if (!user) {
       ctx.status = 400;
-      ctx.body = {
-        error: '用户信息不正确!',
-      };
+      ctx.body = { error: '用户信息不正确!' };
       return;
     }
     // 成功过后进行一下操作
     // 生成 token 的方式
     const token = this.service.jwt.jwtSign(user);
+    user.accessToken = token;
+    user.save();
     // 生成的token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE1NjAzNDY5MDN9.B95GqH-fdRpyZIE5g_T0l8RgzNyWOyXepkLiynWqrJg
 
     // 返回 token 到前端
@@ -104,6 +103,21 @@ class UserController extends Controller {
       type: user.type,
       token,
     };
+  }
+
+  // 退出登录
+  async logout() {
+    const { ctx } = this;
+
+    const user = ctx.state.user;
+    if (!user) {
+      ctx.status = 400;
+      ctx.body = { error: '用户信息不正确!' };
+      return;
+    }
+    this.ctx.model.User.findByIdAndUpdate(user.id, { accessToken: '' }).exec();
+
+    ctx.status = 200;
   }
 
   // 访问user数据时进行验证token，并且解析 token 的数据

@@ -1,6 +1,7 @@
-import { login } from '@/api/user'
+import { login, logout } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { _pageTransfer } from '@/store/libs/tools'
+import { Loading } from 'element-ui'
 
 const user = {
   state: {
@@ -18,7 +19,6 @@ const user = {
   mutations: {
     SET_TOKEN: (state, { handleTransfer = true, data }) => {
       let { token, time } = data || {}
-      console.log(time, '===========')
       if (token) {
         setToken({ token, time })
       } else {
@@ -57,11 +57,28 @@ const user = {
               // 如果 header 中存在 token，现在只从response更新token
               commit('SET_TOKEN', { data: { token: res.token } })
             }
-            commit('SET_INFO', { username: String(userInfo.account).toUpperCase() })
+            commit('SET_INFO', { username: String(userInfo.name).toUpperCase() })
             resolve()
           } else {
             reject(err)
           }
+        })
+      })
+    },
+    // 前端 登出
+    LogOut ({ dispatch }) {
+      return new Promise((resolve, reject) => {
+        let loadingInstance1 = Loading.service({ fullscreen: true })
+        logout().then(({ err, res }) => {
+          if (!err) {
+            dispatch('clearUserInfo')
+            location.href = '/'
+            // router.push({ path: '/' })
+            resolve()
+          } else {
+            reject(err)
+          }
+          loadingInstance1.close()
         })
       })
     }
