@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-table :data="all_results" style="width: 100%" height="250">
-      <el-table-column fixed prop="user_id" label="User ID" width="150"></el-table-column>
+      <el-table-column fixed prop="user_id" label="用户ID" width="150"></el-table-column>
       <el-table-column label="答题总分" width="120">
-        <template slot-scope="{row}">{{lodash.sum(row.question_marks)}}</template>
+        <template slot-scope="{row}">{{lodash.sum(calculateMarks(row.exam_result))}}</template>
       </el-table-column>
       <el-table-column label="实际答题情况" width="120">
         <template slot-scope="{row}">{{translateTrueFalse(row.exam_result)}}</template>
@@ -16,6 +16,9 @@
       </el-table-column>
       <el-table-column label="测验知识点" width="120">
         <template slot-scope="{row}">{{lodash.uniq(row.exam_result.adminitered_knowledpoints)}}</template>
+      </el-table-column>
+      <el-table-column label="知识点分布情况" width="120">
+        <template slot-scope="{row}">{{aggregateKnowledgePoint(row.exam_result)}}</template>
       </el-table-column>
       <el-table-column label="知识点得分情况" width="120">
         <template slot-scope="{row}">{{aggregateMarksByKnowledgePoint(row.exam_result)}}</template>
@@ -93,7 +96,7 @@ export default {
       })
       return questionMarks
     },
-    aggregateMarksByKnowledgePoint (row) {
+    aggregateKnowledgePoint (row) {
       var knowledgePoints = {}
       row.adminitered_knowledpoints.forEach((item, index) => {
         var mark = Math.ceil(row.question_difficulties[index] * 3)
@@ -101,6 +104,18 @@ export default {
           knowledgePoints[item] += mark
         } else {
           knowledgePoints[item] = mark
+        }
+      })
+      return knowledgePoints
+    },
+    aggregateMarksByKnowledgePoint (row) {
+      var knowledgePoints = {}
+      var user_marks = this.calculateMarks(row)
+      row.adminitered_knowledpoints.forEach((item, index) => {
+        if (item in knowledgePoints) {
+          knowledgePoints[item] += user_marks[index]
+        } else {
+          knowledgePoints[item] = user_marks[index]
         }
       })
       return knowledgePoints
