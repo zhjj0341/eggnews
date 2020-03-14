@@ -3,25 +3,25 @@
     <el-table :data="all_results" style="width: 100%" height="250">
       <el-table-column fixed prop="user_id" label="用户ID" width="150"></el-table-column>
       <el-table-column label="答题总分" width="120">
-        <template slot-scope="{row}">{{lodash.sum(calculateMarks(row.exam_result))}}</template>
+        <template slot-scope="{row}">{{lodash.sum(processAllResult(row)['question_marks'])}}</template>
       </el-table-column>
       <el-table-column label="实际答题情况" width="120">
-        <template slot-scope="{row}">{{translateTrueFalse(row.exam_result)}}</template>
+        <template slot-scope="{row}">{{processAllResult(row)['user_responses']}}</template>
       </el-table-column>
       <el-table-column label="实际答题得分" width="120">
-        <template slot-scope="{row}">{{calculateMarks(row.exam_result)}}</template>
+        <template slot-scope="{row}">{{processAllResult(row)['question_marks']}}</template>
       </el-table-column>
       <el-table-column label="题目难度" width="120">
-        <template slot-scope="{row}">{{revertDifficulty(row.exam_result)}}</template>
+        <template slot-scope="{row}">{{processAllResult(row)['displayed_question_difficulties']}}</template>
       </el-table-column>
       <el-table-column label="测验知识点" width="120">
         <template slot-scope="{row}">{{lodash.uniq(row.exam_result.adminitered_knowledpoints)}}</template>
       </el-table-column>
       <el-table-column label="知识点分布情况" width="120">
-        <template slot-scope="{row}">{{aggregateKnowledgePoint(row.exam_result)}}</template>
+        <template slot-scope="{row}">{{processAllResult(row)['knowledgePoints']}}</template>
       </el-table-column>
       <el-table-column label="知识点得分情况" width="120">
-        <template slot-scope="{row}">{{aggregateMarksByKnowledgePoint(row.exam_result)}}</template>
+        <template slot-scope="{row}">{{processAllResult(row)['knowledgePointsMarks']}}</template>
       </el-table-column>
       <el-table-column label="用户估计特质" width="120">
         <template slot-scope="{row}">{{row.exam_result.est_theta}}</template>
@@ -64,61 +64,52 @@ export default {
       all_results: null
     }
   },
-  created () {
+  async created () {
     if (!this.exam_result) {
-      getResult().then(({ res, err }) => {
+      await getResult().then(({ res, err }) => {
         if (!err) {
-          // console.log(res)
           this.all_results = res
         }
       })
     } else {
       this.all_results = this.exam_result
     }
+    // console.log(this.all_results.map(item => { return this.processAllResult(item) }))
   },
   methods: {
-    translateTrueFalse (row) {
-      console.log(row)
-      return row.user_responses.map(item => {
-        return item === false ? '错' : '对'
-      })
-    },
-    revertDifficulty (row) {
-      return row.question_difficulties.map(element => {
-        return Math.ceil(element * 3)
-      })
-    },
-    calculateMarks (row) {
-      var questionMarks = []
-      row.question_difficulties.forEach((item, index) => {
-        var user_response = row.user_responses[index] === false ? 0 : 1
-        questionMarks.push(Math.ceil(item * 3) * user_response)
-      })
-      return questionMarks
-    },
-    aggregateKnowledgePoint (row) {
-      var knowledgePoints = {}
-      row.adminitered_knowledpoints.forEach((item, index) => {
-        var mark = Math.ceil(row.question_difficulties[index] * 3)
-        if (item in knowledgePoints) {
-          knowledgePoints[item] += mark
+    processAllResult ({ exam_result: _ }) {
+      var _usrRspn = []
+      var _disQuesDiff = []
+      var _quesMrk = []
+      var _kP = {}
+      var _kPM = {}
+      // console.log(row)
+      _.adminitered_knowledpoints.forEach((item, index) => {
+        if (_.user_responses[index] === false) {
+          _usrRspn[index] = '错'
+          _quesMrk[index] = 0
         } else {
-          knowledgePoints[item] = mark
+          _usrRspn[index] = '对'
+          _quesMrk[index] = Math.ceil(_.question_difficulties[index] * 3)
         }
-      })
-      return knowledgePoints
-    },
-    aggregateMarksByKnowledgePoint (row) {
-      var knowledgePoints = {}
-      var user_marks = this.calculateMarks(row)
-      row.adminitered_knowledpoints.forEach((item, index) => {
-        if (item in knowledgePoints) {
-          knowledgePoints[item] += user_marks[index]
+
+        if (item in _kP) {
+          _kP[item] += 1
+          _kPM[item] += _quesMrk[index] * _quesMrk[index]
         } else {
-          knowledgePoints[item] = user_marks[index]
+          _kP[item] = 1
+          _kPM[item] = _quesMrk[index] * _quesMrk[index]
         }
+        // _usrRspn[index] = _.user_responses[index] === false ? '错' : '对'
+        _disQuesDiff[index] = Math.ceil(_.question_difficulties[index] * 3)
       })
-      return knowledgePoints
+      return {
+        user_responses: _usrRspn,
+        displayed_question_difficulties: _disQuesDiff,
+        question_marks: _quesMrk,
+        knowledgePoints: _kP,
+        knowledgePointsMarks: _kPM
+      }
     }
   }
 }
