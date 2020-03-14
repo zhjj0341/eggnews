@@ -26,7 +26,7 @@ module.exports = options => {
         // 查询用户存在
         const user = await ctx.model.User.findOne({
           name: decode_token.name,
-          accessToken: token,
+          // accessToken: token,
         }).exec();
         if (user) {
           await next();
