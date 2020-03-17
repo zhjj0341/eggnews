@@ -4,6 +4,7 @@ const Controller = require('egg').Controller;
 class ResultController extends Controller {
   async index() {
     const ctx = this.ctx;
+    // ctx.model.Result.remove().exec();
     const opts = { skip: ctx.query.offset, limit: ctx.query.limit };
     ctx.body = await this.ctx.model.Result
       .find(null, null, opts)

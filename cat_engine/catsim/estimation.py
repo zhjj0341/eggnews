@@ -15,7 +15,7 @@ class HillClimbingEstimator(Estimator):
     def __str__(self):
         return 'Hill Climbing Estimator'
 
-    def __init__(self, precision: int = 6, dodd: bool = False, verbose: bool = False):
+    def __init__(self, precision: int = 6, dodd: bool = False, verbose: bool = True):
         super().__init__()
         self._precision = precision
         self._verbose = verbose

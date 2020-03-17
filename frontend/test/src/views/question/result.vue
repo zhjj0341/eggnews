@@ -1,15 +1,16 @@
 <template>
   <div>
     <el-table :data="all_results" style="width: 100%">
-      <el-table-column fixed prop="user_id" label="用户ID" width="150"></el-table-column>
+      <el-table-column fixed prop="user_id" label="用户名" width="120"></el-table-column>
       <el-table-column label="答题总分" width="120">
         <template slot-scope="{row}">{{lodash.sum(row['question_marks'])}}</template>
       </el-table-column>
       <el-table-column label="实际答题情况" width="120">
-        <template slot-scope="{row}">{{row['user_responses']}}</template>
+        <!-- <template slot-scope="{row}">{{row['user_responses']}}</template> -->
+        <template slot-scope="{row}"><span v-html="showDict(row['user_responses'])"></span></template>
       </el-table-column>
       <el-table-column label="实际答题得分" width="120">
-        <template slot-scope="{row}">{{row['question_marks']}}</template>
+        <template slot-scope="{row}">{{row['question_marks'].join()}}</template>
       </el-table-column>
       <el-table-column label="题目难度" width="120">
         <template slot-scope="{row}">{{row['displayed_question_difficulties']}}</template>
@@ -18,10 +19,10 @@
         <template slot-scope="{row}">{{lodash.uniq(row.adminitered_knowledpoints).join()}}</template>
       </el-table-column>
       <el-table-column label="知识点分布情况" width="120">
-        <template slot-scope="{row}">{{row['knowledgePoints']}}</template>
+        <template slot-scope="{row}"><span v-html="showDict(row['knowledgePoints'])"></span></template>
       </el-table-column>
       <el-table-column label="知识点得分情况" width="120">
-        <template slot-scope="{row}">{{row['knowledgePointsMarks']}}</template>
+        <template slot-scope="{row}"><span v-html="showDict(row['knowledgePointsMarks'])"></span></template>
       </el-table-column>
       <el-table-column label="用户估计特质" width="120">
         <template slot-scope="{row}">{{row.est_theta}}</template>
@@ -79,19 +80,21 @@ export default {
     // console.log(this.all_results.map(item => { return this.processAllResult(item) }))
   },
   methods: {
-    processAllResult ({ exam_result: _, time }) {
-      var _usrRspn = []
+    processAllResult ({ exam_result: _, time, user_id }) {
+      var _usrRspn = {}
       var _disQuesDiff = []
       var _quesMrk = []
       var _kP = {}
       var _kPM = {}
       // console.log(row)
       _.adminitered_knowledpoints.forEach((item, index) => {
+        let _index = '题号' + (index + 1)
         if (_.user_responses[index] === false) {
-          _usrRspn[index] = '错'
+          _usrRspn[_index] = '错'
+          console.log(_usrRspn)
           _quesMrk[index] = 0
         } else {
-          _usrRspn[index] = '对'
+          _usrRspn[_index] = '对'
           _quesMrk[index] = Math.ceil(_.question_difficulties[index] * 3)
         }
 
@@ -106,15 +109,23 @@ export default {
         _disQuesDiff[index] = Math.ceil(_.question_difficulties[index] * 3)
       })
       return {
-        user_responses: _usrRspn.join(),
+        user_responses: _usrRspn,
         displayed_question_difficulties: _disQuesDiff.join(),
-        question_marks: _quesMrk.join(),
+        question_marks: _quesMrk,
         knowledgePoints: _kP,
         knowledgePointsMarks: _kPM,
         est_theta: _.est_theta,
         adminitered_knowledpoints: _.adminitered_knowledpoints,
-        time: time
+        time: time,
+        user_id: user_id ? user_id.name : 'Anonymous'
       }
+    },
+    showDict (dictObject) {
+      var dictToStr = ''
+      for (let key in dictObject) {
+        dictToStr += (key + ':' + dictObject[key] + '<br>')
+      }
+      return dictToStr
     }
   }
 }

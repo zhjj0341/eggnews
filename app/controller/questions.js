@@ -210,10 +210,11 @@ class QuestionController extends Controller {
       const result = new this.ctx.model.Result();
       const user = ctx.state.user;
       result.user_id = user.id;
+      // console.log(user.id);
       result.exam_result = stopMsg.data.exam_result;
-      result.save();
-
-      ctx.body = { stop: true, message: stopMsg.data.message, result };
+      await result.save();
+      const user_name = await this.ctx.model.Result.findOne({ _id: result._id }).populate({ path: 'user_id', select: 'name -_id' }).exec();
+      ctx.body = { stop: true, message: stopMsg.data.message, result: user_name };
       return;
     }
 
