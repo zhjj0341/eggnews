@@ -32,6 +32,12 @@ class CacheService extends Service {
     logger.debug('Cache', 'set', key, (duration + 'ms').green);
     return result[0][1];
   }
+
+  async del(key) {
+    const { redis } = this.app;
+    await redis.del(key);
+    // console.log(await redis.del(key), key);
+  }
 }
 
 module.exports = CacheService;

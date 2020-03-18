@@ -36,8 +36,8 @@ class ItemResponseTheoryModel:
         self.estimator = HillClimbingEstimator()
         # self.stopper = MaxItemStopper(self.question_bank_size) # change default, could use minErrorStopper
         # self.stopper = MaxItemStopper(3) # change default, could use minErrorStopper
-        self.stopper = MixedStopper(self.question_bank_size/2)
-        # self.stopper = MixedStopper(2)
+        # self.stopper = MixedStopper(self.question_bank_size/2)
+        self.stopper = MixedStopper(2)
         self.est_theta = self.initializer.initialize() # change default, customized theta initializer based on age group
         self.responses = []
         self.administered_items = []
@@ -76,7 +76,7 @@ class ItemResponseTheoryModel:
         # def stop(self, index: int = None, administered_items: numpy.ndarray = None, question_kps: list = None,
             #  administered_kps: list = None, coverage: float = 0.7, **kwargs) -> bool:
         stop = self.stopper.stop(administered_items=self.indexed_items[self.administered_items], 
-        question_kps=self.question_KPs, administered_kps=self.administered_kps, coverage=0.7, theta=self.est_theta)
+        question_kps=self.question_KPs, administered_kps=self.administered_kps, coverage=0.1, theta=self.est_theta)
         return stop
 
     def analyseExamResult(self):

@@ -93,34 +93,40 @@ class QuestionController extends Controller {
 
   async first() {
     const ctx = this.ctx;
-    let allQuestions = await ctx.model.Question
-      .aggregate()
-      .project({ question: '$_id', difficulty: '$difficulty', knowledge_point: '$knowledge_point' })
-      .exec();
-    allQuestions = randomizeDifficulty(allQuestions);
+    // await this.service.cache.del(setQuestionCacheKey(ctx.state.user.name));
+    // ctx.body = 'hello';
+    let result = await this.service.cache.get(setQuestionCacheKey(ctx.state.user.name));
+    // console.log(result);
+    if (!result) {
+      let allQuestions = await ctx.model.Question
+        .aggregate()
+        .project({ question: '$_id', difficulty: '$difficulty', knowledge_point: '$knowledge_point' })
+        .exec();
+      allQuestions = randomizeDifficulty(allQuestions);
 
-    const result = await ctx.curl('http://127.0.0.1:5000/firstQuestion', {
-      method: 'POST',
-      dataType: 'json',
-      contentType: 'json',
-      data: { questions: allQuestions },
-    });
+      result = await ctx.curl('http://127.0.0.1:5000/firstQuestion', {
+        method: 'POST',
+        dataType: 'json',
+        contentType: 'json',
+        data: { questions: allQuestions },
+      });
 
-    if (result.status !== 200) {
-      ctx.status = 422;
-      ctx.body = {
-        error: '抽取题目错误!',
-      };
-      return;
+      if (result.status !== 200) {
+        ctx.status = 422;
+        ctx.body = {
+          error: '抽取题目错误!',
+        };
+        return;
+      }
+      result = result.data;
+      await this.service.cache.setex(setQuestionCacheKey(ctx.state.user.name), {
+        index: result.index,
+        object: result.object,
+        question: result.question,
+      }, 60 * 5); // 五分钟
     }
 
-    await this.service.cache.setex(setQuestionCacheKey(ctx.state.user.name), {
-      index: result.data.index,
-      object: result.data.object,
-      question_id: result.data.question,
-    }, 60 * 5); // 五分钟
-
-    const showQuestion = await ctx.model.Question.findOne({ _id: result.data.question })
+    const showQuestion = await ctx.model.Question.findOne({ _id: result.question })
       .select({ difficulty: 1, type: 1, candidate_type: 1, desc: 1, question: 1, candidate: 1, candidate_group: 1, discrimination: 1, knowledge_point: 1 })
       .exec();
     ctx.body = showQuestion;
@@ -145,7 +151,7 @@ class QuestionController extends Controller {
       return;
     }
 
-    const questionItem = await ctx.model.Question.findOne({ _id: questionUserCache.question_id })
+    const questionItem = await ctx.model.Question.findOne({ _id: questionUserCache.question })
       .select({ answer: 1, type: 1 })
       .exec();
 
@@ -191,7 +197,7 @@ class QuestionController extends Controller {
     await this.service.cache.setex(setQuestionCacheKey(ctx.state.user.name), {
       index: nextQuestion.data.index,
       object: nextQuestion.data.object,
-      question_id: nextQuestion.data.question,
+      question: nextQuestion.data.question,
     }, 60 * 5); // 五分钟
 
     const stopMsg = await ctx.curl('http://127.0.0.1:5000/stopQuestion', {
@@ -213,6 +219,7 @@ class QuestionController extends Controller {
       // console.log(user.id);
       result.exam_result = stopMsg.data.exam_result;
       await result.save();
+      await this.service.cache.del(setQuestionCacheKey(user.name));
       const user_name = await this.ctx.model.Result.findOne({ _id: result._id }).populate({ path: 'user_id', select: 'name -_id' }).exec();
       ctx.body = { stop: true, message: stopMsg.data.message, result: user_name };
       return;
