@@ -48,23 +48,22 @@ module.exports = options => {
 
         if (// 如果response的时候token还有5分钟过期，则需要更新token
           decode_token &&
-            Date.now() > decode_token.exp * 1000 - 5 * 60 * 1000
+          Date.now() > decode_token.exp * 1000 - 5 * 60 * 1000
         ) {
           refreshToken = ctx.service.jwt.jwtSign(user);
           user.accessToken = refreshToken;
           user.save();
         }
 
-        await next();
-
         ctx.set('authorization', refreshToken);
         ctx.set('token-refresh-at', Date.now());
         ctx.set('Access-Control-Expose-Headers', 'Authorization,Token-Refresh-At');
-
       } catch (e) {
         ctx.status = 401;
         ctx.body = { error: e.message === 'jwt expired' ? '登录失效,请重新登录' : e.message };
+        return;
       }
+      await next();
     }
   };
 };
