@@ -208,6 +208,7 @@ class QuestionController extends Controller {
         object: nextQuestion.data.object,
       },
     });
+    console.log(stopMsg);
     // console.log(nextQuestion.data.object);
 
     // 停止就需要返回需要停止的信息
