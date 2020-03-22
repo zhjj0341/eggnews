@@ -2,6 +2,7 @@ from collections import Counter
 import numpy as np
 import jsonpickle
 import jsonpickle.ext.numpy as jsonpickle_numpy
+import math
 
 from catsim.cat import generate_item_bank
 # initialization package contains different initial proficiency estimation strategies
@@ -49,6 +50,7 @@ class ItemResponseTheoryModel:
     self.indexed_question_ids = []
     for i in range(len(self.indexed_items)):
       self.indexed_items[i][1] = question_bank[i][1]
+    self.exam_result = []
 
   def setQuestionKnowledgePoints(self, question_KPs):
     self.question_KPs = question_KPs
@@ -59,9 +61,15 @@ class ItemResponseTheoryModel:
   def setAdministeredQuestionIds(self, question_id):
     self.indexed_question_ids.append(question_id)
 
+  def setAllQuestion(self, allQuestions):
+    self.allQuestions = allQuestions
+
+  def getExamResult(self):
+    return self.exam_result
+
   #question_index is integer >= 0
   #answer is a boolean
-  def answerQuestionAndEstimate(self, question_index, answer=False):
+  def answerQuestionAndEstimate(self, question_index, raw_answer, answer=False):
     assert question_index < self.question_bank_size
     self.responses.append(bool(answer))
     self.administered_items.append(int(question_index))
@@ -71,6 +79,16 @@ class ItemResponseTheoryModel:
         response_vector=self.responses,
         est_theta=self.est_theta)
     self.est_theta = new_est
+    this_question = self.allQuestions[question_index]
+    this_result = {
+        'question_id': this_question['question'],
+        'difficulty': this_question['difficulty'],
+        'knowledge_point': this_question['knowledge_point'],
+        'this_theta': self.est_theta,
+        'raw_response': raw_answer,
+        'answer': 1 if bool(answer) else 0,
+    }
+    self.exam_result.append(this_result)
 
   #returns the next best question to ask -> returns tuple (index: integer, question: Object)
   def getNextQuestionIndexToAsk(self):
@@ -121,50 +139,6 @@ class ItemResponseTheoryModel:
     return exam_result
 
 
-"""
-methods: {
-    processAllResult ({ exam_result: _, time, user_id }) {
-      var _usrRspn = {}
-      var _disQuesDiff = []
-      var _quesMrk = []
-      var _kP = {}
-      var _kPM = {}
-      // console.log(row)
-      _.adminitered_knowledpoints.forEach((item, index) => {
-        let _index = '题号' + (index + 1)
-        if (_.user_responses[index] === false) {
-          _usrRspn[_index] = '错'
-          console.log(_usrRspn)
-          _quesMrk[index] = 0
-        } else {
-          _usrRspn[_index] = '对'
-          _quesMrk[index] = Math.ceil(_.question_difficulties[index] * 3)
-        }
-
-        if (item in _kP) {
-          _kP[item] += 1
-          _kPM[item] += _quesMrk[index] * _quesMrk[index]
-        } else {
-          _kP[item] = 1
-          _kPM[item] = _quesMrk[index] * _quesMrk[index]
-        }
-        // _usrRspn[index] = _.user_responses[index] === false ? '错' : '对'
-        _disQuesDiff[index] = Math.ceil(_.question_difficulties[index] * 3)
-      })
-      return {
-        user_responses: _usrRspn,
-        displayed_question_difficulties: _disQuesDiff.join(),
-        question_marks: _quesMrk,
-        knowledgePoints: _kP,
-        knowledgePointsMarks: _kPM,
-        est_theta: _.est_theta,
-        adminitered_knowledpoints: _.adminitered_knowledpoints,
-        time: time,
-        user_id: user_id ? user_id.name : 'Anonymous'
-      }
-    }
-"""
-
 ###################### FLASK APIs ###############################################
 
 
@@ -201,6 +175,7 @@ def question_first():
     var.setQuestionKnowledgePoints(questionsKPs)
     var.setAdministeredKnowledgePoints(questionsKPs[getQuestion[0]][1])
     var.setAdministeredQuestionIds(getQuestion[1][0])
+    var.setAllQuestion(questions)
     pickled = jsonpickle.encode(var)
     resp = {
         "object": pickled,
@@ -222,11 +197,12 @@ def question_next():
     pickled = request.data.get("object")
     correct = request.data.get("correct")
     questionIndex = request.data.get("index")
+    raw_answer = request.data.get('raw_answer')
 
     unPickled = jsonpickle.decode(pickled)
     questionsKPs = unPickled.question_KPs
 
-    unPickled.answerQuestionAndEstimate(questionIndex, correct)
+    unPickled.answerQuestionAndEstimate(questionIndex, raw_answer, correct)
     getQuestion = unPickled.getNextQuestionIndexToAsk()
     unPickled.setAdministeredKnowledgePoints(questionsKPs[getQuestion[0]][1])
     unPickled.setAdministeredQuestionIds(getQuestion[1][0])
@@ -255,7 +231,12 @@ def question_stop():
     boolean = unPickled.shouldWeStopAskingQuestions()
     message = ""
     if boolean:
-      exam_result = unPickled.analyseExamResult()
+      # exam_result = unPickled.analyseExamResult()
+      # exam_result = unPickled['exam_result']
+      exam_result = unPickled.getExamResult()
+      # exam_marks = sum(
+      #     [exam_result['answer'] * math.ceil(exam_result['difficulty'] * 3)])
+      # exam_result['exam_marks'] = exam_marks
       message = "You can stop asking questions."
     else:
       exam_result = ''

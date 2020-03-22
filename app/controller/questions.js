@@ -93,7 +93,7 @@ class QuestionController extends Controller {
 
   async first() {
     const ctx = this.ctx;
-    // await this.service.cache.del(setQuestionCacheKey(ctx.state.user.name));
+    await this.service.cache.del(setQuestionCacheKey(ctx.state.user.name));
     // ctx.body = 'hello';
     let result = await this.service.cache.get(setQuestionCacheKey(ctx.state.user.name));
     // console.log(result);
@@ -189,6 +189,7 @@ class QuestionController extends Controller {
         correct,
         index: questionUserCache.index,
         object: questionUserCache.object,
+        raw_answer: userAnswer,
       },
     });
 

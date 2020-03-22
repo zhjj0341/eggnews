@@ -17,6 +17,7 @@ const user = {
   },
 
   mutations: {
+    // mutation 用 commit 触发
     SET_TOKEN: (state, { handleTransfer = true, data }) => {
       let { token, time } = data || {}
       if (token) {
@@ -39,6 +40,7 @@ const user = {
   },
 
   actions: {
+    // action 用 dispatch 触发
     // 清除用户的信息
     clearUserInfo ({ commit }) {
       commit('SET_TOKEN', { data: { token: '' } })

@@ -107,14 +107,34 @@ export default {
       answer: {}
     }
   },
+  props: {
+    // isActive: {
+    //   type: Boolean,
+    //   default: false
+    // },
+    queryId: {
+      type: String,
+      default: null
+    },
+    userResponse: {
+      type: Object,
+      default: null
+    }
+  },
   created () {
     // console.log(this.$route.query)
+    // isActive
+    // console.log(this.isActive)//
+    this.detailId = this.$route.query['id'] || this.queryId
     if (this.detailId) {
       this.loading = true
       showQuestion(this.detailId).then(({ res, err }) => {
         this.loading = false
         if (!err) {
           this.handleSetForm(res)
+          if (this.userResponse) {
+            this.$set(this, 'answer', this.userResponse)
+          }
         }
       })
     } else {
