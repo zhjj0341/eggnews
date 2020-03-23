@@ -2,25 +2,35 @@
   <div class="m-question-test" v-loading.body="loading">
     <el-form ref="form" :model="answer" label-width="100px">
       <el-form-item label="题目详情" prop="desc">{{form.desc}}</el-form-item>
-      <el-form-item label="难易度" prop="difficulty">{{utils.generateTitle(form.difficulty, 'question.difficulty')}}</el-form-item>
+      <el-form-item
+        label="难易度"
+        prop="difficulty"
+      >{{utils.generateTitle(form.difficulty, 'question.difficulty')}}</el-form-item>
       <el-form-item label="题目类型" prop="type">{{utils.generateTitle(form.type, 'question.type')}}</el-form-item>
       <el-form-item label="题目">
         <el-table :data="form.question" style="width: 100%" border stripe>
           <el-table-column type="index" width="50"></el-table-column>
           <el-table-column label="问题" width="250">
             <template slot-scope="scope">
-              <el-input v-if="CONTENT_TYPE['TEXT'] === scope.row['type']"
-              v-model="scope.row.content" autosize></el-input>
-              <img v-else :src="$store.getters.backendUrl + scope.row.content" autosize>
+              <el-input
+                v-if="CONTENT_TYPE['TEXT'] === scope.row['type']"
+                v-model="scope.row.content"
+                autosize
+              ></el-input>
+              <img v-else :src="$store.getters.backendUrl + scope.row.content" autosize />
             </template>
           </el-table-column>
           <el-table-column label="答案">
             <template slot-scope="{row}">
-              <el-form-item :prop="String(row['num'])" v-bind:key="row['num']" :rules="[
+              <el-form-item
+                :prop="String(row['num'])"
+                v-bind:key="row['num']"
+                :rules="[
                  QUESTION_TYPE['CHECKBOX']===form['type']?
                  { type:'array', required: true, message: '请完善答案', trigger: 'change' }:
                  { required: true, message: '请完善答案', trigger: 'change' }
-              ],">
+              ],"
+              >
                 <!-- 选择题：单选 -->
                 <el-radio-group
                   v-if="QUESTION_TYPE['RADIO']===form['type']"
@@ -31,9 +41,9 @@
                     :key="index"
                     :label="item.num"
                   >
-                  <!-- 选项类型：图片/文字 -->
-                  <template v-if="CONTENT_TYPE['TEXT']===item.type">{{item.content}}</template>
-                  <img v-else :src="$store.getters.backendUrl + item.content" autosize>
+                    <!-- 选项类型：图片/文字 -->
+                    <template v-if="CONTENT_TYPE['TEXT']===item.type">{{item.content}}</template>
+                    <img v-else :src="$store.getters.backendUrl + item.content" autosize />
                   </el-radio-button>
                 </el-radio-group>
                 <!-- 选择题：多选 -->
@@ -46,9 +56,9 @@
                     :key="index"
                     :label="item.num"
                   >
-                  <!-- 选项类型：图片/文字 -->
-                  <template v-if="CONTENT_TYPE['TEXT']===item.type">{{item.content}}</template>
-                  <img v-else :src="$store.getters.backendUrl + item.content" autosize>
+                    <!-- 选项类型：图片/文字 -->
+                    <template v-if="CONTENT_TYPE['TEXT']===item.type">{{item.content}}</template>
+                    <img v-else :src="$store.getters.backendUrl + item.content" autosize />
                   </el-checkbox>
                 </el-checkbox-group>
                 <!-- 填空题 -->
@@ -68,14 +78,8 @@
           class="wrap-width"
           v-loading="loading"
         >{{$t('submit')}}</el-button>
-        <br>
-        <el-button
-          @click="testUser"
-          type="primary"
-          class="wrap-width"
-          v-loading="loading"
-        >查看当前用户</el-button>
-
+        <br />
+        <el-button @click="testUser" type="primary" class="wrap-width" v-loading="loading">查看当前用户</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -125,14 +129,23 @@ export default {
     // console.log(this.$route.query)
     // isActive
     // console.log(this.isActive)//
-    this.detailId = this.$route.query['id'] || this.queryId
-    if (this.detailId) {
+    /**
+     * 这个组件（components）test.vue有三处地方用到
+     * 1.从题目列表通过$route.push跳转过来,测试答题的，会在$route.query带上要测试的题目id，
+     * 2.从测试题目菜单进入，需要请求firstquestion接口获取题目
+     * 3.从result列表查看答题详情，会通过props把question_id还有user_response传过来
+     * showQuestion接口是通过question_id获取question
+     * firstQuestion是获取irt答题的选题结果
+     */
+    let questionId = this.queryId || this.detailId
+    if (questionId) {
       this.loading = true
-      showQuestion(this.detailId).then(({ res, err }) => {
+      showQuestion(questionId).then(({ res, err }) => {
         this.loading = false
         if (!err) {
           this.handleSetForm(res)
           if (this.userResponse) {
+            // 答案的template里面的答案是由data里面的answer保存着的，所以把props的userResponse赋值给answer，页面上就会把对应的选项对应了
             this.$set(this, 'answer', this.userResponse)
           }
         }

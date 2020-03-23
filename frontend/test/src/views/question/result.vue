@@ -2,9 +2,13 @@
   <div>
     <el-table :data="all_results" style="width: 100%">
       <el-table-column fixed prop="user_id" label="用户名" width="120"></el-table-column>
-      <el-table-column label="答题总分" width="120"><template slot-scope="{row}">{{row.totalMark}}</template></el-table-column>
+      <el-table-column label="答题总分" width="120">
+        <template slot-scope="{row}">{{row.totalMark}}</template>
+      </el-table-column>
       <el-table-column label="答题详情" width="120">
-        <template slot-scope="{row}"><el-button type="text" @click="handleClick (row)">查看答题详情</el-button></template>
+        <template slot-scope="{row}">
+          <el-button type="text" @click="handleClick (row)">查看答题详情</el-button>
+        </template>
       </el-table-column>
       <el-table-column prop="lastEstTheta" label="最后估计特质" width="120"></el-table-column>
       <el-table-column prop="time" label="测验时间" width="120"></el-table-column>
@@ -12,17 +16,35 @@
 
     <!-- <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger> -->
 
-    <el-dialog id="eModal" title="作答详情" :visible.sync="dialog.visible" :before-close="handleClose" width="90%">
+    <el-dialog
+      id="eModal"
+      title="作答详情"
+      :visible.sync="dialog.visible"
+      :before-close="handleClose"
+      width="90%"
+    >
       <template v-if="dialog['step'] === 2">
-         <el-button type="info" plainsize="mini" round @click="dialog['step'] = 1">goback</el-button>
-        <testQuestion  :queryId="dialog['question_id']" :userResponse="dialog['user_response']"></testQuestion>
+        <el-button type="info" plainsize="mini" round @click="dialog['step'] = 1">goback</el-button>
+        <testQuestion :queryId="dialog['question_id']" :userResponse="dialog['user_response']"></testQuestion>
       </template>
       <!-- <span id="modal-body">{{selectedRow}}</span> -->
-      <el-steps v-else direction="vertical" :active="dialog.data?dialog.data.length:0" process-status="process" finish-status="process">
-        <el-step v-for="(item,index) in dialog.data" :key="index" :icon="item['answer']?'el-icon-circle-check':'el-icon-circle-close'">
+      <el-steps
+        v-else
+        direction="vertical"
+        :active="dialog.data?dialog.data.length:0"
+        process-status="process"
+        finish-status="process"
+      >
+        <el-step
+          v-for="(item,index) in dialog.data"
+          :key="index"
+          :icon="item['answer']?'el-icon-circle-check':'el-icon-circle-close'"
+        >
           <!-- <p slot="title">{{'题号: ' + (index + 1) }}</p> -->
-          <template slot="title"><span style="margin-right: 10px">{{'题号: ' + (index + 1) }}</span>
-          <el-button type="info" plainsize="mini" round @click="handleClickDetail (item)">题目详情</el-button></template>
+          <template slot="title">
+            <span style="margin-right: 10px">{{'题号: ' + (index + 1) }}</span>
+            <el-button type="info" plainsize="mini" round @click="handleClickDetail (item)">题目详情</el-button>
+          </template>
           <div slot="description">
             <p>估计特质: {{item['this_theta']}}</p>
             <p>题目难度: {{item['displayedDifficulty']}}</p>
@@ -33,7 +55,7 @@
         </el-step>
       </el-steps>
       <span slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="dialog.visible = false">确 定</el-button>
+        <el-button type="primary" @click="dialog.visible = false">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -52,15 +74,20 @@ export default {
       exam_result: this.$route.params.exam_result,
       all_results: null,
       count: 0,
+      /**
+       * 弹窗现在有两种内容
+       * 1.答题的详情分析，通过el-steps显示的
+       * 2.某一条题目用户的答题情况，通过components testQuestion（views/question/test.vue）显示的
+       */
       dialog: {
-        visible: false,
-        data: null,
-        question_id: null,
-        user_response: null,
-        step: 1
-      },
+        visible: false, // 控制dialog显示的
+        data: null, // 点击某一行“查看答题详情”时，保存着那条row的exan_result原数据,暂时用于el-steps的显示
+        question_id: null, // 点击“题目详情”时，保存对应的question_id，绑定在testQuestion组件，用于获取相应题目
+        user_response: null, // 点击“题目详情”时，保存对应的user_response，绑定在testQuestion组件，用于答案的显示
+        step: 1// 控制el-steps跟testQuestion的显示，因为同时v-if只显示一个
+      }
       // dialog.visible: false,
-      selectedRow: null
+      // selectedRow: null
     }
   },
   components: {
@@ -127,14 +154,14 @@ export default {
         .then(_ => {
           done()
         })
-        .catch(_ => {})
+        .catch(_ => { })
     },
     handleClick (row) {
       this.dialog.visible = true
       this.dialog.data = row.exam_result
-      this.selectedRow = row.detail
-      console.log(typeof (this.selectedRow))
-      console.log(this.selectedRow, this.dialog.data)
+      // this.selectedRow = row.detail
+      // console.log(typeof (this.selectedRow))
+      // console.log(this.selectedRow, this.dialog.data)
     }
   }
 }
