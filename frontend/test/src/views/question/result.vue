@@ -25,7 +25,7 @@
     >
       <template v-if="dialog['step'] === 2">
         <el-button type="info" plainsize="mini" round @click="dialog['step'] = 1">goback</el-button>
-        <testQuestion :queryId="dialog['question_id']" :userResponse="dialog['user_response']"></testQuestion>
+        <testQuestion :detailId="dialog['question_id']" :userResponse="dialog['user_response']"></testQuestion>
       </template>
       <!-- <span id="modal-body">{{selectedRow}}</span> -->
       <el-steps

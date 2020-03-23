@@ -71,7 +71,7 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-form-item v-if="!detailId">
+      <el-form-item v-if="!queryId">
         <el-button
           @click="submitForm"
           type="primary"
@@ -98,7 +98,7 @@ export default {
       QUESTION_LEVEL,
       CANDIDATE_TYPE,
       loading: false,
-      detailId: this.$route.query['id'],
+      queryId: this.$route.query['id'],
       form: {
         difficulty: QUESTION_LEVEL['LOW'],
         type: QUESTION_TYPE['RADIO'],
@@ -116,7 +116,7 @@ export default {
     //   type: Boolean,
     //   default: false
     // },
-    queryId: {
+    detailId: {
       type: String,
       default: null
     },
@@ -137,7 +137,7 @@ export default {
      * showQuestion接口是通过question_id获取question
      * firstQuestion是获取irt答题的选题结果
      */
-    let questionId = this.queryId || this.detailId
+    let questionId = this.detailId || this.queryId
     if (questionId) {
       this.loading = true
       showQuestion(questionId).then(({ res, err }) => {
@@ -218,7 +218,7 @@ export default {
               alert(res.message)
               this.$router.push({
                 name: 'ExamResult',
-                params: { exam_result: [res.result] } })
+                params: { exam_result: [res.result] }              })
             } else {
               // todo,,加上提示信息
               // 设置form，页面回答下一题
