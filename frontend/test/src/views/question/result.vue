@@ -24,7 +24,6 @@
       width="90%"
     >
       <template v-if="dialog['step'] === 2">
-        <el-button type="info" plainsize="mini" round @click="dialog['step'] = 1">goback</el-button>
         <testQuestion :detailId="dialog['question_id']" :userResponse="dialog['user_response']"></testQuestion>
       </template>
       <!-- <span id="modal-body">{{selectedRow}}</span> -->
@@ -55,6 +54,7 @@
         </el-step>
       </el-steps>
       <span slot="footer" class="dialog-footer">
+        <el-button v-if="dialog['step'] === 2" type="info" plain @click="dialog['step'] = 1">返回答题详情</el-button>
         <el-button type="primary" @click="dialog.visible = false">确 定</el-button>
       </span>
     </el-dialog>
