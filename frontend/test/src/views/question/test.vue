@@ -218,7 +218,8 @@ export default {
               alert(res.message)
               this.$router.push({
                 name: 'ExamResult',
-                params: { exam_result: [res.result] }              })
+                params: { exam_result: [res.result] }
+              })
             } else {
               // todo,,加上提示信息
               // 设置form，页面回答下一题
