@@ -84,7 +84,8 @@ export default {
         data: null, // 点击某一行“查看答题详情”时，保存着那条row的exan_result原数据,
         question_id: null, // 点击“题目详情”时，保存对应的question_id，绑定在testQuestion组件，用于获取相应题目
         user_response: null, // 点击“题目详情”时，保存对应的user_response，绑定在testQuestion组件，用于答案的显示
-        step: 1// 控制el-steps跟testQuestion的显示，因为同时只显示一个用v-if控制
+        // v-if 指令用于条件性地渲染一块内容。这块内容只会在指令的表达式返回 truthy 值的时候被渲染。
+        step: 1// 控制el-steps跟testQuestion的显示，因为同时只显示一个用v-if控制,每次符合条件显示的时候testQuestion被渲染，所以可以在created()里面执行数据的初始化逻辑
       }
       // dialog.visible: false,
       // selectedRow: null
