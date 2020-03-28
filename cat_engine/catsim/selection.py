@@ -65,6 +65,75 @@ import pdb
 
 
 class ConditionedMaxInfoSelector(Selector):
+  """Selector that returns the non-administered item with maximum information conditioned on selected knowledge point bank, given an estimated theta"""
+
+  def __init__(self):
+    super().__init__()
+
+  def __str__(self):
+    return 'Conditioned Maximum Information Selector'
+
+  def select(self,
+             index: int = None,
+             items: numpy.ndarray = None,
+             administered_items: list = None,
+             est_theta: float = None,
+             question_kps: list = None,
+             knowledge_point_bank: list = None,
+             administered_kps: list = None,
+             coverage: float = None,
+             **kwargs) -> int:
+    """Returns the index of the next item to be administered.
+
+        :param index: the index of the current examinee in the simulator.
+        :param items: a matrix containing item parameters in the format that `catsim` understands
+                      (see: :py:func:`catsim.cat.generate_item_bank`) # if not satisfied coverage, generate a sub-question bank with non-administered knowledge points
+        :param administered_items: a list containing the indexes of items that were already administered
+        :param est_theta: a float containing the current estimated proficiency
+        :param question_kps: a list of tuples containing all knowledge points in question bank
+        :param knowledge_point_bank: a list containing pre-defined knowledge point bank
+        :param administered_kps: a list containing administered knowledge points to shortlist sub-quesiton bank
+        :param coverage: standard to shorlist sub-question bank
+        :returns: index of the next item to be applied or `None` if there are no more items in the item bank.
+        """
+    # Error handling
+    if (index is None or self.simulator is None) and (
+        items is None or administered_items is None or est_theta is None):
+      raise ValueError(
+          'Either pass an index for the simulator or all of the other optional parameters to use this component independently.'
+      )
+
+    if items is None and administered_items is None and est_theta is None:
+      items = self.simulator.items
+      administered_items = self.simulator.administered_items[index]
+      est_theta = self.simulator.latest_estimations[index]
+
+    valid_indexes = [
+        x for x in range(items.shape[0]) if x not in administered_items
+    ]
+    if len(administered_kps) != 0:
+      print(administered_kps)
+      valid_indexes = [
+          idx for idx, kp in enumerate(question_kps)
+          if kp[1] in knowledge_point_bank and idx not in administered_items
+      ]
+
+    inf_values = irt.inf_hpc(est_theta, items[valid_indexes])
+    valid_indexes = [
+        item_index for (inf_value,
+                        item_index) in sorted(zip(inf_values, valid_indexes),
+                                              key=lambda pair: pair[0],
+                                              reverse=True)
+    ]
+
+    if len(valid_indexes) == 0:
+      warn('There are no more items to be applied.')
+      return None
+
+    return valid_indexes[0]
+
+
+class ConditionedMaxInfoSelector_1(Selector):
   """Selector that returns the first non-administered item with maximum information conditioned on non-administered knowledge point, given an estimated theta"""
 
   def __init__(self):

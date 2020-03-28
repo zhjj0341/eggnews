@@ -3,6 +3,7 @@ import numpy as np
 import jsonpickle
 import jsonpickle.ext.numpy as jsonpickle_numpy
 import math
+import random
 
 from catsim.cat import generate_item_bank
 # initialization package contains different initial proficiency estimation strategies
@@ -53,6 +54,8 @@ class ItemResponseTheoryModel:
     for i in range(len(self.indexed_items)):
       self.indexed_items[i][1] = question_bank[i][1]
     self.exam_result = []
+    self.knowledge_point_bank = []
+    self.coverage = 0.5
 
   def setQuestionKnowledgePoints(self, question_KPs):
     self.question_KPs = question_KPs
@@ -62,6 +65,14 @@ class ItemResponseTheoryModel:
 
   def setAdministeredQuestionIds(self, question_id):
     self.indexed_question_ids.append(question_id)
+
+  def setKnowledgePointBank(self, first_administered_kp):
+    _set_question_KPs = set([_[1] for _ in self.question_KPs])
+    _num_sample = int(len(_set_question_KPs) * self.coverage)
+    self.knowledge_point_bank = random.sample(_set_question_KPs, _num_sample)
+    if first_administered_kp not in self.knowledge_point_bank:
+      self.knowledge_point_bank.pop()
+      self.knowledge_point_bank.insert(0, first_administered_kp)
 
   def setAllQuestion(self, allQuestions):
     self.allQuestions = allQuestions
@@ -106,8 +117,9 @@ class ItemResponseTheoryModel:
         administered_items=self.administered_items,
         est_theta=self.est_theta,
         question_kps=self.question_KPs,
+        knowledge_point_bank=self.knowledge_point_bank,
         administered_kps=self.administered_kps,
-        coverage=0.5)
+        coverage=self.coverage)
     return item_index, self.question_bank[item_index]
 
   # can be called after each question to know if we should stop asking further questions
@@ -119,7 +131,7 @@ class ItemResponseTheoryModel:
         administered_items=self.indexed_items[self.administered_items],
         question_kps=self.question_KPs,
         administered_kps=self.administered_kps,
-        coverage=0.1,
+        coverage=self.coverage,
         theta=self.est_theta)
     return stop
 
@@ -180,12 +192,14 @@ def question_first():
       questionsKPs.append(tup_2)
     var = ItemResponseTheoryModel(questionsList)
     getQuestion = var.getNextQuestionIndexToAsk()
-    while getQuestion[1][1] >= 0.3:
+    while getQuestion[1][1] >= 1 / 3:
       var = ItemResponseTheoryModel(questionsList)
       getQuestion = var.getNextQuestionIndexToAsk()
       continue
+    first_administered_kp = questionsKPs[getQuestion[0]][1]
     var.setQuestionKnowledgePoints(questionsKPs)
-    var.setAdministeredKnowledgePoints(questionsKPs[getQuestion[0]][1])
+    var.setAdministeredKnowledgePoints(first_administered_kp)
+    var.setKnowledgePointBank(first_administered_kp)
     var.setAdministeredQuestionIds(getQuestion[1][0])
     var.setAllQuestion(questions)
     pickled = jsonpickle.encode(var)
