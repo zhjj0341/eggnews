@@ -61,30 +61,40 @@ class MaxInfoSelector(Selector):
     return valid_indexes[0]
 
 
-class KnowledgePointStratifiedSelector(Selector):
-  """Selector that returns the first non-administered item with maximum information, given an estimated theta"""
+import pdb
+
+
+class ConditionedMaxInfoSelector(Selector):
+  """Selector that returns the first non-administered item with maximum information conditioned on non-administered knowledge point, given an estimated theta"""
 
   def __init__(self):
     super().__init__()
 
   def __str__(self):
-    return 'Maximum Information Selector'
+    return 'Conditioned Maximum Information Selector'
 
   def select(self,
              index: int = None,
              items: numpy.ndarray = None,
              administered_items: list = None,
              est_theta: float = None,
+             question_kps: list = None,
+             administered_kps: list = None,
+             coverage: float = None,
              **kwargs) -> int:
     """Returns the index of the next item to be administered.
 
         :param index: the index of the current examinee in the simulator.
         :param items: a matrix containing item parameters in the format that `catsim` understands
-                      (see: :py:func:`catsim.cat.generate_item_bank`)
+                      (see: :py:func:`catsim.cat.generate_item_bank`) # if not satisfied coverage, generate a sub-question bank with non-administered knowledge points
         :param administered_items: a list containing the indexes of items that were already administered
         :param est_theta: a float containing the current estimated proficiency
+        :param question_kps: a list of tuples containing all knowledge points in question bank
+        :param administered_kps: a list containing administered knowledge points to shortlist sub-quesiton bank
+        :param coverage: standard to shorlist sub-question bank
         :returns: index of the next item to be applied or `None` if there are no more items in the item bank.
         """
+    # Error handling
     if (index is None or self.simulator is None) and (
         items is None or administered_items is None or est_theta is None):
       raise ValueError(
@@ -96,9 +106,27 @@ class KnowledgePointStratifiedSelector(Selector):
       administered_items = self.simulator.administered_items[index]
       est_theta = self.simulator.latest_estimations[index]
 
-    valid_indexes = [
-        x for x in range(items.shape[0]) if x not in administered_items
-    ]
+    # first question selector
+    if len(administered_kps) == 0 and len(question_kps) == 0:
+      valid_indexes = [
+          x for x in range(items.shape[0]) if x not in administered_items
+      ]
+    else:
+      print(administered_kps)
+      num_admin_kps = len(set(administered_kps))
+      num_total_kps = len(set([_[1] for _ in question_kps]))
+      if num_admin_kps < num_total_kps * coverage:
+        invalid_indexes = [
+            idx for idx, kp in enumerate(question_kps)
+            if kp[1] in administered_kps
+        ]
+        valid_indexes = [
+            x for x in range(items.shape[0]) if x not in invalid_indexes
+        ]
+      else:
+        valid_indexes = [
+            x for x in range(items.shape[0]) if x not in administered_items
+        ]
     inf_values = irt.inf_hpc(est_theta, items[valid_indexes])
     valid_indexes = [
         item_index for (inf_value,

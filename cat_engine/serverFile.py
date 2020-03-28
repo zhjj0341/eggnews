@@ -35,12 +35,14 @@ class ItemResponseTheoryModel:
     self.parameter_model = parameter_model
     self.initializer = RandomInitializer(
     )  # change default, should use normal distribution and range should fit the difficulty level?
-    self.selector = MaxInfoSelector()
+    # self.selector = MaxInfoSelector()
+    self.selector = ConditionedMaxInfoSelector()
     self.estimator = HillClimbingEstimator()
     # self.stopper = MaxItemStopper(self.question_bank_size) # change default, could use minErrorStopper
-    # self.stopper = MaxItemStopper(3) # change default, could use minErrorStopper
+    self.stopper = MaxItemStopper(10)
+    # change default, could use minErrorStopper
     # self.stopper = MixedStopper(self.question_bank_size/2)
-    self.stopper = MixedStopper(2)
+    # self.stopper = MixedStopper(2)
     self.est_theta = self.initializer.initialize(
     )  # change default, customized theta initializer based on age group
     self.responses = []
@@ -91,11 +93,21 @@ class ItemResponseTheoryModel:
     self.exam_result.append(this_result)
 
   #returns the next best question to ask -> returns tuple (index: integer, question: Object)
+  # def getNextQuestionIndexToAsk(self):
+  #   item_index = self.selector.select(
+  #       items=self.indexed_items,
+  #       administered_items=self.administered_items,
+  #       est_theta=self.est_theta)
+  #   return item_index, self.question_bank[item_index]
+  # params adapt to function call, aka, ConditionedMaxInfoSelector here
   def getNextQuestionIndexToAsk(self):
     item_index = self.selector.select(
         items=self.indexed_items,
         administered_items=self.administered_items,
-        est_theta=self.est_theta)
+        est_theta=self.est_theta,
+        question_kps=self.question_KPs,
+        administered_kps=self.administered_kps,
+        coverage=0.5)
     return item_index, self.question_bank[item_index]
 
   # can be called after each question to know if we should stop asking further questions

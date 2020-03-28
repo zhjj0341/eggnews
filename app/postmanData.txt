@@ -1,0 +1,174 @@
+{
+    _id: 5e5295998e5dba9fe60c090a,
+    question: 5e5295998e5dba9fe60c090a,
+    difficulty: 0.531147824899659,
+    knowledge_point: '认读生字'
+  },
+  {
+    _id: 5e56a96fec029152ac46ed1c,
+    question: 5e56a96fec029152ac46ed1c,
+    difficulty: 0.20492923862798387,
+    knowledge_point: '写字'
+  },
+  {
+    _id: 5e57133793ba5f045e4cfd12,
+    question: 5e57133793ba5f045e4cfd12,
+    difficulty: 0.24979327950741292,
+    knowledge_point: '认读生字'
+  },
+  {
+    _id: 5e5714f693ba5f045e4cfd13,
+    question: 5e5714f693ba5f045e4cfd13,
+    difficulty: 0.8847970374553459,
+    knowledge_point: '拼音——标声调'
+  },
+  {
+    _id: 5e57162d93ba5f045e4cfd14,
+    question: 5e57162d93ba5f045e4cfd14,
+    difficulty: 0.6815870632635838,
+    knowledge_point: '写字'
+  },
+  {
+    _id: 5e57174d93ba5f045e4cfd15,
+    question: 5e57174d93ba5f045e4cfd15,
+    difficulty: 0.3392850819322515,
+    knowledge_point: '写字'
+  },
+  {
+    _id: 5e5717f893ba5f045e4cfd16,
+    question: 5e5717f893ba5f045e4cfd16,
+    difficulty: 0.5317704912746886,
+    knowledge_point: '认词+常识'
+  },
+  {
+    _id: 5e571a3393ba5f045e4cfd17,
+    question: 5e571a3393ba5f045e4cfd17,
+    difficulty: 0.18964684216318997,
+    knowledge_point: '拼音——标声调'
+  },
+  {
+    _id: 5e57280793ba5f045e4cfd18,
+    question: 5e57280793ba5f045e4cfd18,
+    difficulty: 0.5054121237725602,
+    knowledge_point: '认读拼音'
+  },
+  {
+    _id: 5e572a3793ba5f045e4cfd19,
+    question: 5e572a3793ba5f045e4cfd19,
+    difficulty: 0.8556444453500728,
+    knowledge_point: '认读生字'
+  },
+  {
+    _id: 5e572ae693ba5f045e4cfd1a,
+    question: 5e572ae693ba5f045e4cfd1a,
+    difficulty: 0.14517185999489493,
+    knowledge_point: '认读生词'
+  },
+  {
+    _id: 5e572b8f93ba5f045e4cfd1b,
+    question: 5e572b8f93ba5f045e4cfd1b,
+    difficulty: 0.4117768907269869,
+    knowledge_point: '认读生词'
+  },
+  {
+    _id: 5e572c5a93ba5f045e4cfd1c,
+    question: 5e572c5a93ba5f045e4cfd1c,
+    difficulty: 0.8574883841298359,
+    knowledge_point: '认读生词'
+  },
+  {
+    _id: 5e572cff93ba5f045e4cfd1d,
+    question: 5e572cff93ba5f045e4cfd1d,
+    difficulty: 0.1697176367186565,
+    knowledge_point: '组词'
+  },
+  {
+    _id: 5e5730b093ba5f045e4cfd1e,
+    question: 5e5730b093ba5f045e4cfd1e,
+    difficulty: 0.36933472139920615,
+    knowledge_point: '组词'
+  },
+  {
+    _id: 5e57314093ba5f045e4cfd1f,
+    question: 5e57314093ba5f045e4cfd1f,
+    difficulty: 0.7522228964339818,
+    knowledge_point: '组词'
+  },
+  {
+    _id: 5e57329993ba5f045e4cfd21,
+    question: 5e57329993ba5f045e4cfd21,
+    difficulty: 0.04566146821550143,
+    knowledge_point: '认词+常识'
+  },
+  {
+    _id: 5e57341f93ba5f045e4cfd22,
+    question: 5e57341f93ba5f045e4cfd22,
+    difficulty: 0.7033271588564137,
+    knowledge_point: '认词+常识'
+  },
+  {
+    _id: 5e57347293ba5f045e4cfd23,
+    question: 5e57347293ba5f045e4cfd23,
+    difficulty: 0.10817271162846838,
+    knowledge_point: '量词'
+  },
+  {
+    _id: 5e5734e193ba5f045e4cfd24,
+    question: 5e5734e193ba5f045e4cfd24,
+    difficulty: 0.6411204988965287,
+    knowledge_point: '量词'
+  },
+  {
+    _id: 5e57366393ba5f045e4cfd25,
+    question: 5e57366393ba5f045e4cfd25,
+    difficulty: 0.8801025593963869,
+    knowledge_point: '量词'
+  },
+  {
+    _id: 5e57410293ba5f045e4cfd26,
+    question: 5e57410293ba5f045e4cfd26,
+    difficulty: 0.5137038139390199,
+    knowledge_point: '反义词'
+  },
+  {
+    _id: 5e5741c393ba5f045e4cfd27,
+    question: 5e5741c393ba5f045e4cfd27,
+    difficulty: 0.7859244525088419,
+    knowledge_point: '反义词'
+  },
+  {
+    _id: 5e57426293ba5f045e4cfd28,
+    question: 5e57426293ba5f045e4cfd28,
+    difficulty: 0.03331958386586198,
+    knowledge_point: '标点符号'
+  },
+  {
+    _id: 5e57429b93ba5f045e4cfd29,
+    question: 5e57429b93ba5f045e4cfd29,
+    difficulty: 0.45325561831631583,
+    knowledge_point: '标点符号'
+  },
+  {
+    _id: 5e5743df93ba5f045e4cfd2a,
+    question: 5e5743df93ba5f045e4cfd2a,
+    difficulty: 0.7894969824471273,
+    knowledge_point: '标点符号'
+  },
+  {
+    _id: 5e57451e93ba5f045e4cfd2b,
+    question: 5e57451e93ba5f045e4cfd2b,
+    difficulty: 0.14610562511934191,
+    knowledge_point: '认读拼音'
+  },
+  {
+    _id: 5e57460093ba5f045e4cfd2c,
+    question: 5e57460093ba5f045e4cfd2c,
+    difficulty: 0.692264487001807,
+    knowledge_point: '认读拼音'
+  }
+
+# from front-end
+## first
+{"status":200,"data":{"difficulty":1,"type":1,"candidate_type":2,"_id":"5e57347293ba5f045e4cfd23","desc":"选出合适的量词","question":[{"num":1582773325626,"type":2,"content":"/public/imgs/shubao.png"},{"num":1582773343837,"type":2,"content":"/public/imgs/xiaochouyu.png"}],"candidate_group":[{"num":1582773318498,"type":1,"content":"条"},{"num":1582773321973,"type":1,"content":"个"}],"discrimination":"","knowledge_point":"量词"},"message":"success"}
+## next
+{"status":200,"data":{"difficulty":1,"type":1,"candidate_type":2,"_id":"5e57426293ba5f045e4cfd28","desc":"填一填:请在句子里填上适当的标点符号。（ 。 ？）","question":[{"num":1582776912731,"type":1,"content":"你吃饭了吗（    ）"},{"num":1582776919556,"type":1,"content":"我吃饭了（    ）"}],"candidate_group":[{"num":1582776906498,"type":1,"content":"。"},{"num":1582776909636,"type":1,"content":"？"}],"discrimination":"","knowledge_point":"标点符号"},"message":"success"}
