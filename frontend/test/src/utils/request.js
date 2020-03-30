@@ -22,7 +22,6 @@ axios.interceptors.request.use(config => {
 })
 axios.defaults.retry = 3 // 设置全局的请求次数，请求的间隙
 axios.defaults.retryDelay = 1000
-// axios.defaults.timeout = 3000
 axios.interceptors.response.use( // respone拦截器
   response => {
     /**
@@ -48,7 +47,7 @@ axios.interceptors.response.use( // respone拦截器
   },
   async error => {
     let config = error.config
-    if ( // 如果没有响应体证明网络或者服务器有问题,则进行重试逻辑
+    if ( // retry when response messages aren't either of below, excluding network/server side issue
       !config || !config.retry || error.response
       // ['400', '401', '503', '404'].includes(String(error.response.status))
     ) return Promise.reject(error)
@@ -67,7 +66,6 @@ axios.interceptors.response.use( // respone拦截器
     return backoff.then(() => { // Return the promise in which recalls axios to retry the request
       return axios(config)
     })
-    // return Promise.reject(error)
   }
 )
 

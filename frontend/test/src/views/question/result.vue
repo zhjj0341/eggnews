@@ -14,8 +14,6 @@
       <el-table-column prop="time" label="测验时间" width="120"></el-table-column>
     </el-table>
 
-    <!-- <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger> -->
-
     <el-dialog
       id="eModal"
       title="作答详情"
@@ -26,7 +24,6 @@
       <template v-if="dialog['step'] === 2">
         <testQuestion :detailId="dialog['question_id']" :userResponse="dialog['user_response']"></testQuestion>
       </template>
-      <!-- <span id="modal-body">{{selectedRow}}</span> -->
       <el-steps
         v-else
         direction="vertical"
@@ -39,7 +36,6 @@
           :key="index"
           :icon="item['answer']?'el-icon-circle-check':'el-icon-circle-close'"
         >
-          <!-- <p slot="title">{{'题号: ' + (index + 1) }}</p> -->
           <template slot="title">
             <span style="margin-right: 10px">{{'题号: ' + (index + 1) }}</span>
             <el-button type="info" plainsize="mini" round @click="handleClickDetail (item)">题目详情</el-button>
@@ -87,8 +83,6 @@ export default {
         // v-if 指令用于条件性地渲染一块内容。这块内容只会在指令的表达式返回 truthy 值的时候被渲染。
         step: 1// 控制el-steps跟testQuestion的显示，因为同时只显示一个用v-if控制,每次符合条件显示的时候testQuestion被渲染，所以可以在created()里面执行数据的初始化逻辑
       }
-      // dialog.visible: false,
-      // selectedRow: null
     }
   },
   components: {
@@ -160,9 +154,6 @@ export default {
     handleClick (row) {
       this.dialog.visible = true
       this.dialog.data = row.exam_result
-      // this.selectedRow = row.detail
-      // console.log(typeof (this.selectedRow))
-      // console.log(this.selectedRow, this.dialog.data)
     }
   }
 }

@@ -210,7 +210,6 @@ class QuestionController extends Controller {
       },
     });
     console.log(stopMsg);
-    // console.log(nextQuestion.data.object);
 
     // 停止就需要返回需要停止的信息
     if (stopMsg.data.stop === true) {
@@ -218,7 +217,6 @@ class QuestionController extends Controller {
       const result = new this.ctx.model.Result();
       const user = ctx.state.user;
       result.user_id = user.id;
-      // console.log(user.id);
       result.exam_result = stopMsg.data.exam_result;
       await result.save();
       await this.service.cache.del(setQuestionCacheKey(user.name));

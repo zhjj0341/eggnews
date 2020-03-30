@@ -20,10 +20,8 @@ module.exports = {
     requireModuleExtension: true
   },
   chainWebpack: config => {
-    // if (process.env.NODE_ENV !== 'production') {
     config.plugins.delete('preload')
     config.plugins.delete('prefetch')
-    // }
     config.set('devtool', false)// 取消生成sourceMap文件
     config.resolve.alias
       .set('vue$', 'vue/dist/vue.esm.js')
@@ -34,7 +32,7 @@ module.exports = {
      */
     config.plugin('html').tap(args => {
       if (process.env.VUE_APP_ENV_CONFIG !== 'dev') {
-        // 当访问的终端是移动设备，并且不在白名单跟，当前不是移动端，就自动跳转
+        // 当访问的终端是移动设备，并且不在白名单跟当前不是移动端，就自动跳转
         // `((f,t)=>{let _p=String(window.location.pathname);if(!['/qrcode/redirect','/origin','/_show'].some((i)=>_p.includes(i))&&(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))){let _o=String(window.location.origin).split('.');if(new RegExp('^(https?://)?'+t).test(_o[0])){return false}else if(_o.length > 2){_o[0]=_o[0].replace(new RegExp('^((https?)?:?//)?('+f+')?'),'$1'+t)}else{_o[0]=_o[0].replace(new RegExp('^((https?)?:?//)?(.+)'),'$1'+t+'.$3')}window.location.href=_o.join('.').replace(/\\/$/,'')}})('${from}','${to}')`
         args[0].handleMobilePage = `((f,t)=>{try{f=G_DOMAIN_HOSTS['main']||f;t=G_DOMAIN_HOSTS['mobile']||t}catch(e){};let _p=String(window.location.pathname);if(!['/qrcode/redirect','/origin','/_show'].some((i)=>_p.includes(i))&&(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))){let _o=String(window.location.origin).split('.'),_t=String(t).split('|')[0];if(new RegExp('^(https?://)?('+t+')').test(_o[0])){return false}else if(_o.length > 2){_o[0]=_o[0].replace(new RegExp('^((https?)?:?//)?('+f+')?'),'$1'+_t)}else{_o[0]=_o[0].replace(new RegExp('^((https?)?:?//)?(.+)'),'$1'+_t+'.$3')}window.location.href=_o.join('.').replace(/\\/$/,'')}})('www','h5')`
       }

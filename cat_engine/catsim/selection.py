@@ -107,12 +107,20 @@ class ConditionedMaxInfoSelector(Selector):
       items = self.simulator.items
       administered_items = self.simulator.administered_items[index]
       est_theta = self.simulator.latest_estimations[index]
-
+    #  this_result = {
+    #         'question_id': this_question['question'],
+    #         'difficulty': this_question['difficulty'],
+    #         'knowledge_point': this_question['knowledge_point'],
+    #         'this_theta': self.est_theta,
+    #         'raw_response': raw_answer,
+    #         'answer': 1 if bool(answer) else 0,
+    #     }
+    #     self.exam_result.append(this_result)
     valid_indexes = [
         x for x in range(items.shape[0]) if x not in administered_items
     ]
     if len(administered_kps) != 0:
-      print(administered_kps)
+      # print(administered_kps)
       valid_indexes = [
           idx for idx, kp in enumerate(question_kps)
           if kp[1] in knowledge_point_bank and idx not in administered_items

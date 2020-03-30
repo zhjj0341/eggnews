@@ -38,6 +38,7 @@ module.exports = {
     secret: '123456', // 自定义 token 的加密条件字符串
     expiresIn: 60 * 60,
   },
+
   security: {
     csrf: {
       //   ignore: '/api/*/*',
@@ -64,12 +65,12 @@ module.exports = {
     // 线上页面发生异常时，重定向到这个页面上
     errorPageUrl: '/50x.html',
     html(err, ctx) {
-      // html hander
+      // html handler
       ctx.body = `<h3>${err}</h3>`;
       ctx.status = 500;
     },
     json(err, ctx) {
-      // json hander
+      // json handler
       ctx.body = { message: err };
       ctx.status = 500;
     },
@@ -116,7 +117,6 @@ module.exports = {
      */
   // 配置需要的中间件，数组顺序即为中间件的加载顺序
   middleware: [ 'errorHandler', 'robot', 'gzip', 'report', 'tokenRequired' ],
-  // [ 'robot','compress', 'gzip' ],
 
   robot: {
     ua: [

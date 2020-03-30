@@ -42,7 +42,8 @@ f 功能
 ├── eslintrc.js                // eslint 配置项
 ├── .gitignore                 // git 忽略项
 ├── favicon.ico                // favicon图标
-├── index.html                 // html模板
+├── public
+|   └── index.html             // html模板
 └── package.json               // package.json
 
 ```
@@ -67,7 +68,7 @@ npm run build:prod/npm run prod
 
 #### 如需要修改请求的服务器地址
 * 1.在访问‘#/origin’路径进行设置
-* 2.在index.html文件里面引入一个包含常量如以下格式的常量的json文件或者是js文件,默认我已经生成了一个 /static/config.json文件直接修改文件下的变量就可以
+* 2.在index.html文件里面引入一个包含常量如以下格式的常量的json文件或者是js文件,默认我已经生成了一个 /static/config.js文件直接修改文件下的变量就可以
 ```
 const G_BASE_API =  ""
 ```
