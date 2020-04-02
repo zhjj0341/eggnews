@@ -6,6 +6,7 @@ from scipy.integrate import quad
 
 from catsim import irt
 from catsim.simulation import Selector, FiniteSelector
+import math
 
 
 class MaxInfoSelector(Selector):
@@ -82,6 +83,7 @@ class ConditionedMaxInfoSelector(Selector):
              knowledge_point_bank: list = None,
              administered_kps: list = None,
              coverage: float = None,
+             result_list: list = None,
              **kwargs) -> int:
     """Returns the index of the next item to be administered.
 
@@ -94,6 +96,7 @@ class ConditionedMaxInfoSelector(Selector):
         :param knowledge_point_bank: a list containing pre-defined knowledge point bank
         :param administered_kps: a list containing administered knowledge points to shortlist sub-quesiton bank
         :param coverage: standard to shorlist sub-question bank
+        :param result_list: a list containing exam taker's answer result
         :returns: index of the next item to be applied or `None` if there are no more items in the item bank.
         """
     # Error handling
@@ -119,11 +122,30 @@ class ConditionedMaxInfoSelector(Selector):
     valid_indexes = [
         x for x in range(items.shape[0]) if x not in administered_items
     ]
-    if len(administered_kps) != 0:
-      # print(administered_kps)
+    if len(administered_kps) > 0:
+      print(administered_kps)
       valid_indexes = [
           idx for idx, kp in enumerate(question_kps)
           if kp[1] in knowledge_point_bank and idx not in administered_items
+      ]
+
+    if len(result_list) > 0:
+      answered_questions_by_kp = {}
+      for result in result_list:
+        this_kp = result['knowledge_point']
+        this_level = math.ceil(result['difficulty'] * 3)
+        if this_kp not in list(answered_questions_by_kp.keys()):
+          answered_questions_by_kp['this_kp'] = this_level
+        else:
+          answered_questions_by_kp['this_kp'] += this_level
+      excluded_kp = [
+          kp for kp, score_per_kp in answered_questions_by_kp.items()
+          if score_per_kp >= 2
+      ]
+
+      valid_indexes = [
+          idx for idx, kp in enumerate(question_kps)
+          if kp not in excluded_kp and idx in valid_indexes
       ]
 
     inf_values = irt.inf_hpc(est_theta, items[valid_indexes])

@@ -104,12 +104,6 @@ class ItemResponseTheoryModel:
     self.exam_result.append(this_result)
 
   #returns the next best question to ask -> returns tuple (index: integer, question: Object)
-  # def getNextQuestionIndexToAsk(self):
-  #   item_index = self.selector.select(
-  #       items=self.indexed_items,
-  #       administered_items=self.administered_items,
-  #       est_theta=self.est_theta)
-  #   return item_index, self.question_bank[item_index]
   # params adapt to function call, aka, ConditionedMaxInfoSelector here
   def getNextQuestionIndexToAsk(self):
     item_index = self.selector.select(
@@ -119,7 +113,8 @@ class ItemResponseTheoryModel:
         question_kps=self.question_KPs,
         knowledge_point_bank=self.knowledge_point_bank,
         administered_kps=self.administered_kps,
-        coverage=self.coverage)
+        coverage=self.coverage,
+        result_list=self.exam_result)
     return item_index, self.question_bank[item_index]
 
   # can be called after each question to know if we should stop asking further questions

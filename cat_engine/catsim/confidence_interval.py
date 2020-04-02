@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.stats
+import pdb
 
 
 def mean_confidence_interval(data, confidence=0.90):
@@ -9,6 +10,9 @@ def mean_confidence_interval(data, confidence=0.90):
   h = se * scipy.stats.t.ppf((1 + confidence) / 2., n - 1)
   return m, m - h, m + h
 
+
+pdb.set_trace()
+mean_confidence_interval(range(0, 6), 0.4)
 
 # 0.90
 # data = range(2, 6) -> (3.5, 1.980910434906507, 5.019089565093493)

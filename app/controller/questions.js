@@ -91,6 +91,61 @@ class QuestionController extends Controller {
 
   }
 
+  async generate() {
+    const ctx = this.ctx;
+    const knowledgePointList = [ '认读生字', '写字', '选出正确的拼音', '拼音——标声调', '认词+常识', '认读拼音', '认读生词', '组词', '量词', '反义词' ];
+    const difficultyList = [ 1, 2, 3 ];
+
+    const data = [];
+    let i;
+    for (i = 0; i < 60; i++) {
+      // Math.ceil(Math.random() * 3)
+      const _difficulty = difficultyList[Math.floor(Math.random() * 3)];
+      const _knowledge_point = knowledgePointList[Math.floor(Math.random() * 10)];
+      const question_template =
+    {
+      type: 1,
+      content_type: 1,
+      candidate_type: 1,
+      desc: 'Mock Question',
+      question: [
+        {
+          num: 7566756756756,
+          type: 1,
+          content: 'Mock question answer is A',
+        },
+      ],
+      candidate: {
+        7566756756756: [
+          {
+            num: 8566756756756,
+            type: 1,
+            content: 'Correct',
+          },
+          {
+            num: 9566756756756,
+            type: 1,
+            content: 'Wrong',
+          },
+        ],
+      },
+      candidate_group: [],
+      answer: {
+        7566756756756: 8566756756756,
+      },
+      discrimination: '',
+    };
+      question_template.difficulty = _difficulty;
+      question_template.knowledge_point = _knowledge_point;
+      data.push(question_template);
+    }
+    // ctx.body = data;
+
+    ctx.body = await ctx.model.Question.insertMany(data, { ordered: true });
+    console.log('successfully insert');
+    // ctx.body = await ctx.model.Question.remove({ desc: 'Mock Question' });
+  }
+
   async first() {
     const ctx = this.ctx;
     await this.service.cache.del(setQuestionCacheKey(ctx.state.user.name));
@@ -180,7 +235,6 @@ class QuestionController extends Controller {
       }
     }
 
-    // todo：nextquestion
     const nextQuestion = await ctx.curl('http://127.0.0.1:5000/nextQuestion', {
       method: 'POST',
       dataType: 'json',

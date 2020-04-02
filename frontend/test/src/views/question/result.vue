@@ -77,7 +77,7 @@ export default {
        */
       dialog: {
         visible: false, // 控制dialog显示的
-        data: null, // 点击某一行“查看答题详情”时，保存着那条row的exan_result原数据,
+        data: null, // 点击某一行“查看答题详情”时，保存着那条row的exam_result原数据,
         question_id: null, // 点击“题目详情”时，保存对应的question_id，绑定在testQuestion组件，用于获取相应题目
         user_response: null, // 点击“题目详情”时，保存对应的user_response，绑定在testQuestion组件，用于答案的显示
         // v-if 指令用于条件性地渲染一块内容。这块内容只会在指令的表达式返回 truthy 值的时候被渲染。

@@ -16,12 +16,6 @@ module.exports = app => {
   **/
   router.post('/api/user', jwt, controller.users.index);
 
-  // router.post('/post', controller.home.post);
-  // router.get('/news', controller.news.list);
-  // router.get('/news/item/:id', controller.news.detail);
-  // router.get('/news/user/:id', controller.news.user);
-  // router.get('/api', controller.api.show);
-
   // require('./router/upload')(app);
 
 
@@ -31,4 +25,6 @@ module.exports = app => {
   router.resources('questions', '/api/questions', controller.questions);
   // router.post('/api/questions/next', controller.questions.next);
   router.resources('results', '/api/results', controller.results);
+
+  router.get('/questions/generate', controller.questions.generate);
 };
